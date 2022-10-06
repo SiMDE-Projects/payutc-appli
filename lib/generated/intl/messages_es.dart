@@ -56,7 +56,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "es_lang": MessageLookupByLibrary.simpleMessage("español"),
         "favoris": MessageLookupByLibrary.simpleMessage("Favoritos"),
         "fr_lang": MessageLookupByLibrary.simpleMessage("Francés"),
-        "hello_world": MessageLookupByLibrary.simpleMessage("hola francia"),
         "helpMessageTransfert": MessageLookupByLibrary.simpleMessage(
             "Un lindo mensaje lleno de amor."),
         "history": MessageLookupByLibrary.simpleMessage("Histórico"),
