@@ -6,12 +6,12 @@ import 'package:payut/compil.dart';
 import 'package:payut/src/services/app.dart';
 import 'package:payut/src/ui/screen/splash.dart';
 import 'package:payut/src/ui/style/theme.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  logger.i("Starting app logger");
   await AppService.instance.storageService.init();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
   SystemChrome.setSystemUIOverlayStyle(
@@ -19,12 +19,18 @@ void main() async {
   );
   FlutterError.onError =
       (details) => logger.e(details.context, details.exception, details.stack);
-  logger.i("App ready !");
-  runApp(const MyApp());
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://5bdd3922509d45f290d2e08ce0555325@o1296214.ingest.sentry.io/4503959508353024';
+      options.tracesSampleRate = 1.0;
+    },
+    appRunner: () => runApp(const PayutApp()),
+  );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+class PayutApp extends StatelessWidget {
+  const PayutApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

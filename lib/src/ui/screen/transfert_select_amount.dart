@@ -12,6 +12,7 @@ import 'package:payut/src/services/app.dart';
 import 'package:payut/src/services/random_sentence.dart';
 import 'package:payut/src/services/search_user_manager.dart';
 import 'package:payut/src/ui/screen/select_amount.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 import '../style/color.dart';
@@ -264,6 +265,7 @@ class _SelectTransfertAmountScreenState
                             }
                           } catch (e, st) {
                             logger.e("Transfert error", e, st);
+                            Sentry.captureException(e,stackTrace: st);
                           }
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
