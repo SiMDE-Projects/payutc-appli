@@ -9,8 +9,9 @@ import 'package:payut/src/services/app.dart';
 import 'package:payut/src/ui/screen/select_amount.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class PaymentFlowPage extends StatelessWidget {
+class PaymentFlowPage extends StatefulWidget {
   final double amount;
+
 
   const PaymentFlowPage({Key? key, required this.amount}) : super(key: key);
   static int _max = -1;
@@ -43,6 +44,12 @@ class PaymentFlowPage extends StatelessWidget {
     ).then((value) => value ?? false);
   }
 
+  @override
+  State<PaymentFlowPage> createState() => _PaymentFlowPageState();
+}
+
+class _PaymentFlowPageState extends State<PaymentFlowPage> {
+  WebViewController? _controller;
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -78,7 +85,7 @@ class PaymentFlowPage extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
         body: FutureBuilder<String>(
-            future: AppService.instance.nemoPayApi.requestTransfertUrl(amount),
+            future: AppService.instance.nemoPayApi.requestTransfertUrl(widget.amount),
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return ClipRRect(
@@ -88,8 +95,10 @@ class PaymentFlowPage extends StatelessWidget {
                       child: WebView(
                     javascriptMode: JavascriptMode.unrestricted,
                     initialUrl: snapshot.data!,
+                    onWebViewCreated: (controller)=>_controller = controller,
                     onPageStarted: (navigation) {
                       Uri url = Uri.parse(navigation);
+                      print(navigation);
                       Uri callback = Uri.parse(payUrlCallback);
                       if (url.host == callback.host) {
                         if (url.path == callback.path) {

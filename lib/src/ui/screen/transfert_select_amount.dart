@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
-import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
 import 'package:payut/compil.dart';
 import 'package:payut/generated/l10n.dart';
 import 'package:payut/src/models/transfert.dart';
@@ -12,7 +11,6 @@ import 'package:payut/src/models/user.dart';
 import 'package:payut/src/services/app.dart';
 import 'package:payut/src/services/random_sentence.dart';
 import 'package:payut/src/services/search_user_manager.dart';
-import 'package:payut/src/ui/screen/reload.dart';
 import 'package:payut/src/ui/screen/select_amount.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
@@ -57,232 +55,229 @@ class _SelectTransfertAmountScreenState
 
   @override
   Widget build(BuildContext context) {
-    return LogConsoleOnShake(
-      debugOnly: showLogConsole,
-      child: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          centerTitle: true,
-          elevation: 0,
-          title: const Text("Envoyer"),
-        ),
-        body: loading
-            ? const Center(child: CircularProgressIndicator())
-            : GestureDetector(
-                onTap: () {
-                  FocusScope.of(context).unfocus();
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const SizedBox(
-                          height: 50,
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 0,
+        title: const Text("Envoyer"),
+      ),
+      body: loading
+          ? const Center(child: CircularProgressIndicator())
+          : GestureDetector(
+              onTap: () {
+                FocusScope.of(context).unfocus();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(15.0),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const SizedBox(
+                        height: 50,
+                      ),
+                      CircleAvatar(
+                        radius: 60,
+                        child: Text(
+                          widget.target.maj,
+                          style: const TextStyle(
+                              fontSize: 40, color: Colors.white),
                         ),
-                        CircleAvatar(
-                          radius: 60,
-                          child: Text(
-                            widget.target.maj,
-                            style: const TextStyle(
-                                fontSize: 40, color: Colors.white),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        widget.target.name,
+                        style: const TextStyle(fontSize: 20),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      SleekCircularSlider(
+                        initialValue: amount,
+                        appearance: CircularSliderAppearance(
+                          size: 200,
+                          customColors: CustomSliderColors(
+                            dotColor: AppColors.orange,
+                            trackColor: Colors.black26,
+                            progressBarColor: Colors.black,
+                            shadowColor: AppColors.black,
+                            shadowStep: 2,
+                            shadowMaxOpacity: 0.1,
                           ),
                         ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          widget.target.name,
-                          style: const TextStyle(fontSize: 20),
-                          textAlign: TextAlign.center,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        SleekCircularSlider(
-                          initialValue: amount,
-                          appearance: CircularSliderAppearance(
-                            size: 200,
-                            customColors: CustomSliderColors(
-                              dotColor: AppColors.orange,
-                              trackColor: Colors.black26,
-                              progressBarColor: Colors.black,
-                              shadowColor: AppColors.black,
-                              shadowStep: 2,
-                              shadowMaxOpacity: 0.1,
-                            ),
-                          ),
-                          onChange: (double value) {
-                            amount = _compilValue(value);
-                          },
-                          innerWidget: (value) => GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                  builder: (ctx) => SelectAmount(
-                                      onAmountSelected: (context, am) {
-                                        Navigator.pop(context);
-                                        amount = min(
-                                            (AppService.instance.userAmount), am);
-                                        setState(() {});
-                                      },
-                                      motif: Translate.of(context)
-                                          .transfert_montant_select_amount),
-                                ),
-                              );
-                            },
-                            child: Center(
-                              child: Text(
-                                "${(amount).toStringAsFixed(2)}€",
-                                style: const TextStyle(fontSize: 25),
-                                textAlign: TextAlign.center,
+                        onChange: (double value) {
+                          amount = _compilValue(value);
+                        },
+                        innerWidget: (value) => GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              CupertinoPageRoute(
+                                builder: (ctx) => SelectAmount(
+                                    onAmountSelected: (context, am) {
+                                      Navigator.pop(context);
+                                      amount = min(
+                                          (AppService.instance.userAmount), am);
+                                      setState(() {});
+                                    },
+                                    motif: Translate.of(context)
+                                        .transfert_montant_select_amount),
                               ),
+                            );
+                          },
+                          child: Center(
+                            child: Text(
+                              "${(amount).toStringAsFixed(2)}€",
+                              style: const TextStyle(fontSize: 25),
+                              textAlign: TextAlign.center,
                             ),
                           ),
                         ),
-                        Container(
-                          child: Column(
-                            children: [
-                              TextFormField(
-                                controller: message,
-                                maxLines: 5,
-                                maxLength: 250,
-                                decoration: InputDecoration(
-                                  hintText:
-                                      Translate.of(context).helpMessageTransfert,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            TextFormField(
+                              controller: message,
+                              maxLines: 5,
+                              maxLength: 250,
+                              decoration: InputDecoration(
+                                hintText:
+                                    Translate.of(context).helpMessageTransfert,
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
                               ),
-                              Wrap(
-                                spacing: 10,
-                                children: [
-                                  ActionChip(
-                                    onPressed: () {
-                                      message.text += '😂';
-                                    },
-                                    label: const Text("😂"),
-                                    backgroundColor: Colors.black,
+                            ),
+                            Wrap(
+                              spacing: 10,
+                              children: [
+                                ActionChip(
+                                  onPressed: () {
+                                    message.text += '😂';
+                                  },
+                                  label: const Text("😂"),
+                                  backgroundColor: Colors.black,
+                                ),
+                                ActionChip(
+                                  onPressed: () {
+                                    message.text += '😘';
+                                  },
+                                  label: const Text("😘"),
+                                  backgroundColor: Colors.black,
+                                ),
+                                ActionChip(
+                                  onPressed: () {
+                                    message.text = randomSentences.item;
+                                  },
+                                  label: Text(
+                                    Translate.of(context)
+                                        .randomTransfertSentence,
+                                    style: const TextStyle(color: Colors.white),
                                   ),
-                                  ActionChip(
-                                    onPressed: () {
-                                      message.text += '😘';
-                                    },
-                                    label: const Text("😘"),
-                                    backgroundColor: Colors.black,
+                                  backgroundColor: Colors.black,
+                                ),
+                                ActionChip(
+                                  onPressed: () async {
+                                    String? selectSentence =
+                                        await _showSelector();
+                                    if (selectSentence != null) {
+                                      message.text = selectSentence;
+                                    }
+                                  },
+                                  label: Text(
+                                    Translate.of(context).other,
+                                    style: const TextStyle(color: Colors.white),
                                   ),
-                                  ActionChip(
-                                    onPressed: () {
-                                      message.text = randomSentences.item;
-                                    },
-                                    label: Text(
-                                      Translate.of(context)
-                                          .randomTransfertSentence,
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                    backgroundColor: Colors.black,
-                                  ),
-                                  ActionChip(
-                                    onPressed: () async {
-                                      String? selectSentence =
-                                          await _showSelector();
-                                      if (selectSentence != null) {
-                                        message.text = selectSentence;
-                                      }
-                                    },
-                                    label: Text(
-                                      Translate.of(context).other,
-                                      style: const TextStyle(color: Colors.white),
-                                    ),
-                                    backgroundColor: Colors.black,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
+                                  backgroundColor: Colors.black,
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        ElevatedButton(
-                          style: ElevatedButton.styleFrom(primary: Colors.black),
-                          onPressed: () async {
-                            amount =
-                                double.parse(amount.toStringAsFixed(2)) * 100;
-                            if (amount == 0) {
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                  content: Text(
-                                      Translate.of(context).nothingToTransfert)));
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(primary: Colors.black),
+                        onPressed: () async {
+                          double amountDb =
+                              double.parse(amount.toStringAsFixed(2)) * 100;
+                          if (amountDb == 0) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    Translate.of(context).nothingToTransfert)));
+                            return;
+                          }
+                          bool didAuth = true;
+                          try {
+                            final LocalAuthentication auth =
+                                LocalAuthentication();
+                            if (!await auth.isDeviceSupported()) {
+                              throw 'no-check-possible';
+                            }
+                            didAuth = await auth.authenticate(
+                              localizedReason:
+                                  Translate.of(context).authReasonTransfert,
+                              authMessages: [
+                                const AndroidAuthMessages(
+                                  signInTitle: "Transfert pay'ut",
+                                )
+                              ],
+                            );
+                          } catch (e, st) {
+                            logger.e('error Auth transfert', e, st);
+                          }
+                          if (!didAuth) {
+                            return;
+                          }
+                          try {
+                            setState(() {
+                              loading = true;
+                            });
+                            SearchUserManagerService.historyManager
+                                .add(widget.target);
+                            final t = Transfert.makeTransfert(
+                                widget.target, amountDb / 100, message.text);
+                            bool res =
+                                await AppService.instance.makeTransfert(t);
+                            if (!res) {
+                              if (mounted) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        Translate.of(context).transfert_error),
+                                  ),
+                                );
+                                setState(() {
+                                  loading = false;
+                                });
+                              }
                               return;
                             }
-                            bool didAuth = true;
-                            try {
-                              final LocalAuthentication auth =
-                                  LocalAuthentication();
-                              if (!await auth.isDeviceSupported()) {
-                                throw 'no-check-possible';
-                              }
-                              didAuth = await auth.authenticate(
-                                localizedReason:
-                                    Translate.of(context).authReasonTransfert,
-                                authMessages: [
-                                  const AndroidAuthMessages(
-                                    signInTitle: "Transfert pay'ut",
-                                  )
-                                ],
-                              );
-                            } catch (e,st) {
-                              logger.e('error Auth transfert',e,st);
-                            }
-                            if (!didAuth) {
-                              return;
-                            }
-                            try {
-                              setState(() {
-                                loading = true;
-                              });
-                              SearchUserManagerService.historyManager
-                                  .add(widget.target);
-                              final t = Transfert.makeTransfert(
-                                  widget.target, amount / 100, message.text);
-                              bool res =
-                                  await AppService.instance.makeTransfert(t);
-                              setState(() {
-                                loading = false;
-                              });
-                              if (!res) {
-                                if (mounted) {
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text(
-                                          Translate.of(context).transfert_error),
-                                    ),
-                                  );
-                                }
-                                return;
-                              }
-                            } catch (e,st) {
-                              logger.e("Transfert error",e,st);
-                            }
-                            if (mounted) {
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(content: Text("Envoyé !")));
-                              Navigator.pop(context, true);
-                            }
-                          },
-                          child: Text(_randomPay),
-                        )
-                      ],
-                    ),
+                          } catch (e, st) {
+                            logger.e("Transfert error", e, st);
+                          }
+                          if (mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text("Envoyé !")));
+                            Navigator.pop(context, true);
+                          }
+                        },
+                        child: Text(_randomPay),
+                      )
+                    ],
                   ),
                 ),
               ),
-      ),
+            ),
     );
   }
 

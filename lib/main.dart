@@ -20,7 +20,6 @@ void main() async {
   FlutterError.onError =
       (details) => logger.e(details.context, details.exception, details.stack);
   logger.i("App ready !");
-
   runApp(const MyApp());
 }
 
