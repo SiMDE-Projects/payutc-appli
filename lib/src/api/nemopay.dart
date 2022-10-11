@@ -6,6 +6,8 @@ import 'package:payut/src/models/NemoPayAppProperties.dart';
 import 'package:payut/src/models/PayUtHistory.dart';
 import 'package:payut/src/models/Wallet.dart';
 import 'package:payut/src/models/user.dart';
+import 'package:sentry_dio/sentry_dio.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../env.dart';
 import '../models/transfert.dart';
@@ -21,6 +23,7 @@ class NemoPayApi {
     }));
     jar = CookieJar();
     client.interceptors.add(CookieManager(jar));
+    client.addSentry(captureFailedRequests: true);
   }
 
   /// services/MYACCOUNT/

@@ -66,6 +66,7 @@ dependencies:
   logger: any
   logger_flutter_viewer: ^0.8.0
   sentry_flutter: ^6.12.1
+  sentry_dio: ^6.12.1
 
 dev_dependencies:
   flutter_test:

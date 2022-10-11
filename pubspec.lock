@@ -602,6 +602,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "6.12.1"
+  sentry_dio:
+    dependency: "direct main"
+    description:
+      name: sentry_dio
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "6.12.1"
   sentry_flutter:
     dependency: "direct main"
     description:
