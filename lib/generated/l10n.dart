@@ -50,16 +50,6 @@ class Translate {
     return Localizations.of<Translate>(context, Translate);
   }
 
-  /// `Hello france`
-  String get hello_world {
-    return Intl.message(
-      'Hello france',
-      name: 'hello_world',
-      desc: '',
-      args: [],
-    );
-  }
-
   /// `Mon payut`
   String get myPayut {
     return Intl.message(

@@ -38,7 +38,6 @@ class MessageLookup extends MessageLookupByLibrary {
         "deleteRecentTransfert": MessageLookupByLibrary.simpleMessage(
             "Elimina dalla mia cronologia"),
         "favoris": MessageLookupByLibrary.simpleMessage("Preferiti"),
-        "hello_world": MessageLookupByLibrary.simpleMessage("ciao francia"),
         "helpMessageTransfert": MessageLookupByLibrary.simpleMessage(
             "Un bel messaggio pieno di amore"),
         "history": MessageLookupByLibrary.simpleMessage("Storico"),

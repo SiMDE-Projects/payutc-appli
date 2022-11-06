@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
 import 'package:payut/src/env.dart' as env;
+import 'package:sentry_dio/sentry_dio.dart';
 
 class CasApi {
   late Dio client;
@@ -12,6 +13,7 @@ class CasApi {
           dio: client,
           retryEvaluator: (error, at) => error.type != DioErrorType.response),
     );
+    client.addSentry(captureFailedRequests: true);
   }
 
   Future<String> reConnectUser(String? ticket) async {

@@ -14,7 +14,6 @@ Dio installCertificate(Dio dio, String certificate){
   return dio;
 }
 
-
 Dio addNemopayCert(Dio dio){
   return installCertificate(dio, "");
 }
