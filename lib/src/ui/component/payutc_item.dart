@@ -1,20 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:payut/src/models/PayUtHistory.dart';
+import 'package:payutc/src/models/PayUtcHistory.dart';
 
 import '../../services/app.dart';
 import '../style/color.dart';
 
-class PayutItemWidget extends StatelessWidget {
-  final PayUtItem item;
+class PayutcItemWidget extends StatelessWidget {
+  final PayUtcItem item;
 
-  const PayutItemWidget({Key? key, required this.item}) : super(key: key);
+  const PayutcItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return _paymentCard(context, item);
   }
 
-  Widget _paymentCard(BuildContext context, PayUtItem item) {
+  Widget _paymentCard(BuildContext context, PayUtcItem item) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: GestureDetector(
@@ -25,8 +25,8 @@ class PayutItemWidget extends StatelessWidget {
               barrierColor: Colors.white30,
               context: context,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.vertical(top: Radius.circular(15))
-              ),
+                  borderRadius:
+                      BorderRadius.vertical(top: Radius.circular(15))),
               builder: (_) => SafeArea(
                     child: Padding(
                       padding: const EdgeInsets.all(10.0),

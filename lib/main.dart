@@ -2,10 +2,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:payut/compil.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/ui/screen/splash.dart';
-import 'package:payut/src/ui/style/theme.dart';
+import 'package:payutc/compil.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/ui/screen/splash.dart';
+import 'package:payutc/src/ui/style/theme.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'generated/l10n.dart';
@@ -25,12 +25,12 @@ void main() async {
           'https://5bdd3922509d45f290d2e08ce0555325@o1296214.ingest.sentry.io/4503959508353024';
       options.tracesSampleRate = 1.0;
     },
-    appRunner: () => runApp(const PayutApp()),
+    appRunner: () => runApp(const PayutcApp()),
   );
 }
 
-class PayutApp extends StatelessWidget {
-  const PayutApp({Key? key}) : super(key: key);
+class PayutcApp extends StatelessWidget {
+  const PayutcApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

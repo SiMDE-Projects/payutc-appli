@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:payut/compil.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/models/PayUtHistory.dart';
-import 'package:payut/src/services/app.dart';
+import 'package:payutc/compil.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/PayUtcHistory.dart';
+import 'package:payutc/src/services/app.dart';
 
 class HistoryService extends ChangeNotifier {
   late final AppService context;
@@ -11,22 +11,23 @@ class HistoryService extends ChangeNotifier {
   HistoryService([AppService? context])
       : this.context = context ?? AppService.instance;
 
-  PayUtHistory? history;
+  PayUtcHistory? history;
 
-  Future<PayUtHistory> loadHistory() async {
+  Future<PayUtcHistory> loadHistory() async {
     if (context.isConnected) {
       return history ?? await forceLoadHistory();
     }
     throw "Context error";
   }
 
-  Future<PayUtHistory> forceLoadHistory() {
+  Future<PayUtcHistory> forceLoadHistory() {
     if (context.isConnected) {
       return context.nemoPayApi.getUserHistory().then((value) {
         history = value;
         notifyListeners();
         return history!;
-      }).catchError((error, stackTrace) => logger.e("force load history",error,stackTrace));
+      }).catchError((error, stackTrace) =>
+          logger.e("force load history", error, stackTrace));
     }
     throw "Context error";
   }
@@ -39,7 +40,7 @@ class HistoryController extends ChangeNotifier {
     service.addListener(notifyListeners);
   }
 
-  PayUtHistory? history;
+  PayUtcHistory? history;
   bool loading = false;
 
   void loadHistory({bool silent = false, bool forced = false}) async {
@@ -58,10 +59,10 @@ class HistoryController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Map<String, List<PayUtItem>> parsedItems(BuildContext context) {
+  Map<String, List<PayUtcItem>> parsedItems(BuildContext context) {
     if (history == null) return {};
-    Map<String, List<PayUtItem>> out = {};
-    List<PayUtItem> items = history!.historique!;
+    Map<String, List<PayUtcItem>> out = {};
+    List<PayUtcItem> items = history!.historique!;
     for (final item in items) {
       String key = _generate(item.date);
       if (out[key] == null) {
@@ -69,7 +70,7 @@ class HistoryController extends ChangeNotifier {
       }
       out[key]!.add(item);
     }
-    Map<DateTime, List<PayUtItem>> itemsDate =
+    Map<DateTime, List<PayUtcItem>> itemsDate =
         out.map((key, value) => MapEntry(DateTime.parse(key), value));
     DateTime mostRecent = itemsDate.keys
         .reduce((value, element) => value.isAfter(element) ? value : element);

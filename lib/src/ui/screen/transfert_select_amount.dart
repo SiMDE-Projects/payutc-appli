@@ -4,14 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
-import 'package:payut/compil.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/models/transfert.dart';
-import 'package:payut/src/models/user.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/services/random_sentence.dart';
-import 'package:payut/src/services/search_user_manager.dart';
-import 'package:payut/src/ui/screen/select_amount.dart';
+import 'package:payutc/compil.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/transfert.dart';
+import 'package:payutc/src/models/user.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/services/random_sentence.dart';
+import 'package:payutc/src/services/search_user_manager.dart';
+import 'package:payutc/src/ui/screen/select_amount.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
@@ -265,7 +265,7 @@ class _SelectTransfertAmountScreenState
                             }
                           } catch (e, st) {
                             logger.e("Transfert error", e, st);
-                            Sentry.captureException(e,stackTrace: st);
+                            Sentry.captureException(e, stackTrace: st);
                           }
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(

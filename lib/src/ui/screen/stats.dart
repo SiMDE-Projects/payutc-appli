@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class StatPage extends StatefulWidget {
@@ -57,7 +56,7 @@ class _StatPageState extends State<StatPage> {
               child: Container(
                 decoration: const BoxDecoration(
                     borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(30)),
+                        BorderRadius.vertical(top: Radius.circular(30)),
                     color: Colors.black),
                 child: TabBarView(
                   children: [

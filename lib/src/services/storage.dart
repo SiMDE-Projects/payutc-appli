@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:payut/src/models/user_data.dart';
+import 'package:payutc/src/models/user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
@@ -8,12 +8,15 @@ class StorageService {
 
   static SharedPreferences? _preferences;
 
-  Locale get locale => Locale(this["locale"]??"fr");
+  Locale get locale => Locale(this["locale"] ?? "fr");
 
-  Future<bool> get haveAccount => const FlutterSecureStorage().containsKey(key:"user_data");
-  set locale(Locale locale) => _preferences?.setString("locale", locale.languageCode);
+  Future<bool> get haveAccount =>
+      const FlutterSecureStorage().containsKey(key: "user_data");
+  set locale(Locale locale) =>
+      _preferences?.setString("locale", locale.languageCode);
 
-  Future<void> user(UserData userData) =>FlutterSecureStorage().write(key: "user_data", value: userData.pack());
+  Future<void> user(UserData userData) =>
+      FlutterSecureStorage().write(key: "user_data", value: userData.pack());
 
   Future<UserData?> get userData async {
     return (const FlutterSecureStorage().read(key: "user_data").then(
@@ -51,5 +54,4 @@ class StorageService {
     await _preferences!.clear();
     await FlutterSecureStorage().deleteAll();
   }
-
 }

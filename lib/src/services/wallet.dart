@@ -1,8 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:payut/compil.dart';
-import 'package:payut/src/models/Wallet.dart';
-import 'package:payut/src/models/transfert.dart';
-import 'package:payut/src/services/app.dart';
+import 'package:payutc/compil.dart';
+import 'package:payutc/src/models/Wallet.dart';
+import 'package:payutc/src/models/transfert.dart';
+import 'package:payutc/src/services/app.dart';
 
 class WalletService extends ChangeNotifier {
   late final AppService context;
@@ -24,12 +24,13 @@ class WalletService extends ChangeNotifier {
       return context.nemoPayApi
           .getUserWallet(context.userName!)
           .then((value) => data = value)
-          .catchError((error, stackTrace) => logger.e("load wallet :",error,stackTrace));
+          .catchError((error, stackTrace) =>
+              logger.e("load wallet :", error, stackTrace));
     }
     throw "Context error";
   }
 
-  Future<bool> makeTransfert(Transfert transfert){
+  Future<bool> makeTransfert(Transfert transfert) {
     return context.nemoPayApi.makeTransfert(transfert);
   }
 }

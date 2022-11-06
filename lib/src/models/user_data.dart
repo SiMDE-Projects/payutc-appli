@@ -4,7 +4,7 @@ class UserData {
   late final String user, secret;
   late final bool isCas;
 
-  UserData.create(this.user, this.secret,this.isCas);
+  UserData.create(this.user, this.secret, this.isCas);
 
   UserData.unpack(String data) {
     data = String.fromCharCodes(base64Decode(data));

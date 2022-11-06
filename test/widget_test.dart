@@ -8,11 +8,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:payut/main.dart';
-import 'package:payut/src/api/cas.dart';
-import 'package:payut/src/api/nemopay.dart';
-import 'package:payut/src/env.dart';
-import 'package:payut/src/models/Wallet.dart';
+import 'package:payutc/main.dart';
+import 'package:payutc/src/api/cas.dart';
+import 'package:payutc/src/api/nemopay.dart';
+import 'package:payutc/src/env.dart';
+import 'package:payutc/src/models/Wallet.dart';
 
 void main() {
   test('Test nemopay api', () async {
@@ -26,6 +26,5 @@ void main() {
     print("Wallet");
     final wallet = await nemopay.getUserWallet(username);
     print(wallet.balances.credit!);
-
   });
 }

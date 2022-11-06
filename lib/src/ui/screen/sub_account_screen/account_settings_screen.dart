@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/models/GingerUserInfos.dart';
-import 'package:payut/src/models/user.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/ui/component/ui_utils.dart';
-import 'package:payut/src/ui/style/color.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/GingerUserInfos.dart';
+import 'package:payutc/src/models/user.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/ui/component/ui_utils.dart';
+import 'package:payutc/src/ui/style/color.dart';
 
 class AccountSettingsPage extends StatelessWidget {
   @override
@@ -196,12 +196,12 @@ class APropos extends StatelessWidget {
             },
           ),
           btnAccount(
-            Translate.of(context).licensesPayut,
+            Translate.of(context).licensesPayutc,
             () {
               showWebView(
                 context,
                 "assets/therms/gnu.html",
-                Translate.of(context).licensesPayut,
+                Translate.of(context).licensesPayutc,
               );
             },
           ),

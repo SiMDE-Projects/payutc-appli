@@ -4,12 +4,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:payut/compil.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/ui/component/ui_utils.dart';
-import 'package:payut/src/ui/screen/home.dart';
-import 'package:payut/src/ui/style/color.dart';
+import 'package:payutc/compil.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/ui/component/ui_utils.dart';
+import 'package:payutc/src/ui/screen/home.dart';
+import 'package:payutc/src/ui/style/color.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 class SplashPage extends StatefulWidget {
@@ -44,7 +44,7 @@ class _SplashPageState extends State<SplashPage> {
           mainAxisSize: MainAxisSize.min,
           children: [
             SvgPicture.asset(
-              "assets/img/payut.svg",
+              "assets/img/payutc.svg",
               color: Colors.white,
               width: 150,
             ),
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                 });
               },
               child: SvgPicture.asset(
-                "assets/img/payut.svg",
+                "assets/img/payutc.svg",
                 width: 30,
                 color: isCas ? Colors.black : AppColors.orange,
               ),
@@ -195,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          Translate.of(context).connectToPayut,
+                          Translate.of(context).connectToPayutc,
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 35,
@@ -206,7 +206,7 @@ class _LoginPageState extends State<LoginPage> {
                           height: 10,
                         ),
                         Text(
-                          Translate.of(context).connectToPayutSentence,
+                          Translate.of(context).connectToPayutcSentence,
                           style: const TextStyle(
                             color: Colors.black,
                             fontSize: 13,

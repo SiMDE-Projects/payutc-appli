@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
-import 'package:payut/src/models/user.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/services/storage.dart';
+import 'package:payutc/src/models/user.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/services/storage.dart';
 
 class SearchUserManagerService extends ChangeNotifier {
   final StorageService storageService;
@@ -14,8 +14,11 @@ class SearchUserManagerService extends ChangeNotifier {
     users = _getUsers();
     notifyListeners();
   }
-  static final SearchUserManagerService favManager = SearchUserManagerService(AppService.instance.storageService, "users_fav");
-  static final SearchUserManagerService historyManager = SearchUserManagerService(AppService.instance.storageService, "history_fav");
+  static final SearchUserManagerService favManager =
+      SearchUserManagerService(AppService.instance.storageService, "users_fav");
+  static final SearchUserManagerService historyManager =
+      SearchUserManagerService(
+          AppService.instance.storageService, "history_fav");
 
   List<User> users = [];
 

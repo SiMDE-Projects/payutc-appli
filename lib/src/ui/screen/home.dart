@@ -2,17 +2,17 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/services/history.dart';
-import 'package:payut/src/services/unilinks.dart';
-import 'package:payut/src/ui/component/payut_item.dart';
-import 'package:payut/src/ui/screen/history.dart';
-import 'package:payut/src/ui/screen/reload.dart';
-import 'package:payut/src/ui/screen/stats.dart';
-import 'package:payut/src/ui/screen/transfert_select_amount.dart';
-import 'package:payut/src/ui/style/color.dart';
-import 'package:payut/src/ui/style/theme.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/services/history.dart';
+import 'package:payutc/src/services/unilinks.dart';
+import 'package:payutc/src/ui/component/payutc_item.dart';
+import 'package:payutc/src/ui/screen/history.dart';
+import 'package:payutc/src/ui/screen/reload.dart';
+import 'package:payutc/src/ui/screen/stats.dart';
+import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
+import 'package:payutc/src/ui/style/color.dart';
+import 'package:payutc/src/ui/style/theme.dart';
 import 'package:skeletons/skeletons.dart';
 
 import '../component/rounded_icon.dart';
@@ -111,7 +111,7 @@ class _HomePageState extends State<HomePage>
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        Translate.of(context).myPayut,
+                        Translate.of(context).myPayutc,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
                       ),
@@ -373,7 +373,7 @@ class _HomePageState extends State<HomePage>
                                   height: 15,
                                 ),
                                 for (final payItem in item.value)
-                                  PayutItemWidget(item: payItem),
+                                  PayutcItemWidget(item: payItem),
                                 const SizedBox(
                                   height: 20,
                                 ),

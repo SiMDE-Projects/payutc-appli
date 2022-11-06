@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/ui/style/color.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/ui/style/color.dart';
 
 class AppTheme {
   static final ThemeData _default = ThemeData(
@@ -31,7 +31,8 @@ class AppTheme {
   );
   static final ThemeData _light = _default.copyWith(
       scaffoldBackgroundColor: AppColors.scaffold,
-      appBarTheme: _default.appBarTheme.copyWith(iconTheme: IconThemeData(color: Colors.black)));
+      appBarTheme: _default.appBarTheme
+          .copyWith(iconTheme: IconThemeData(color: Colors.black)));
   static final ThemeData _dark = _default.copyWith(
     appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light

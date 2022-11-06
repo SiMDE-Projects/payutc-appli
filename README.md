@@ -1,6 +1,6 @@
-# payut
+# payutc
 
-The payut app
+The payutc app
 
 ## Getting Started
 

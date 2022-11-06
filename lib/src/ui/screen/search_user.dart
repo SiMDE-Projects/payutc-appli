@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/models/user.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/services/search_user_manager.dart';
-import 'package:payut/src/services/unilinks.dart';
-import 'package:payut/src/ui/style/color.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/user.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/services/search_user_manager.dart';
+import 'package:payutc/src/services/unilinks.dart';
+import 'package:payutc/src/ui/style/color.dart';
 
 typedef SelectUserCallBack = void Function(BuildContext context, User user);
 
@@ -448,7 +448,7 @@ class ScanPage extends StatelessWidget {
           Align(
             alignment: Alignment.topCenter.add(const Alignment(0, 0.3)),
             child: Text(
-              Translate.of(context).scannPayutCode,
+              Translate.of(context).scannPayutcCode,
               style: const TextStyle(color: Colors.white, fontSize: 18),
             ),
           ),

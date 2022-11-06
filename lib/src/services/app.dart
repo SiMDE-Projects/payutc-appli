@@ -4,17 +4,17 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:payut/src/api/cas.dart';
-import 'package:payut/src/api/ginger.dart';
-import 'package:payut/src/api/nemopay.dart';
-import 'package:payut/src/models/GingerUserInfos.dart';
-import 'package:payut/src/models/NemoPayAppProperties.dart';
-import 'package:payut/src/models/Wallet.dart';
-import 'package:payut/src/models/transfert.dart';
-import 'package:payut/src/models/user_data.dart';
-import 'package:payut/src/services/history.dart';
-import 'package:payut/src/services/storage.dart';
-import 'package:payut/src/services/wallet.dart';
+import 'package:payutc/src/api/cas.dart';
+import 'package:payutc/src/api/ginger.dart';
+import 'package:payutc/src/api/nemopay.dart';
+import 'package:payutc/src/models/GingerUserInfos.dart';
+import 'package:payutc/src/models/NemoPayAppProperties.dart';
+import 'package:payutc/src/models/Wallet.dart';
+import 'package:payutc/src/models/transfert.dart';
+import 'package:payutc/src/models/user_data.dart';
+import 'package:payutc/src/services/history.dart';
+import 'package:payutc/src/services/storage.dart';
+import 'package:payutc/src/services/wallet.dart';
 
 import '../env.dart';
 
@@ -47,7 +47,8 @@ class AppService extends ChangeNotifier {
 
   bool get isConnected => storageService.haveToken && userName != null;
 
-  Future<bool> get isFirstConnect => storageService.haveAccount.then((value) => !value);
+  Future<bool> get isFirstConnect =>
+      storageService.haveAccount.then((value) => !value);
 
   late NemoPayAppProperties appProperties;
 
@@ -66,7 +67,7 @@ class AppService extends ChangeNotifier {
     await storageService.init();
     if (await isFirstConnect) return false;
     UserData d = (await storageService.userData)!;
-    userName = await (d.isCas?_casConnect():_classicConnect());
+    userName = await (d.isCas ? _casConnect() : _classicConnect());
     appProperties = await nemoPayApi.getAppProperties();
     await walletService.forceLoad();
     await historyService.forceLoadHistory();
@@ -106,7 +107,7 @@ class AppService extends ChangeNotifier {
       "name": _generateUserName(userWallet!.user),
       "id": userWallet!.user.id!,
     };
-    return "payut://share.payut.fr/transfert/${base64Encode(jsonEncode(user).codeUnits)}";
+    return "payutc://share.payutc.fr/transfert/${base64Encode(jsonEncode(user).codeUnits)}";
   }
 
   Future<bool> makeTransfert(Transfert transfert) async {
@@ -143,11 +144,11 @@ class AppService extends ChangeNotifier {
     return await nemoPayApi.connectCas(ticket);
   }
 
-  Future<String> _classicConnect() async{
+  Future<String> _classicConnect() async {
     UserData user = (await storageService.userData)!;
-    try{
+    try {
       return await nemoPayApi.connectUser(user.user, user.secret);
-    }catch (e){
+    } catch (e) {
       throw 'cas/bad-credentials';
     }
   }
