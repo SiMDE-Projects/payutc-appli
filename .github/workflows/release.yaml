@@ -117,5 +117,5 @@ jobs:
           SENTRY_ORG: simde-utc
         with:
           environment: production
-          projects: gesasso_mkmail
+          projects: payutc-mobile
           version: ${{ needs.tag.outputs.tag_name }}
