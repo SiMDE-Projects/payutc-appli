@@ -83,6 +83,9 @@ class AppService extends ChangeNotifier {
     await storageService.init();
     if (casConnect) {
       storageService.ticket = await _casApi.connectUser(user, password);
+    } else {
+      storageService.ticket = await nemoPayApi.connectUser(user, password);
+      print(storageService.ticket);
     }
     await storageService.user(UserData.create(user, password, casConnect));
     return initApp();
