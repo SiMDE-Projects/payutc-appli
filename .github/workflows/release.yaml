@@ -47,6 +47,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
   apk:
+    name: Build and upload APK
     needs:
       - tag
     runs-on: ubuntu-latest
