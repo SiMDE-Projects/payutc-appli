@@ -5,7 +5,50 @@ on:
       - main
 
 jobs:
-  release:
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to release.'
+
+  on-success:
+    needs:
+      - apk
+      - release
+      - tag
+      - sentry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been released to ${{needs.tag.outputs.tag_name}}.'
+
+  tag:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }} || ${{ github.event.workflow_run.workflow_dispatched }}
+    name: Create Tag
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.tag_version.outputs.new_tag }} # TODO: Synchronize with dart pkg version
+      tag_changelog: ${{ steps.tag_version.outputs.changelog }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  apk:
+    needs:
+      - tag
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -38,3 +81,40 @@ jobs:
           artifacts: 'build/app/outputs/flutter-apk/*.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
           tag: ${{ steps.versionstep.outputs.VERSION }}
+
+  release:
+    name: Create Release
+    runs-on: ubuntu-latest
+    needs:
+      - tag
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Create Release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ needs.tag.outputs.tag_name }}
+          release_name: ${{ needs.tag.outputs.tag_name }}
+          body: ${{ needs.tag.outputs.tag_changelog }}
+          draft: false
+          prerelease: false
+
+  sentry:
+    name: Sentry Release
+    runs-on: ubuntu-latest
+    needs:
+      - tag
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: simde-utc
+        with:
+          environment: production
+          projects: gesasso_mkmail
+          version: ${{ needs.tag.outputs.tag_name }}
