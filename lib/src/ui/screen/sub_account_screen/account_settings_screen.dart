@@ -129,18 +129,18 @@ class AccountSettingsPage extends StatelessWidget {
   }
 
   _row(String s, String t) => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Text(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
             s,
             style: const TextStyle(color: Colors.white),
           ),
-      Text(
+          Text(
             t,
             style: const TextStyle(color: Colors.white),
           ),
-    ],
-  );
+        ],
+      );
 
   _badge() {
     bool block = AppService.instance.userWallet!.blocked;
@@ -157,7 +157,7 @@ class AccountSettingsPage extends StatelessWidget {
           state(() {});
           AppService.instance.changeBadgeState(value).then(
                 (value) => AppService.instance.userWallet!.blocked = value,
-          );
+              );
         },
         value: block,
       );

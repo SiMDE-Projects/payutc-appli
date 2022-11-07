@@ -67,8 +67,6 @@ jobs:
       - name: Build APK
         run: |
           flutter pub get
-          flutter format --set-exit-if-changed .
-          flutter analyze
           flutter build apk
       - name: Retrieve Release Version
         id: versionstep

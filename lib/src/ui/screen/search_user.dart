@@ -415,9 +415,10 @@ class ScanPage extends StatelessWidget {
           MobileScanner(
             allowDuplicates: false,
             controller:
-            MobileScannerController(formats: [BarcodeFormat.qrCode]),
+                MobileScannerController(formats: [BarcodeFormat.qrCode]),
             onDetect: (barcode, args) {
-              if (barcode.rawValue == null) {} else {
+              if (barcode.rawValue == null) {
+              } else {
                 final String code = barcode.rawValue!;
                 Navigator.pop(context, code);
               }
@@ -425,7 +426,7 @@ class ScanPage extends StatelessWidget {
           ),
           ColorFiltered(
             colorFilter:
-            const ColorFilter.mode(Colors.black54, BlendMode.srcOut),
+                const ColorFilter.mode(Colors.black54, BlendMode.srcOut),
             child: Stack(
               children: [
                 Container(

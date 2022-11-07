@@ -64,7 +64,7 @@ class _SelectAmountState extends State<SelectAmount> {
                 builder: (context, snapshot) {
                   return Center(
                       child: Text(
-                        "${controller.text} €",
+                    "${controller.text} €",
                     style: const TextStyle(fontSize: 35),
                   ));
                 }),
