@@ -1,40 +1,108 @@
 name: Release
 on:
-  workflow_dispatch:
+  push:
     branches:
-      - main
+      - master
 
 jobs:
-  release:
+  on-failure:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    steps:
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been failed to release.'
+
+  on-success:
+    needs:
+      - apk
+      - tagname_compute
+      - sentry
+    runs-on: ubuntu-latest
+    steps:
+      - name: Discord notification
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+        with:
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been released to ${{needs.tagname_compute.outputs.tag_name}}.'
+
+  tagname_compute:
+    name: Compute tag infos
+    runs-on: ubuntu-latest
+    outputs:
+      tag_name: ${{ steps.tag_version.outputs.new_tag }} # TODO: Synchronize with pkg version
+      tag_changelog: ${{ steps.tag_version.outputs.changelog }}
+    steps:
+      - uses: actions/checkout@v2
+      - name: Bump version and push tag
+        id: tag_version
+        uses: mathieudutour/github-tag-action@v6.1
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
+
+  apk:
+    name: Build and upload APK
+    needs:
+      - tagname_compute
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Configure signature
+      - name: Configure signature & envs
         run: |
           echo "${{secrets.KEY_PROPERTIES}}" > android/key.properties
           echo "${{secrets.RELEASE_KEYSTORE}}" > upload-keystore.encoded
           base64 -d -i upload-keystore.encoded > ./android/app/upload-keystore.jks
+          echo "const String nemoPayAppId='80405';" >> lib/src/env.dart
+          echo "const String casUrl='https://cas.utc.fr/cas/';" >> lib/src/env.dart
+          echo "const String nemoPayUrl='https://api.nemopay.net/';" >> lib/src/env.dart
+          echo "const String payUrlCallback='https://assos.utc.fr/pay_app_callback';" >> lib/src/env.dart
+          echo "const String nemoPayKey='${{secrets.WEEZPAY_APPKEY}}';" >> lib/src/env.dart
+          echo "const String gingerKey='${{secrets.GINGER_APPKEY}}';" >> lib/src/env.dart
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
-      - uses: subosito/flutter-action@v1
+      - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '2.5.0'
-          channel: stable
+          channel: 'stable'
       - name: Build APK
         run: |
           flutter pub get
-          flutter format --set-exit-if-changed .
-          flutter analyze
           flutter build apk
-      - name: Retrieve Release Version
-        id: versionstep
-        run: |
-          VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
-          echo "::set-output name=VERSION::$VERSION"
+#      - name: Retrieve Release Version
+#        id: versionstep
+#        run: |
+#          VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
+#          echo "::set-output name=VERSION::$VERSION"
+
       - name: Upload the APK onto GitHub
         uses: ncipollo/release-action@v1
         with:
           artifacts: 'build/app/outputs/flutter-apk/*.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.versionstep.outputs.VERSION }}
+          name: Release ${{ steps.tagname_compute.outputs.new_tag }}
+          tag: ${{ needs.tagname_compute.outputs.tag_name }}
+          body: ${{ steps.tagname_compute.outputs.tag_changelog }}
+
+
+  sentry:
+    name: Sentry Release
+    runs-on: ubuntu-latest
+    needs:
+      - tagname_compute
+      - apk
+    steps:
+      - uses: actions/checkout@v3
+      - name: Create Sentry release
+        uses: getsentry/action-release@v1
+        env:
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+          SENTRY_ORG: simde-utc
+        with:
+          environment: production
+          projects: payutc-mobile
+          version: ${{ needs.tagname_compute.outputs.tag_name }}

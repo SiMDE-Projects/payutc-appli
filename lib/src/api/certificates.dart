@@ -12,6 +12,7 @@ Dio installCertificate(Dio dio, String certificate) {
       log(cert.pem);
       return cert.pem == certificate;
     };
+    return null;
   };
   return dio;
 }

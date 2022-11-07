@@ -53,7 +53,7 @@ class _SelectAmountState extends State<SelectAmount> {
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 widget.motif,
-                style: TextStyle(fontSize: 18),
+                style: const TextStyle(fontSize: 18),
               ),
             ),
           ),
@@ -65,19 +65,19 @@ class _SelectAmountState extends State<SelectAmount> {
                   return Center(
                       child: Text(
                     "${controller.text} €",
-                    style: TextStyle(fontSize: 35),
+                    style: const TextStyle(fontSize: 35),
                   ));
                 }),
           ),
           Expanded(
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.black,
                 borderRadius: BorderRadius.vertical(
                   top: Radius.circular(34),
                 ),
               ),
-              padding: EdgeInsets.all(15),
+              padding: const EdgeInsets.all(15),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -117,7 +117,8 @@ class _SelectAmountState extends State<SelectAmount> {
                     child: Center(
                       child: Text(
                         "$i",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                   ),
@@ -134,7 +135,7 @@ class _SelectAmountState extends State<SelectAmount> {
               borderRadius: BorderRadius.circular(50),
               child: InkWell(
                 onTap: () => _padInteract(-2),
-                child: SizedBox.expand(
+                child: const SizedBox.expand(
                   child: Center(
                     child: Text(
                       ".",
@@ -155,7 +156,7 @@ class _SelectAmountState extends State<SelectAmount> {
               borderRadius: BorderRadius.circular(50),
               child: InkWell(
                 onTap: () => _padInteract(0),
-                child: SizedBox.expand(
+                child: const SizedBox.expand(
                   child: Center(
                     child: Text(
                       "0",
@@ -176,7 +177,7 @@ class _SelectAmountState extends State<SelectAmount> {
               borderRadius: BorderRadius.circular(50),
               child: InkWell(
                 onTap: () => _padInteract(-1),
-                child: SizedBox.expand(
+                child: const SizedBox.expand(
                   child: Center(
                     child: Icon(
                       Icons.backspace,

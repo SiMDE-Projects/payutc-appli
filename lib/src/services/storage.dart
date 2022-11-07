@@ -4,7 +4,7 @@ import 'package:payutc/src/models/user_data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class StorageService {
-  StorageService() {}
+  StorageService();
 
   static SharedPreferences? _preferences;
 
@@ -12,11 +12,12 @@ class StorageService {
 
   Future<bool> get haveAccount =>
       const FlutterSecureStorage().containsKey(key: "user_data");
+
   set locale(Locale locale) =>
       _preferences?.setString("locale", locale.languageCode);
 
-  Future<void> user(UserData userData) =>
-      FlutterSecureStorage().write(key: "user_data", value: userData.pack());
+  Future<void> user(UserData userData) => const FlutterSecureStorage()
+      .write(key: "user_data", value: userData.pack());
 
   Future<UserData?> get userData async {
     return (const FlutterSecureStorage().read(key: "user_data").then(
@@ -52,6 +53,6 @@ class StorageService {
 
   Future<void> clear() async {
     await _preferences!.clear();
-    await FlutterSecureStorage().deleteAll();
+    await const FlutterSecureStorage().deleteAll();
   }
 }

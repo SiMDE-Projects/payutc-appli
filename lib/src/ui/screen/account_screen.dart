@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
-import 'package:payutc/src/models/GingerUserInfos.dart';
-import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
@@ -38,7 +36,7 @@ class _AccountPageState extends State<AccountPage> {
                       icon: const Icon(Icons.arrow_back_ios)),
                   Text(
                     Translate.of(context).settings,
-                    style: TextStyle(color: Colors.black, fontSize: 16),
+                    style: const TextStyle(color: Colors.black, fontSize: 16),
                   ),
                 ],
               ),
@@ -71,13 +69,13 @@ class _AccountPageState extends State<AccountPage> {
                                 children: [
                                   Text(
                                     "${AppService.instance.userWallet!.user.firstName!} ${AppService.instance.userWallet!.user.lastName!}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
                                     "${AppService.instance.userWallet!.user.username}",
-                                    style: TextStyle(
+                                    style: const TextStyle(
                                       color: Colors.white54,
                                       fontSize: 12,
                                     ),
@@ -90,7 +88,8 @@ class _AccountPageState extends State<AccountPage> {
                                 Navigator.push(
                                     context,
                                     CupertinoPageRoute(
-                                        builder: (_) => AccountSettingsPage()));
+                                        builder: (_) =>
+                                            const AccountSettingsPage()));
                               },
                               icon: const Icon(
                                 Icons.settings_rounded,
@@ -106,22 +105,12 @@ class _AccountPageState extends State<AccountPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      if (false)
-                        btnAccount("Paramètres de l'application", () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => const LanguageSwitcher(),
-                            ),
-                          );
-                        })
-                      else
-                        Container(
-                            decoration: BoxDecoration(
-                                color: Colors.black,
-                                borderRadius: BorderRadius.circular(15)),
-                            padding: const EdgeInsets.all(10),
-                            child: const LanguageSwitcher()),
+                      Container(
+                          decoration: BoxDecoration(
+                              color: Colors.black,
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: const EdgeInsets.all(10),
+                          child: const LanguageSwitcher()),
                       btnAccount(Translate.of(context).aPropos, _aproposScreen),
                       btnAccount(
                         Translate.of(context).nousContacter,
@@ -135,12 +124,11 @@ class _AccountPageState extends State<AccountPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (builder) => LogConsole(
+                                  builder: (builder) => const LogConsole(
                                         dark: false,
                                         showCloseButton: true,
                                       )));
                         }),
-                      if (false) btnAccount("Donner son avis", () {}),
                     ],
                   ),
                 ),
@@ -172,12 +160,12 @@ class _AccountPageState extends State<AccountPage> {
                         Expanded(
                           child: Text(
                             Translate.of(context).logOut,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Icon(
+                        const Icon(
                           Icons.arrow_forward_ios,
                           color: Colors.white,
                         ),
@@ -195,7 +183,7 @@ class _AccountPageState extends State<AccountPage> {
 
   void _aproposScreen() {
     Navigator.push(
-        context, CupertinoPageRoute(builder: (builder) => APropos()));
+        context, CupertinoPageRoute(builder: (builder) => const APropos()));
   }
 }
 
@@ -233,7 +221,7 @@ class _LanguageSwitcherState extends State<LanguageSwitcher>
       children: [
         Text(
           Translate.of(context).language,
-          style: TextStyle(
+          style: const TextStyle(
               fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         const SizedBox(

@@ -31,23 +31,23 @@ class _StatPageState extends State<StatPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TabBar(
-              padding: EdgeInsets.all(5),
+              padding: const EdgeInsets.all(5),
               isScrollable: true,
               indicator: BoxDecoration(
                 color: Colors.black12,
                 borderRadius: BorderRadius.circular(15),
               ),
-              tabs: [
-                const Tab(
+              tabs: const [
+                Tab(
                   child: Text("Infos pratiques"),
                 ),
-                const Tab(
+                Tab(
                   child: Text("Consomation"),
                 ),
-                const Tab(
+                Tab(
                   child: Text("Virement"),
                 ),
-                const Tab(
+                Tab(
                   child: Text("Recharge"),
                 ),
               ],
@@ -62,7 +62,7 @@ class _StatPageState extends State<StatPage> {
                   children: [
                     for (int i = 0; i < 4; i++)
                       ListView(
-                        children: [],
+                        children: const [],
                       ),
                   ],
                 ),

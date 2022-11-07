@@ -129,7 +129,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                       shape: const StadiumBorder(),
-                      primary: Colors.black,
+                      backgroundColor: Colors.black,
                       elevation: 0,
                     ),
                     label: Text(
@@ -137,8 +137,10 @@ class _SelectUserPageState extends State<SelectUserPage> {
                       style: const TextStyle(color: Colors.white),
                     ),
                     onPressed: () async {
-                      String? data = await Navigator.push(context,
-                          CupertinoPageRoute(builder: (builder) => ScanPage()));
+                      String? data = await Navigator.push(
+                          context,
+                          CupertinoPageRoute(
+                              builder: (builder) => const ScanPage()));
                       if (data == null) return;
                       _handleUrl(data);
                     },
@@ -365,7 +367,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
                 ),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                      primary: Colors.black, elevation: 0),
+                      backgroundColor: Colors.black, elevation: 0),
                   onPressed: () {
                     Navigator.pop(context);
                     popContent(user);
@@ -394,6 +396,8 @@ class _SelectUserPageState extends State<SelectUserPage> {
 }
 
 class ScanPage extends StatelessWidget {
+  const ScanPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

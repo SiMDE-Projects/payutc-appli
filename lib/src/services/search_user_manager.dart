@@ -14,6 +14,7 @@ class SearchUserManagerService extends ChangeNotifier {
     users = _getUsers();
     notifyListeners();
   }
+
   static final SearchUserManagerService favManager =
       SearchUserManagerService(AppService.instance.storageService, "users_fav");
   static final SearchUserManagerService historyManager =

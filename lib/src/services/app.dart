@@ -1,17 +1,15 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/ginger.dart';
 import 'package:payutc/src/api/nemopay.dart';
-import 'package:payutc/src/models/GingerUserInfos.dart';
-import 'package:payutc/src/models/NemoPayAppProperties.dart';
-import 'package:payutc/src/models/Wallet.dart';
+import 'package:payutc/src/models/ginger_user_infos.dart';
+import 'package:payutc/src/models/nemopay_app_properties.dart';
 import 'package:payutc/src/models/transfert.dart';
 import 'package:payutc/src/models/user_data.dart';
+import 'package:payutc/src/models/wallet.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/storage.dart';
 import 'package:payutc/src/services/wallet.dart';
@@ -26,10 +24,9 @@ class AppService extends ChangeNotifier {
     return _instance!;
   }
 
-  late FlutterSecureStorage _secureStorage;
   late StorageService storageService;
   late HistoryService historyService;
-  late CasApi _casApi;
+  late final CasApi _casApi;
   late NemoPayApi nemoPayApi;
   late WalletService walletService;
 
@@ -40,7 +37,6 @@ class AppService extends ChangeNotifier {
         storageService = storageService ?? StorageService() {
     historyService = HistoryService(this);
     walletService = WalletService(this);
-    _secureStorage = const FlutterSecureStorage();
   }
 
   String? userName;
@@ -86,7 +82,6 @@ class AppService extends ChangeNotifier {
       storageService.ticket = await _casApi.connectUser(user, password);
     } else {
       storageService.ticket = await nemoPayApi.connectUser(user, password);
-      print(storageService.ticket);
     }
     await storageService.user(UserData.create(user, password, casConnect));
     return initApp();
