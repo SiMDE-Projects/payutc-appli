@@ -58,12 +58,12 @@ jobs:
           echo "${{secrets.KEY_PROPERTIES}}" > android/key.properties
           echo "${{secrets.RELEASE_KEYSTORE}}" > upload-keystore.encoded
           base64 -d -i upload-keystore.encoded > ./android/app/upload-keystore.jks
-          echo "nemoPayAppId=80405" >> lib/src/env.dart
-          echo "casUrl='https://cas.utc.fr/cas/'" >> lib/src/env.dart
-          echo "nemoPayUrl='https://api.nemopay.net/'" >> lib/src/env.dart
-          echo "payUrlCallback='https://assos.utc.fr/pay_app_callback'" >> lib/src/env.dart
-          echo "nemoPayKey='${{secrets.WEEZPAY_APPKEY}}'" >> lib/src/env.dart
-          echo "gingerKey='${{secrets.GINGER_APPKEY}}'" >> lib/src/env.dart
+          echo "const String nemoPayAppId='80405';" >> lib/src/env.dart
+          echo "const String casUrl='https://cas.utc.fr/cas/';" >> lib/src/env.dart
+          echo "const String nemoPayUrl='https://api.nemopay.net/';" >> lib/src/env.dart
+          echo "const String payUrlCallback='https://assos.utc.fr/pay_app_callback';" >> lib/src/env.dart
+          echo "const String nemoPayKey='${{secrets.WEEZPAY_APPKEY}}';" >> lib/src/env.dart
+          echo "const String gingerKey='${{secrets.GINGER_APPKEY}}';" >> lib/src/env.dart
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
