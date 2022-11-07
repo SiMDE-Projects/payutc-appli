@@ -20,8 +20,8 @@ class AppTheme {
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
-        primary: AppColors.orange,
-        onPrimary: Colors.white,
+        foregroundColor: Colors.white,
+        backgroundColor: AppColors.orange,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(15),
         ),
@@ -42,7 +42,7 @@ class AppTheme {
       bodyText1: const TextStyle(color: Colors.white),
       bodyText2: const TextStyle(color: Colors.white),
     ),
-    scaffoldBackgroundColor: AppColors.scaffold_dark,
+    scaffoldBackgroundColor: AppColors.scaffoldDark,
   );
 
   static SystemUiOverlayStyle combineOverlay(SystemUiOverlayStyle other) =>

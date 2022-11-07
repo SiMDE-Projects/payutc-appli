@@ -373,7 +373,7 @@ class _HomePageState extends State<HomePage>
                               ],
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      primary: AppColors.black),
+                                      backgroundColor: AppColors.black),
                                   onPressed: () {
                                     Navigator.push(
                                         context,

@@ -18,5 +18,5 @@ class AppColors {
   });
   static const int _orangeValue = 0xFFF99F1C;
 
-  static const Color scaffold_dark = Color(0xFF424242);
+  static const Color scaffoldDark = Color(0xFF424242);
 }
