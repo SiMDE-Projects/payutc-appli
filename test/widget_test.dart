@@ -15,11 +15,10 @@ void main() {
     CasApi cas = CasApi();
     await nemopay.getAppProperties();
     //user connect
-    String TGT = await cas.connectUser("jumeltom", "uc5nYT@A!EhDDdR");
-    String ticket = await cas.reConnectUser(TGT);
+    String ticketGrantingTicket =
+        await cas.connectUser("jumeltom", "uc5nYT@A!EhDDdR");
+    String ticket = await cas.reConnectUser(ticketGrantingTicket);
     String username = await nemopay.connectCas(ticket);
-    print("Wallet");
     final wallet = await nemopay.getUserWallet(username);
-    print(wallet.balances.credit!);
   });
 }

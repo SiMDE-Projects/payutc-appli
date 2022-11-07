@@ -57,7 +57,7 @@ void showUserCard(BuildContext context, User user) {
                     radius: 35,
                     child: Text(user.maj),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Column(
@@ -65,11 +65,12 @@ void showUserCard(BuildContext context, User user) {
                     children: [
                       Text(
                         user.name,
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
                       Text(
                         "@${user.subName}",
-                        style: TextStyle(fontSize: 13, color: Colors.black54),
+                        style: const TextStyle(
+                            fontSize: 13, color: Colors.black54),
                       ),
                     ],
                   ),
@@ -80,7 +81,7 @@ void showUserCard(BuildContext context, User user) {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: Colors.black, elevation: 0),
+                    backgroundColor: Colors.black, elevation: 0),
                 onPressed: () {
                   Navigator.push(
                       context,

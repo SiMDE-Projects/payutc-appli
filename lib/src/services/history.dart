@@ -1,15 +1,14 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
-import 'package:payutc/src/models/PayUtcHistory.dart';
+import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 
 class HistoryService extends ChangeNotifier {
   late final AppService context;
 
   HistoryService([AppService? context])
-      : this.context = context ?? AppService.instance;
+      : context = context ?? AppService.instance;
 
   PayUtcHistory? history;
 

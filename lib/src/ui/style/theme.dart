@@ -32,15 +32,15 @@ class AppTheme {
   static final ThemeData _light = _default.copyWith(
       scaffoldBackgroundColor: AppColors.scaffold,
       appBarTheme: _default.appBarTheme
-          .copyWith(iconTheme: IconThemeData(color: Colors.black)));
+          .copyWith(iconTheme: const IconThemeData(color: Colors.black)));
   static final ThemeData _dark = _default.copyWith(
     appBarTheme: AppBarTheme(
         systemOverlayStyle: SystemUiOverlayStyle.light
             .copyWith(statusBarColor: Colors.transparent),
-        iconTheme: IconThemeData(color: Colors.white)),
+        iconTheme: const IconThemeData(color: Colors.white)),
     textTheme: _default.textTheme.copyWith(
-      bodyText1: TextStyle(color: Colors.white),
-      bodyText2: TextStyle(color: Colors.white),
+      bodyText1: const TextStyle(color: Colors.white),
+      bodyText2: const TextStyle(color: Colors.white),
     ),
     scaffoldBackgroundColor: AppColors.scaffold_dark,
   );

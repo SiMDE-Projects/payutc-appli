@@ -202,12 +202,6 @@ class _HomePageState extends State<HomePage>
                           );
                         },
                       ),
-                      if (false)
-                        _buildCard(
-                          Translate.of(context).statistics,
-                          const Icon(Icons.stacked_line_chart, size: 30),
-                          _statPage,
-                        ),
                     ],
                   ),
                 ),
@@ -363,7 +357,7 @@ class _HomePageState extends State<HomePage>
                                   .parsedItems(context)
                                   .entries) ...[
                                 Text(
-                                  "${item.key}".toUpperCase(),
+                                  item.key.toUpperCase(),
                                   textAlign: TextAlign.start,
                                   style: const TextStyle(
                                       color: Colors.white70, letterSpacing: 1),

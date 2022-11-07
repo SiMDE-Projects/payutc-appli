@@ -32,13 +32,13 @@ class _ReceivePageState extends State<ReceivePage> {
     return Scaffold(
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle.light,
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         elevation: 0,
         backgroundColor: Colors.transparent,
         centerTitle: true,
         title: Text(
           Translate.of(context).receive,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
       backgroundColor: Colors.black,
@@ -49,15 +49,15 @@ class _ReceivePageState extends State<ReceivePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                margin: EdgeInsets.all(5),
+                margin: const EdgeInsets.all(5),
                 decoration: BoxDecoration(
                     color: Colors.white12,
                     borderRadius: BorderRadius.circular(15),
                     border: Border.all(color: Colors.white)),
-                padding: EdgeInsets.all(15),
+                padding: const EdgeInsets.all(15),
                 child: QrImage(
                   data: AppService.instance.generateShareLink(),
-                  embeddedImage: AssetImage("assets/img/logo.jpg"),
+                  embeddedImage: const AssetImage("assets/img/logo.jpg"),
                   foregroundColor: Colors.white,
                 ),
               ),
@@ -65,11 +65,11 @@ class _ReceivePageState extends State<ReceivePage> {
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
                   Translate.of(context).receiveMoneyScanSentence,
-                  style: TextStyle(color: Colors.white),
+                  style: const TextStyle(color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               // Text(

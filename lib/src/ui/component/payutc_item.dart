@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:payutc/src/models/PayUtcHistory.dart';
+import 'package:payutc/src/models/payutc_history.dart';
 
 import '../../services/app.dart';
 import '../style/color.dart';
@@ -24,7 +24,7 @@ class PayutcItemWidget extends StatelessWidget {
               backgroundColor: Colors.black,
               barrierColor: Colors.white30,
               context: context,
-              shape: RoundedRectangleBorder(
+              shape: const RoundedRectangleBorder(
                   borderRadius:
                       BorderRadius.vertical(top: Radius.circular(15))),
               builder: (_) => SafeArea(
@@ -34,40 +34,40 @@ class PayutcItemWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Text(
+                          const Text(
                             "Details",
                             style: TextStyle(color: Colors.white, fontSize: 18),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           _row("Montant", item.amountParse.toStringAsFixed(2)),
                           _row("Dénomination", item.nameExtracted(context)),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           if (item.isVirement) ...[
-                            Text(
+                            const Text(
                               "Message",
                               style:
                                   TextStyle(color: Colors.white, fontSize: 18),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 5,
                             ),
                             Container(
                               decoration: BoxDecoration(
                                   color: Colors.white12,
                                   borderRadius: BorderRadius.circular(15)),
-                              padding: EdgeInsets.all(10),
-                              margin: EdgeInsets.all(10),
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.all(10),
                               child: Text(
                                 "${item.name}",
-                                style: TextStyle(color: Colors.white),
+                                style: const TextStyle(color: Colors.white),
                               ),
                             ),
                           ],
-                          SizedBox(
+                          const SizedBox(
                             height: 25,
                           ),
                         ],
@@ -105,7 +105,7 @@ class PayutcItemWidget extends StatelessWidget {
                     FittedBox(
                       fit: BoxFit.fitWidth,
                       child: Text(
-                        "${item.nameExtracted(context)}",
+                        item.nameExtracted(context),
                         style: const TextStyle(
                           fontSize: 16,
                           color: Colors.white,
@@ -114,7 +114,7 @@ class PayutcItemWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "${item.service(context)}",
+                      item.service(context),
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 12),
                       overflow: TextOverflow.ellipsis,
@@ -145,12 +145,12 @@ class PayutcItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "$s",
-            style: TextStyle(color: Colors.white),
+            s,
+            style: const TextStyle(color: Colors.white),
           ),
           Text(
-            "$t",
-            style: TextStyle(color: Colors.white),
+            t,
+            style: const TextStyle(color: Colors.white),
           ),
         ],
       );
