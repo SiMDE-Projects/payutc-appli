@@ -1,8 +1,9 @@
 name: Release
 on:
-  workflow_dispatch:
+  push:
     branches:
-      - main
+      - master
+  pull_requests:
 
 jobs:
   on-failure:
@@ -29,11 +30,10 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
         with:
-          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been released to ${{needs.tag.outputs.tag_name}}.'
+          args: 'The project {{ EVENT_PAYLOAD.repository.full_name }} has been released to ${{needs.tagname_compute.outputs.tag_name}}.'
 
-  tag:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }} || ${{ github.event.workflow_run.workflow_dispatched }}
-    name: Create Tag
+  tagname_compute:
+    name: Compute tag infos
     runs-on: ubuntu-latest
     outputs:
       tag_name: ${{ steps.tag_version.outputs.new_tag }} # TODO: Synchronize with pkg version
@@ -42,14 +42,15 @@ jobs:
       - uses: actions/checkout@v2
       - name: Bump version and push tag
         id: tag_version
-        uses: mathieudutour/github-tag-action@v6.0
+        uses: mathieudutour/github-tag-action@v6.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          dry_run: true
 
   apk:
     name: Build and upload APK
     needs:
-      - tag
+      - tagname_compute
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -74,44 +75,27 @@ jobs:
         run: |
           flutter pub get
           flutter build apk
-      - name: Retrieve Release Version
-        id: versionstep
-        run: |
-          VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
-          echo "::set-output name=VERSION::$VERSION"
+#      - name: Retrieve Release Version
+#        id: versionstep
+#        run: |
+#          VERSION=$(more pubspec.yaml | grep version: | cut -d ' ' -f2)
+#          echo "::set-output name=VERSION::$VERSION"
+
       - name: Upload the APK onto GitHub
         uses: ncipollo/release-action@v1
         with:
           artifacts: 'build/app/outputs/flutter-apk/*.apk'
           token: ${{ secrets.GITHUB_TOKEN }}
-          tag: ${{ steps.versionstep.outputs.VERSION }}
+          name: Release ${{ steps.tagname_compute.outputs.new_tag }}
+          tag: ${{ needs.tagname_compute.outputs.tag_name }}
+          body: ${{ steps.tagname_compute.outputs.tag_changelog }}
 
-  release:
-    name: Create Release
-    runs-on: ubuntu-latest
-    needs:
-      - tag
-      - apk
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Create Release
-        id: create_release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ needs.tag.outputs.tag_name }}
-          release_name: ${{ needs.tag.outputs.tag_name }}
-          body: ${{ needs.tag.outputs.tag_changelog }}
-          draft: false
-          prerelease: false
 
   sentry:
     name: Sentry Release
     runs-on: ubuntu-latest
     needs:
-      - tag
+      - tagname_compute
       - apk
     steps:
       - uses: actions/checkout@v3
@@ -123,4 +107,4 @@ jobs:
         with:
           environment: production
           projects: payutc-mobile
-          version: ${{ needs.tag.outputs.tag_name }}
+          version: ${{ needs.tagname_compute.outputs.tag_name }}
