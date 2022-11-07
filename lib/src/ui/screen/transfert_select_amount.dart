@@ -141,73 +141,71 @@ class _SelectTransfertAmountScreenState
                           ),
                         ),
                       ),
-                      Container(
-                        child: Column(
-                          children: [
-                            TextFormField(
-                              controller: message,
-                              maxLines: 5,
-                              maxLength: 250,
-                              decoration: InputDecoration(
-                                hintText:
-                                    Translate.of(context).helpMessageTransfert,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(15),
-                                ),
+                      Column(
+                        children: [
+                          TextFormField(
+                            controller: message,
+                            maxLines: 5,
+                            maxLength: 250,
+                            decoration: InputDecoration(
+                              hintText:
+                                  Translate.of(context).helpMessageTransfert,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            Wrap(
-                              spacing: 10,
-                              children: [
-                                ActionChip(
-                                  onPressed: () {
-                                    message.text += '😂';
-                                  },
-                                  label: const Text("😂"),
-                                  backgroundColor: Colors.black,
+                          ),
+                          Wrap(
+                            spacing: 10,
+                            children: [
+                              ActionChip(
+                                onPressed: () {
+                                  message.text += '😂';
+                                },
+                                label: const Text("😂"),
+                                backgroundColor: Colors.black,
+                              ),
+                              ActionChip(
+                                onPressed: () {
+                                  message.text += '😘';
+                                },
+                                label: const Text("😘"),
+                                backgroundColor: Colors.black,
+                              ),
+                              ActionChip(
+                                onPressed: () {
+                                  message.text = randomSentences.item;
+                                },
+                                label: Text(
+                                  Translate.of(context).randomTransfertSentence,
+                                  style: const TextStyle(color: Colors.white),
                                 ),
-                                ActionChip(
-                                  onPressed: () {
-                                    message.text += '😘';
-                                  },
-                                  label: const Text("😘"),
-                                  backgroundColor: Colors.black,
+                                backgroundColor: Colors.black,
+                              ),
+                              ActionChip(
+                                onPressed: () async {
+                                  String? selectSentence =
+                                      await _showSelector();
+                                  if (selectSentence != null) {
+                                    message.text = selectSentence;
+                                  }
+                                },
+                                label: Text(
+                                  Translate.of(context).other,
+                                  style: const TextStyle(color: Colors.white),
                                 ),
-                                ActionChip(
-                                  onPressed: () {
-                                    message.text = randomSentences.item;
-                                  },
-                                  label: Text(
-                                    Translate.of(context)
-                                        .randomTransfertSentence,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  backgroundColor: Colors.black,
-                                ),
-                                ActionChip(
-                                  onPressed: () async {
-                                    String? selectSentence =
-                                        await _showSelector();
-                                    if (selectSentence != null) {
-                                      message.text = selectSentence;
-                                    }
-                                  },
-                                  label: Text(
-                                    Translate.of(context).other,
-                                    style: const TextStyle(color: Colors.white),
-                                  ),
-                                  backgroundColor: Colors.black,
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
+                                backgroundColor: Colors.black,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                       const SizedBox(
                         height: 30,
                       ),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(primary: Colors.black),
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black),
                         onPressed: () async {
                           double amountDb =
                               double.parse(amount.toStringAsFixed(2)) * 100;
@@ -291,7 +289,7 @@ class _SelectTransfertAmountScreenState
       isScrollControlled: true,
       context: context,
       clipBehavior: Clip.hardEdge,
-      shape: RoundedRectangleBorder(
+      shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
       ),
       backgroundColor: Colors.white,
@@ -305,47 +303,45 @@ class _SelectTransfertAmountScreenState
         builder: (_, controller) => SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(15.0)
-                .subtract(EdgeInsets.only(bottom: 15)),
-            child: Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    "Selectionnez un message",
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Expanded(
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(15),
-                      child: ListView(
-                        controller: controller,
-                        children: [
-                          for (String item in randomSentences.items)
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pop(context, item);
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.black,
-                                    borderRadius: BorderRadius.circular(15)),
-                                padding: EdgeInsets.all(10),
-                                margin: EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  item,
-                                  style: TextStyle(color: Colors.white),
-                                ),
+                .subtract(const EdgeInsets.only(bottom: 15)),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                const Text(
+                  "Selectionnez un message",
+                  style: TextStyle(fontSize: 18),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Expanded(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: ListView(
+                      controller: controller,
+                      children: [
+                        for (String item in randomSentences.items)
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pop(context, item);
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black,
+                                  borderRadius: BorderRadius.circular(15)),
+                              padding: const EdgeInsets.all(10),
+                              margin: const EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                item,
+                                style: const TextStyle(color: Colors.white),
                               ),
-                            )
-                        ],
-                      ),
+                            ),
+                          )
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),

@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/services.dart';
@@ -27,6 +26,8 @@ class RandomSentences {
   }
 
   final Random random = Random();
+
   String get item => _sentences[random.nextInt(_sentences.length)];
+
   List<String> get items => _sentences;
 }

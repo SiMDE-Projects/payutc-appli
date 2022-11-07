@@ -14,9 +14,11 @@ class NemoPayAppProperties {
     id = json['id'];
     name = json['name'];
   }
+
   Config? config;
   num? id;
   String? name;
+
   NemoPayAppProperties copyWith({
     Config? config,
     num? id,
@@ -27,6 +29,7 @@ class NemoPayAppProperties {
         id: id ?? this.id,
         name: name ?? this.name,
       );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (config != null) {
@@ -66,6 +69,7 @@ class Config {
     nbDecimal = json['nb_decimal'];
     systemName = json['system_name'];
   }
+
   String? cappuccinoUrl;
   String? casUrl;
   String? currencySymbol;
@@ -73,6 +77,7 @@ class Config {
   String? loginMode;
   num? nbDecimal;
   String? systemName;
+
   Config copyWith({
     String? cappuccinoUrl,
     String? casUrl,
@@ -91,6 +96,7 @@ class Config {
         nbDecimal: nbDecimal ?? this.nbDecimal,
         systemName: systemName ?? this.systemName,
       );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['cappuccino_url'] = cappuccinoUrl;

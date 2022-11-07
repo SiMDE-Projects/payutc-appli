@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:payutc/generated/l10n.dart';
-import 'package:payutc/src/models/PayUtcHistory.dart';
+import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/ui/component/payutc_item.dart';
@@ -27,11 +27,11 @@ class _HistoryPageState extends State<HistoryPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.white),
+        iconTheme: const IconThemeData(color: Colors.white),
         centerTitle: true,
         title: Text(
           Translate.of(context).history,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         systemOverlayStyle: AppTheme.combineOverlay(SystemUiOverlayStyle.light),
         backgroundColor: Colors.transparent,
@@ -62,7 +62,7 @@ class _HistoryPageState extends State<HistoryPage> {
                 ),
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Expanded(
@@ -83,8 +83,8 @@ class _HistoryPageState extends State<HistoryPage> {
 
   ListView buildList(Map list) {
     return ListView.builder(
-      physics: BouncingScrollPhysics(),
-      padding: EdgeInsets.all(15),
+      physics: const BouncingScrollPhysics(),
+      padding: const EdgeInsets.all(15),
       itemBuilder: (context, index) {
         return Column(
           children: [

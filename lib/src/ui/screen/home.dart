@@ -1,4 +1,3 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -203,12 +202,6 @@ class _HomePageState extends State<HomePage>
                           );
                         },
                       ),
-                      if (false)
-                        _buildCard(
-                          Translate.of(context).statistics,
-                          const Icon(Icons.stacked_line_chart, size: 30),
-                          _statPage,
-                        ),
                     ],
                   ),
                 ),
@@ -364,7 +357,7 @@ class _HomePageState extends State<HomePage>
                                   .parsedItems(context)
                                   .entries) ...[
                                 Text(
-                                  "${item.key}".toUpperCase(),
+                                  item.key.toUpperCase(),
                                   textAlign: TextAlign.start,
                                   style: const TextStyle(
                                       color: Colors.white70, letterSpacing: 1),
@@ -380,7 +373,7 @@ class _HomePageState extends State<HomePage>
                               ],
                               ElevatedButton(
                                   style: ElevatedButton.styleFrom(
-                                      primary: AppColors.black),
+                                      backgroundColor: AppColors.black),
                                   onPressed: () {
                                     Navigator.push(
                                         context,

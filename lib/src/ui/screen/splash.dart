@@ -70,14 +70,14 @@ class _SplashPageState extends State<SplashPage> {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    primary: AppColors.orange.withOpacity(0.3)),
+                    backgroundColor: AppColors.orange.withOpacity(0.3)),
                 onPressed: () {
                   _load();
                 },
                 child: Text(Translate.of(context).ressayer),
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(primary: Colors.black),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => const LoginPage()));

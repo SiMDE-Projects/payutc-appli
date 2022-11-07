@@ -20,7 +20,7 @@ class CasApi {
     if (ticket == null) throw "User not already connected";
     try {
       final response = await client.post(
-        "v1/tickets/${ticket}",
+        "v1/tickets/$ticket",
         data: {"service": env.nemoPayUrl},
         options: Options(
           contentType: Headers.formUrlEncodedContentType,
@@ -28,7 +28,7 @@ class CasApi {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
+    } on DioError {
       rethrow;
     }
   }

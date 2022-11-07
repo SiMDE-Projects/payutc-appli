@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:payutc/generated/l10n.dart';
-import 'package:payutc/src/models/GingerUserInfos.dart';
+import 'package:payutc/src/models/ginger_user_infos.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/style/color.dart';
 
 class AccountSettingsPage extends StatelessWidget {
+  const AccountSettingsPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,12 +35,12 @@ class AccountSettingsPage extends StatelessWidget {
                         children: [
                           Text(
                             Translate.of(context).informations,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           _row(Translate.of(context).name, infos.nom!),
@@ -54,7 +56,7 @@ class AccountSettingsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Container(
@@ -67,26 +69,26 @@ class AccountSettingsPage extends StatelessWidget {
                         children: [
                           Text(
                             Translate.of(context).cotiz,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           Text(
                             "${infos.isCotisant! ? "✅" : "❌"} ${infos.isCotisant! ? Translate.of(context).is_contributor : Translate.of(context).is_not_contributor}",
-                            style: TextStyle(color: Colors.white),
+                            style: const TextStyle(color: Colors.white),
                           ),
                           Text(
                             Translate.of(context).contributor_desc,
-                            style: TextStyle(color: Colors.white70),
+                            style: const TextStyle(color: Colors.white70),
                           ),
                         ],
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                     Container(
@@ -99,18 +101,18 @@ class AccountSettingsPage extends StatelessWidget {
                         children: [
                           Text(
                             Translate.of(context).myCard,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 15),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 5,
                           ),
                           _badge(),
                           Text(
                             Translate.of(context).lock_info,
-                            style: TextStyle(color: Colors.white70),
+                            style: const TextStyle(color: Colors.white70),
                           ),
                         ],
                       ),
@@ -119,7 +121,7 @@ class AccountSettingsPage extends StatelessWidget {
                 ),
               );
             }
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           },
@@ -127,18 +129,18 @@ class AccountSettingsPage extends StatelessWidget {
   }
 
   _row(String s, String t) => Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            "$s",
-            style: TextStyle(color: Colors.white),
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Text(
+            s,
+            style: const TextStyle(color: Colors.white),
           ),
-          Text(
-            "$t",
-            style: TextStyle(color: Colors.white),
+      Text(
+            t,
+            style: const TextStyle(color: Colors.white),
           ),
-        ],
-      );
+    ],
+  );
 
   _badge() {
     bool block = AppService.instance.userWallet!.blocked;
@@ -148,14 +150,14 @@ class AccountSettingsPage extends StatelessWidget {
         inactiveTrackColor: Colors.white70,
         title: Text(
           Translate.of(context).lock_card,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
         ),
         onChanged: (bool value) {
           block = value;
           state(() {});
           AppService.instance.changeBadgeState(value).then(
                 (value) => AppService.instance.userWallet!.blocked = value,
-              );
+          );
         },
         value: block,
       );
@@ -164,6 +166,8 @@ class AccountSettingsPage extends StatelessWidget {
 }
 
 class APropos extends StatelessWidget {
+  const APropos({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +179,7 @@ class APropos extends StatelessWidget {
         children: [
           btnAccount(
             "Remercier le développer",
-            () {
+                () {
               showUserCard(
                 context,
                 User.fromJson(
@@ -190,14 +194,14 @@ class APropos extends StatelessWidget {
           ),
           btnAccount(
             Translate.of(context).mentionsLgales,
-            () {
+                () {
               showWebView(context, "assets/therms/contact.html",
                   Translate.of(context).mentionsLgales);
             },
           ),
           btnAccount(
             Translate.of(context).licensesPayutc,
-            () {
+                () {
               showWebView(
                 context,
                 "assets/therms/gnu.html",
@@ -207,10 +211,10 @@ class APropos extends StatelessWidget {
           ),
           btnAccount(
             Translate.of(context).licenseDeLapplication,
-            () {
+                () {
               showLicensePage(
                 context: context,
-                applicationName: "Pay\'ut",
+                applicationName: "Pay'ut",
                 applicationIcon: Image.asset(
                   "assets/img/logo.jpg",
                   height: 100,

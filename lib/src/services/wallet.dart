@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:payutc/compil.dart';
-import 'package:payutc/src/models/Wallet.dart';
 import 'package:payutc/src/models/transfert.dart';
+import 'package:payutc/src/models/wallet.dart';
 import 'package:payutc/src/services/app.dart';
 
 class WalletService extends ChangeNotifier {

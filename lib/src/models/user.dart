@@ -13,6 +13,7 @@ class User {
     id = data['id'];
     _name = data['name'];
   }
+
   String get name {
     String name = _name.substring(0, _name.indexOf('(') - 1);
     if (name.length < 2) {
@@ -23,6 +24,7 @@ class User {
 
   String get subName =>
       _name.substring(_name.indexOf('(') + 1, _name.indexOf(')'));
+
   String get maj {
     int nameIdx = name.lastIndexOf(" ") + 1;
     String lastNameLetter = "";

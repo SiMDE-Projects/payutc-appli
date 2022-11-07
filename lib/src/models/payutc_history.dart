@@ -90,16 +90,17 @@ class PayUtcItem {
   String service(BuildContext context) {
     if (type == "RECHARGE") return Translate.of(context).yourCard;
     if (isVirement) {
-      return name ?? "${firstname} ${lastname}";
+      return name ?? "$firstname $lastname";
     }
     return fun ?? name ?? "";
   }
 
   String nameExtracted(BuildContext context) {
-    if (isVirement)
+    if (isVirement) {
       return "${Translate.of(context).transfertPayutc}${isOutAmount ? "(${Translate.of(context).sendedTransfertPayutc})" : "(${Translate.of(context).reveivedTransfertPayutc})"}";
+    }
     if (type == "RECHARGE") return Translate.of(context).reloading;
-    return "${quantity!.abs().toInt()} ${name}";
+    return "${quantity!.abs().toInt()} $name";
   }
 
   bool isAtSameDay(PayUtcItem other) {

@@ -27,7 +27,7 @@ class PaymentFlowPage extends StatefulWidget {
             bool? res = await Navigator.push(
               context,
               CupertinoPageRoute(
-                builder: (_ctx) => PaymentFlowPage(amount: amount),
+                builder: (ctx) => PaymentFlowPage(amount: amount),
               ),
             );
             if (res == true) {
@@ -49,6 +49,7 @@ class PaymentFlowPage extends StatefulWidget {
 
 class _PaymentFlowPageState extends State<PaymentFlowPage> {
   WebViewController? _controller;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -62,7 +63,7 @@ class _PaymentFlowPageState extends State<PaymentFlowPage> {
             title: Text(Translate.of(context).quitterLaPage),
             actions: [
               TextButton(
-                style: TextButton.styleFrom(primary: Colors.black54),
+                style: TextButton.styleFrom(foregroundColor: Colors.black54),
                 onPressed: () => Navigator.pop(context, true),
                 child: Text(Translate.of(context).yes),
               ),
@@ -98,7 +99,6 @@ class _PaymentFlowPageState extends State<PaymentFlowPage> {
                     onWebViewCreated: (controller) => _controller = controller,
                     onPageStarted: (navigation) {
                       Uri url = Uri.parse(navigation);
-                      print(navigation);
                       Uri callback = Uri.parse(payUrlCallback);
                       if (url.host == callback.host) {
                         if (url.path == callback.path) {
