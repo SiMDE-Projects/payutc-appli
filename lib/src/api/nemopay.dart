@@ -7,7 +7,6 @@ import 'package:payutc/src/models/PayUtcHistory.dart';
 import 'package:payutc/src/models/Wallet.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:sentry_dio/sentry_dio.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
 
 import '../env.dart';
 import '../models/transfert.dart';

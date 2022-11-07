@@ -5,14 +5,9 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-
-import 'package:payutc/main.dart';
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/nemopay.dart';
-import 'package:payutc/src/env.dart';
-import 'package:payutc/src/models/Wallet.dart';
 
 void main() {
   test('Test nemopay api', () async {

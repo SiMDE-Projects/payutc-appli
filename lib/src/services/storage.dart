@@ -12,6 +12,7 @@ class StorageService {
 
   Future<bool> get haveAccount =>
       const FlutterSecureStorage().containsKey(key: "user_data");
+
   set locale(Locale locale) =>
       _preferences?.setString("locale", locale.languageCode);
 

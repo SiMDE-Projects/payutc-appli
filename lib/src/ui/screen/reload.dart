@@ -49,6 +49,7 @@ class PaymentFlowPage extends StatefulWidget {
 
 class _PaymentFlowPageState extends State<PaymentFlowPage> {
   WebViewController? _controller;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

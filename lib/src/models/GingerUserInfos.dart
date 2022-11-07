@@ -31,6 +31,7 @@ class GingerUserInfos {
     prenom = json['prenom'];
     type = json['type'];
   }
+
   String? badgeUid;
   bool? isAdulte;
   bool? isCotisant;
@@ -40,6 +41,7 @@ class GingerUserInfos {
   String? nom;
   String? prenom;
   String? type;
+
   GingerUserInfos copyWith({
     String? badgeUid,
     bool? isAdulte,
@@ -62,6 +64,7 @@ class GingerUserInfos {
         prenom: prenom ?? this.prenom,
         type: type ?? this.type,
       );
+
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['badge_uid'] = badgeUid;

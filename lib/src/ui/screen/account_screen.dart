@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
-import 'package:payutc/src/models/GingerUserInfos.dart';
-import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
