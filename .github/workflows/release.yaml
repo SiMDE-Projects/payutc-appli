@@ -36,7 +36,7 @@ jobs:
     name: Create Tag
     runs-on: ubuntu-latest
     outputs:
-      tag_name: ${{ steps.tag_version.outputs.new_tag }} # TODO: Synchronize with dart pkg version
+      tag_name: ${{ steps.tag_version.outputs.new_tag }} # TODO: Synchronize with pkg version
       tag_changelog: ${{ steps.tag_version.outputs.changelog }}
     steps:
       - uses: actions/checkout@v2
@@ -53,6 +53,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Configure signature & envs
         run: |
           echo "${{secrets.KEY_PROPERTIES}}" > android/key.properties
           echo "${{secrets.RELEASE_KEYSTORE}}" > upload-keystore.encoded
@@ -60,10 +61,9 @@ jobs:
           echo "nemoPayAppId=80405" >> lib/src/env.dart
           echo "casUrl='https://cas.utc.fr/cas/'" >> lib/src/env.dart
           echo "nemoPayUrl='https://api.nemopay.net/'" >> lib/src/env.dart
-          echo "payUrlCallback=''" >> lib/src/env.dart
+          echo "payUrlCallback='https://assos.utc.fr/pay_app_callback'" >> lib/src/env.dart
           echo "nemoPayKey='${{secrets.WEEZPAY_APPKEY}}'" >> lib/src/env.dart
           echo "gingerKey='${{secrets.GINGER_APPKEY}}'" >> lib/src/env.dart
-      - name: Configure signature
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'
