@@ -3,15 +3,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/env.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/ui/screen/select_amount.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/env.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/ui/screen/select_amount.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentFlowPage extends StatefulWidget {
   final double amount;
-
 
   const PaymentFlowPage({Key? key, required this.amount}) : super(key: key);
   static int _max = -1;
@@ -85,7 +84,8 @@ class _PaymentFlowPageState extends State<PaymentFlowPage> {
         ),
         backgroundColor: Colors.black,
         body: FutureBuilder<String>(
-            future: AppService.instance.nemoPayApi.requestTransfertUrl(widget.amount),
+            future: AppService.instance.nemoPayApi
+                .requestTransfertUrl(widget.amount),
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return ClipRRect(
@@ -95,7 +95,7 @@ class _PaymentFlowPageState extends State<PaymentFlowPage> {
                       child: WebView(
                     javascriptMode: JavascriptMode.unrestricted,
                     initialUrl: snapshot.data!,
-                    onWebViewCreated: (controller)=>_controller = controller,
+                    onWebViewCreated: (controller) => _controller = controller,
                     onPageStarted: (navigation) {
                       Uri url = Uri.parse(navigation);
                       print(navigation);

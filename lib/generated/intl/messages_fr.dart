@@ -38,9 +38,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "card_blocked":
             MessageLookupByLibrary.simpleMessage("(Badge verrouillé)"),
         "connect": MessageLookupByLibrary.simpleMessage("Se connecter"),
-        "connectToPayut":
+        "connectToPayutc":
             MessageLookupByLibrary.simpleMessage("Se connecter\nà payutc"),
-        "connectToPayutSentence": MessageLookupByLibrary.simpleMessage(
+        "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
             "Connectez-vous pour utiliser l\'application payutc"),
         "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
             "En vous connectant vous acceptez les"),
@@ -70,7 +70,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "lastname": MessageLookupByLibrary.simpleMessage("Prénom"),
         "licenseDeLapplication":
             MessageLookupByLibrary.simpleMessage("Licence de l\'application"),
-        "licensesPayut": MessageLookupByLibrary.simpleMessage("Licence payutc"),
+        "licensesPayutc":
+            MessageLookupByLibrary.simpleMessage("Licence payutc"),
         "lock_card":
             MessageLookupByLibrary.simpleMessage("Verrouiller mon badge"),
         "lock_info": MessageLookupByLibrary.simpleMessage(
@@ -80,7 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Mentions légales"),
         "myAccount": MessageLookupByLibrary.simpleMessage("Mon compte"),
         "myCard": MessageLookupByLibrary.simpleMessage("Mon Badge"),
-        "myPayut": MessageLookupByLibrary.simpleMessage("Mon payut"),
+        "myPayutc": MessageLookupByLibrary.simpleMessage("Mon payutc"),
         "name": MessageLookupByLibrary.simpleMessage("Nom"),
         "no": MessageLookupByLibrary.simpleMessage("Non"),
         "noFavorisFound":
@@ -110,9 +111,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "removeFromFav":
             MessageLookupByLibrary.simpleMessage("Enlever des favoris"),
         "ressayer": MessageLookupByLibrary.simpleMessage("RESSAYER"),
-        "reveivedTransfertPayut": MessageLookupByLibrary.simpleMessage("Reçu"),
+        "reveivedTransfertPayutc": MessageLookupByLibrary.simpleMessage("Reçu"),
         "scan": MessageLookupByLibrary.simpleMessage("Scanner"),
-        "scannPayutCode":
+        "scannPayutcCode":
             MessageLookupByLibrary.simpleMessage("Scanner un qr code payutc"),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("Voir mon historique"),
@@ -120,7 +121,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "select_user":
             MessageLookupByLibrary.simpleMessage("Sélectionner un utilisateur"),
         "send": MessageLookupByLibrary.simpleMessage("Envoyer"),
-        "sendedTransfertPayut": MessageLookupByLibrary.simpleMessage("Envoyé"),
+        "sendedTransfertPayutc": MessageLookupByLibrary.simpleMessage("Envoyé"),
         "settings": MessageLookupByLibrary.simpleMessage("Paramètres"),
         "splashConnect": MessageLookupByLibrary.simpleMessage("SE CONNECTER"),
         "splashError":
@@ -128,7 +129,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "splashLoading": MessageLookupByLibrary.simpleMessage("Chargement.."),
         "statistics": MessageLookupByLibrary.simpleMessage("Stats"),
         "today": MessageLookupByLibrary.simpleMessage("Aujourd\'hui"),
-        "transfertPayut": MessageLookupByLibrary.simpleMessage("Virement"),
+        "transfertPayutc": MessageLookupByLibrary.simpleMessage("Virement"),
         "transfert_error": MessageLookupByLibrary.simpleMessage(
             "Impossible d\'exécuter ce transfert"),
         "transfert_montant_select_amount":

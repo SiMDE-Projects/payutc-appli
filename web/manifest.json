@@ -1,11 +1,11 @@
 {
-    "name": "payut",
-    "short_name": "payut",
+    "name": "payutc",
+    "short_name": "payutc",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "The payut app",
+    "description": "The payutc app",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

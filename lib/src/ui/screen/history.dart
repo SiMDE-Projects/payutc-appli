@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/models/PayUtHistory.dart';
-import 'package:payut/src/services/app.dart';
-import 'package:payut/src/services/history.dart';
-import 'package:payut/src/ui/component/payut_item.dart';
-import 'package:payut/src/ui/style/theme.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/PayUtcHistory.dart';
+import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/services/history.dart';
+import 'package:payutc/src/ui/component/payutc_item.dart';
+import 'package:payutc/src/ui/style/theme.dart';
 
 class HistoryPage extends StatefulWidget {
   const HistoryPage({Key? key}) : super(key: key);
@@ -97,7 +97,7 @@ class _HistoryPageState extends State<HistoryPage> {
               height: 15,
             ),
             for (final payItem in list.entries.elementAt(index).value)
-              PayutItemWidget(item: payItem),
+              PayutcItemWidget(item: payItem),
             const SizedBox(
               height: 20,
             ),
@@ -108,9 +108,9 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Map<String, List<PayUtItem>> formatDays(List<PayUtItem> inData) {
-    Map<String, List<PayUtItem>> out = {};
-    List<PayUtItem> items = inData;
+  Map<String, List<PayUtcItem>> formatDays(List<PayUtcItem> inData) {
+    Map<String, List<PayUtcItem>> out = {};
+    List<PayUtcItem> items = inData;
     for (final item in items) {
       String key = _generate(item.date);
       if (out[key] == null) {
@@ -118,7 +118,7 @@ class _HistoryPageState extends State<HistoryPage> {
       }
       out[key]!.add(item);
     }
-    Map<DateTime, List<PayUtItem>> itemsDate =
+    Map<DateTime, List<PayUtcItem>> itemsDate =
         out.map((key, value) => MapEntry(DateTime.parse(key), value));
     return itemsDate
         .map((key, value) => MapEntry(_stringOfDateDiff(key), value));

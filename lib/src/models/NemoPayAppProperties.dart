@@ -4,9 +4,10 @@
 
 class NemoPayAppProperties {
   NemoPayAppProperties({
-      this.config, 
-      this.id, 
-      this.name,});
+    this.config,
+    this.id,
+    this.name,
+  });
 
   NemoPayAppProperties.fromJson(dynamic json) {
     config = json['config'] != null ? Config.fromJson(json['config']) : null;
@@ -16,13 +17,16 @@ class NemoPayAppProperties {
   Config? config;
   num? id;
   String? name;
-NemoPayAppProperties copyWith({  Config? config,
-  num? id,
-  String? name,
-}) => NemoPayAppProperties(  config: config ?? this.config,
-  id: id ?? this.id,
-  name: name ?? this.name,
-);
+  NemoPayAppProperties copyWith({
+    Config? config,
+    num? id,
+    String? name,
+  }) =>
+      NemoPayAppProperties(
+        config: config ?? this.config,
+        id: id ?? this.id,
+        name: name ?? this.name,
+      );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     if (config != null) {
@@ -32,7 +36,6 @@ NemoPayAppProperties copyWith({  Config? config,
     map['name'] = name;
     return map;
   }
-
 }
 
 /// cappuccino_url : "wss://127.0.0.1:9192/events"
@@ -45,13 +48,14 @@ NemoPayAppProperties copyWith({  Config? config,
 
 class Config {
   Config({
-      this.cappuccinoUrl, 
-      this.casUrl, 
-      this.currencySymbol, 
-      this.enableCotisant, 
-      this.loginMode, 
-      this.nbDecimal, 
-      this.systemName,});
+    this.cappuccinoUrl,
+    this.casUrl,
+    this.currencySymbol,
+    this.enableCotisant,
+    this.loginMode,
+    this.nbDecimal,
+    this.systemName,
+  });
 
   Config.fromJson(dynamic json) {
     cappuccinoUrl = json['cappuccino_url'];
@@ -69,21 +73,24 @@ class Config {
   String? loginMode;
   num? nbDecimal;
   String? systemName;
-Config copyWith({  String? cappuccinoUrl,
-  String? casUrl,
-  String? currencySymbol,
-  bool? enableCotisant,
-  String? loginMode,
-  num? nbDecimal,
-  String? systemName,
-}) => Config(  cappuccinoUrl: cappuccinoUrl ?? this.cappuccinoUrl,
-  casUrl: casUrl ?? this.casUrl,
-  currencySymbol: currencySymbol ?? this.currencySymbol,
-  enableCotisant: enableCotisant ?? this.enableCotisant,
-  loginMode: loginMode ?? this.loginMode,
-  nbDecimal: nbDecimal ?? this.nbDecimal,
-  systemName: systemName ?? this.systemName,
-);
+  Config copyWith({
+    String? cappuccinoUrl,
+    String? casUrl,
+    String? currencySymbol,
+    bool? enableCotisant,
+    String? loginMode,
+    num? nbDecimal,
+    String? systemName,
+  }) =>
+      Config(
+        cappuccinoUrl: cappuccinoUrl ?? this.cappuccinoUrl,
+        casUrl: casUrl ?? this.casUrl,
+        currencySymbol: currencySymbol ?? this.currencySymbol,
+        enableCotisant: enableCotisant ?? this.enableCotisant,
+        loginMode: loginMode ?? this.loginMode,
+        nbDecimal: nbDecimal ?? this.nbDecimal,
+        systemName: systemName ?? this.systemName,
+      );
   Map<String, dynamic> toJson() {
     final map = <String, dynamic>{};
     map['cappuccino_url'] = cappuccinoUrl;
@@ -95,5 +102,4 @@ Config copyWith({  String? cappuccinoUrl,
     map['system_name'] = systemName;
     return map;
   }
-
 }

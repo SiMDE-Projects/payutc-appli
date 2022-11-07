@@ -30,9 +30,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("È per inviare i soldi lì."),
         "badPassword": MessageLookupByLibrary.simpleMessage("Password errata"),
         "connect": MessageLookupByLibrary.simpleMessage("Per accedere"),
-        "connectToPayut":
+        "connectToPayutc":
             MessageLookupByLibrary.simpleMessage("Per accedere\n"),
-        "connectToPayutSentence": MessageLookupByLibrary.simpleMessage(
+        "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
             "Accedi per utilizzare l\'app di pagamento"),
         "consomation": MessageLookupByLibrary.simpleMessage("Consumo"),
         "deleteRecentTransfert": MessageLookupByLibrary.simpleMessage(
@@ -44,7 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "historyReloads": MessageLookupByLibrary.simpleMessage("Ricariche"),
         "historytransferts":
             MessageLookupByLibrary.simpleMessage("Trasferimenti"),
-        "myPayut": MessageLookupByLibrary.simpleMessage("Il mio pagamento"),
+        "myPayutc": MessageLookupByLibrary.simpleMessage("Il mio pagamento"),
         "noFavorisFound":
             MessageLookupByLibrary.simpleMessage("Nessun preferito salvato"),
         "noTransfertFound": MessageLookupByLibrary.simpleMessage(
@@ -67,7 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "removeFromFav":
             MessageLookupByLibrary.simpleMessage("Rimuovi dai preferiti"),
         "ressayer": MessageLookupByLibrary.simpleMessage("RIPROVA"),
-        "reveivedTransfertPayut":
+        "reveivedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Ricevuto"),
         "scan": MessageLookupByLibrary.simpleMessage("Scannerizzare"),
         "see_history_sentence":
@@ -75,7 +75,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "select_user":
             MessageLookupByLibrary.simpleMessage("Seleziona un utente"),
         "send": MessageLookupByLibrary.simpleMessage("mandare"),
-        "sendedTransfertPayut": MessageLookupByLibrary.simpleMessage("Inviato"),
+        "sendedTransfertPayutc":
+            MessageLookupByLibrary.simpleMessage("Inviato"),
         "splashConnect": MessageLookupByLibrary.simpleMessage("PER ACCEDERE"),
         "splashError":
             MessageLookupByLibrary.simpleMessage("C\'è stato un errore"),
@@ -83,7 +84,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Caricamento in corso.."),
         "statistics": MessageLookupByLibrary.simpleMessage("Statistiche"),
         "today": MessageLookupByLibrary.simpleMessage("Oggi"),
-        "transfertPayut": MessageLookupByLibrary.simpleMessage("Pagamento"),
+        "transfertPayutc": MessageLookupByLibrary.simpleMessage("Pagamento"),
         "transfert_montant_select_amount":
             MessageLookupByLibrary.simpleMessage("Importo del trasferimento"),
         "userName": MessageLookupByLibrary.simpleMessage("nome utente"),

@@ -11,7 +11,4 @@ class ScreenOutput extends LogOutput {
   }
 }
 
-final Logger logger = Logger(
-  printer: PrettyPrinter(),
-  output: ScreenOutput()
-);
+final Logger logger = Logger(printer: PrettyPrinter(), output: ScreenOutput());

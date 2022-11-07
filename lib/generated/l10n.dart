@@ -50,11 +50,11 @@ class Translate {
     return Localizations.of<Translate>(context, Translate);
   }
 
-  /// `Mon payut`
-  String get myPayut {
+  /// `Mon Pay'UTC`
+  String get myPayutc {
     return Intl.message(
-      'Mon payut',
-      name: 'myPayut',
+      'Mon Pay\'UTC',
+      name: 'myPayutc',
       desc: '',
       args: [],
     );
@@ -321,20 +321,20 @@ class Translate {
   }
 
   /// `Se connecter\nà payutc`
-  String get connectToPayut {
+  String get connectToPayutc {
     return Intl.message(
       'Se connecter\nà payutc',
-      name: 'connectToPayut',
+      name: 'connectToPayutc',
       desc: '',
       args: [],
     );
   }
 
   /// `Connectez-vous pour utiliser l'application payutc`
-  String get connectToPayutSentence {
+  String get connectToPayutcSentence {
     return Intl.message(
       'Connectez-vous pour utiliser l\'application payutc',
-      name: 'connectToPayutSentence',
+      name: 'connectToPayutcSentence',
       desc: '',
       args: [],
     );
@@ -391,30 +391,30 @@ class Translate {
   }
 
   /// `Virement`
-  String get transfertPayut {
+  String get transfertPayutc {
     return Intl.message(
       'Virement',
-      name: 'transfertPayut',
+      name: 'transfertPayutc',
       desc: '',
       args: [],
     );
   }
 
   /// `Envoyé`
-  String get sendedTransfertPayut {
+  String get sendedTransfertPayutc {
     return Intl.message(
       'Envoyé',
-      name: 'sendedTransfertPayut',
+      name: 'sendedTransfertPayutc',
       desc: '',
       args: [],
     );
   }
 
   /// `Reçu`
-  String get reveivedTransfertPayut {
+  String get reveivedTransfertPayutc {
     return Intl.message(
       'Reçu',
-      name: 'reveivedTransfertPayut',
+      name: 'reveivedTransfertPayutc',
       desc: '',
       args: [],
     );
@@ -621,10 +621,10 @@ class Translate {
   }
 
   /// `Licence payutc`
-  String get licensesPayut {
+  String get licensesPayutc {
     return Intl.message(
       'Licence payutc',
-      name: 'licensesPayut',
+      name: 'licensesPayutc',
       desc: '',
       args: [],
     );
@@ -681,10 +681,10 @@ class Translate {
   }
 
   /// `Scanner un qr code payutc`
-  String get scannPayutCode {
+  String get scannPayutcCode {
     return Intl.message(
       'Scanner un qr code payutc',
-      name: 'scannPayutCode',
+      name: 'scannPayutcCode',
       desc: '',
       args: [],
     );

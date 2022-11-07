@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
-import 'package:payut/src/env.dart' as env;
+import 'package:payutc/src/env.dart' as env;
 import 'package:sentry_dio/sentry_dio.dart';
 
 class CasApi {

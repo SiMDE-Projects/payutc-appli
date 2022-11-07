@@ -1,11 +1,11 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:payut/src/env.dart' as env;
-import 'package:payut/src/models/NemoPayAppProperties.dart';
-import 'package:payut/src/models/PayUtHistory.dart';
-import 'package:payut/src/models/Wallet.dart';
-import 'package:payut/src/models/user.dart';
+import 'package:payutc/src/env.dart' as env;
+import 'package:payutc/src/models/NemoPayAppProperties.dart';
+import 'package:payutc/src/models/PayUtcHistory.dart';
+import 'package:payutc/src/models/Wallet.dart';
+import 'package:payutc/src/models/user.dart';
 import 'package:sentry_dio/sentry_dio.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
@@ -57,9 +57,9 @@ class NemoPayApi {
   }
 
   /// /services/MYACCOUNT/historique
-  Future<PayUtHistory> getUserHistory() async {
+  Future<PayUtcHistory> getUserHistory() async {
     final resp = await client.post("services/MYACCOUNT/historique", data: {});
-    return PayUtHistory.fromJson(resp.data);
+    return PayUtcHistory.fromJson(resp.data);
   }
 
   Future<List<User>> searchForUser(String request) async {

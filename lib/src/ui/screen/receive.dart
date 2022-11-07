@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/services/app.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/services/app.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:screen_brightness/screen_brightness.dart';
 
@@ -82,7 +82,7 @@ class _ReceivePageState extends State<ReceivePage> {
               // ElevatedButton(
               //   onPressed: () async {
               //     brightnessController.resetScreenBrightness();
-              //     await Share.shareWithResult("Mon profil payut :)\n" +
+              //     await Share.shareWithResult("Mon profil payutc :)\n" +
               //         AppService.instance.generateShareLink());
               //     brightnessController.setScreenBrightness(1);
               //   },

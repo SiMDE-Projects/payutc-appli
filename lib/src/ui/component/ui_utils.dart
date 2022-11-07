@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/models/user.dart';
-import 'package:payut/src/ui/screen/transfert_select_amount.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/user.dart';
+import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -102,33 +102,34 @@ void showUserCard(BuildContext context, User user) {
     ),
   );
 }
+
 Widget btnAccount(String text, GestureTapCallback onTap) => Container(
-  clipBehavior: Clip.hardEdge,
-  decoration: BoxDecoration(
-      color: Colors.black, borderRadius: BorderRadius.circular(15)),
-  margin: const EdgeInsets.symmetric(vertical: 10),
-  child: Material(
-    color: Colors.transparent,
-    child: InkWell(
-      onTap: onTap,
-      child: Padding(
-        padding: const EdgeInsets.all(15),
-        child: Row(
-          children: [
-            Expanded(
-              child: Text(
-                text,
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
+      clipBehavior: Clip.hardEdge,
+      decoration: BoxDecoration(
+          color: Colors.black, borderRadius: BorderRadius.circular(15)),
+      margin: const EdgeInsets.symmetric(vertical: 10),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.all(15),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    text,
+                    style: const TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
+                ),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  color: Colors.white,
+                ),
+              ],
             ),
-            const Icon(
-              Icons.arrow_forward_ios,
-              color: Colors.white,
-            ),
-          ],
+          ),
         ),
       ),
-    ),
-  ),
-);
+    );

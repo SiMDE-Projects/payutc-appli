@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:payut/generated/l10n.dart';
-import 'package:payut/src/ui/style/color.dart';
+import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/ui/style/color.dart';
 
 class SelectAmount extends StatefulWidget {
   final void Function(BuildContext context, double amount) onAmountSelected;
@@ -11,9 +11,9 @@ class SelectAmount extends StatefulWidget {
 
   const SelectAmount(
       {Key? key,
-        required this.onAmountSelected,
-        required this.motif,
-        this.validator})
+      required this.onAmountSelected,
+      required this.motif,
+      this.validator})
       : super(key: key);
 
   @override
@@ -64,9 +64,9 @@ class _SelectAmountState extends State<SelectAmount> {
                 builder: (context, snapshot) {
                   return Center(
                       child: Text(
-                        "${controller.text} €",
-                        style: TextStyle(fontSize: 35),
-                      ));
+                    "${controller.text} €",
+                    style: TextStyle(fontSize: 35),
+                  ));
                 }),
           ),
           Expanded(
@@ -199,8 +199,8 @@ class _SelectAmountState extends State<SelectAmount> {
             controller.text.substring(0, controller.text.length - 1);
       }
     } else if (num == -2) {
-      if (controller.text.length<3) {
-        controller.text = "${controller.text}.".padLeft(3,'0');
+      if (controller.text.length < 3) {
+        controller.text = "${controller.text}.".padLeft(3, '0');
       }
       if (!controller.text.contains(".") && controller.text.length < 3) {
         controller.text += ".";
