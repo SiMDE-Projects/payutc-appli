@@ -4,10 +4,10 @@ import 'package:payutc/src/models/payutc_history.dart';
 import '../../services/app.dart';
 import '../style/color.dart';
 
-class PayutcItemWidget extends StatelessWidget {
+class PayUtcItemWidget extends StatelessWidget {
   final PayUtcItem item;
 
-  const PayutcItemWidget({Key? key, required this.item}) : super(key: key);
+  const PayUtcItemWidget({Key? key, required this.item}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +103,7 @@ class PayutcItemWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     FittedBox(
-                      fit: BoxFit.fitWidth,
+                      fit: BoxFit.scaleDown,
                       child: Text(
                         item.nameExtracted(context),
                         style: const TextStyle(

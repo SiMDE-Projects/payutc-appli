@@ -1,7 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import 'intl/messages_all.dart';
 
 // **************************************************************************
@@ -51,10 +50,10 @@ class Translate {
     return Localizations.of<Translate>(context, Translate);
   }
 
-  /// `Mon Pay'UTC`
+  /// `Mon payutc`
   String get myPayutc {
     return Intl.message(
-      'Mon Pay\'UTC',
+      'Mon payutc',
       name: 'myPayutc',
       desc: '',
       args: [],
@@ -927,10 +926,8 @@ class AppLocalizationDelegate extends LocalizationsDelegate<Translate> {
 
   @override
   bool isSupported(Locale locale) => _isSupported(locale);
-
   @override
   Future<Translate> load(Locale locale) => Translate.load(locale);
-
   @override
   bool shouldReload(AppLocalizationDelegate old) => false;
 

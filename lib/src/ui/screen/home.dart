@@ -191,6 +191,11 @@ class _HomePageState extends State<HomePage>
                         _receivePage,
                       ),
                       _buildCard(
+                        Translate.of(context).statistics,
+                        const Icon(Icons.stacked_line_chart, size: 30),
+                        _statPage,
+                      ),
+                      _buildCard(
                         Translate.of(context).history,
                         const Icon(Icons.history, size: 30),
                         () {
@@ -366,7 +371,7 @@ class _HomePageState extends State<HomePage>
                                   height: 15,
                                 ),
                                 for (final payItem in item.value)
-                                  PayutcItemWidget(item: payItem),
+                                  PayUtcItemWidget(item: payItem),
                                 const SizedBox(
                                   height: 20,
                                 ),

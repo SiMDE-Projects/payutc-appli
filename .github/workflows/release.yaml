@@ -63,6 +63,7 @@ jobs:
           echo "const String payUrlCallback='https://assos.utc.fr/pay_app_callback';" >> lib/src/env.dart
           echo "const String nemoPayKey='${{secrets.WEEZPAY_APPKEY}}';" >> lib/src/env.dart
           echo "const String gingerKey='${{secrets.GINGER_APPKEY}}';" >> lib/src/env.dart
+          echo "const String sentryDsn='${{secrets.SENTRY_DSN}}';" >> lib/src/env.dart
       - uses: actions/setup-java@v1
         with:
           java-version: '12.x'

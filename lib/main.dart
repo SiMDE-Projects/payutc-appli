@@ -8,6 +8,7 @@ import 'package:payutc/src/ui/style/theme.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'generated/l10n.dart';
+import 'src/env.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,8 +21,7 @@ void main() async {
       (details) => logger.e(details.context, details.exception, details.stack);
   await SentryFlutter.init(
     (options) {
-      options.dsn =
-          'https://5bdd3922509d45f290d2e08ce0555325@o1296214.ingest.sentry.io/4503959508353024';
+      options.dsn = sentryDsn;
       options.tracesSampleRate = 1.0;
     },
     appRunner: () => runApp(const PayutcApp()),
@@ -37,7 +37,7 @@ class PayutcApp extends StatelessWidget {
       animation: AppService.instance,
       builder: (context, snapshot) {
         return MaterialApp(
-          title: 'Pay\'ut',
+          title: 'PayUTC',
           theme: AppTheme.getTheme(Brightness.light),
           home: const SplashPage(),
           localizationsDelegates: const [
