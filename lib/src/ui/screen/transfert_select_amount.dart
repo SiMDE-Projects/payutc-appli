@@ -227,7 +227,7 @@ class _SelectTransfertAmountScreenState
                                   Translate.of(context).authReasonTransfert,
                               authMessages: [
                                 const AndroidAuthMessages(
-                                  signInTitle: "Transfert pay'ut",
+                                  signInTitle: "Transfert payUTC",
                                 )
                               ],
                             );

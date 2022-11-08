@@ -54,11 +54,11 @@ class _AccountPageState extends State<AccountPage> {
                         padding: const EdgeInsets.all(15),
                         child: Row(
                           children: [
-                            const CircleAvatar(
+                            CircleAvatar(
                               radius: 30,
                               backgroundColor: AppColors.orange,
                               foregroundColor: Colors.white,
-                              child: Text("TJ"),
+                              child: Text("${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName??"U")}".toUpperCase()),
                             ),
                             const SizedBox(
                               width: 10,
@@ -184,6 +184,16 @@ class _AccountPageState extends State<AccountPage> {
   void _aproposScreen() {
     Navigator.push(
         context, CupertinoPageRoute(builder: (builder) => const APropos()));
+  }
+
+  _getFirst(String? firstName) {
+    if (firstName == null) {
+      return "U";
+    }
+    if(firstName.length == 1){
+      return firstName;
+    }
+    return firstName.substring(0, 1);
   }
 }
 
