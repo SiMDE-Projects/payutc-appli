@@ -84,11 +84,13 @@ void showUserCard(BuildContext context, User user) {
                     backgroundColor: Colors.black, elevation: 0),
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      CupertinoPageRoute(
-                          builder: (builder) => SelectTransfertAmountScreen(
-                                target: user,
-                              )));
+                    context,
+                    CupertinoPageRoute(
+                      builder: (builder) => SelectTransfertAmountScreen(
+                        target: user,
+                      ),
+                    ),
+                  );
                 },
                 child: Text(Translate.of(context).beginTransfert),
               ),
