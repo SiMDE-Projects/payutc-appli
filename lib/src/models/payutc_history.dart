@@ -81,7 +81,7 @@ class PayUtcItem {
   dynamic invoice;
   String? lastname;
   String? name;
-  num quantity = 0;
+  num quantity = 1;
   bool? removed;
   late String type;
   num? productId;
@@ -119,7 +119,7 @@ class PayUtcItem {
 
   String nameExtracted(BuildContext context) {
     if (isVirement) {
-      return "${Translate.of(context).transfertPayutc}${isOutAmount ? "(${Translate.of(context).sendedTransfertPayutc})" : "(${Translate.of(context).reveivedTransfertPayutc})"}";
+      return "${Translate.of(context).transfertPayutc}${"(${"$firstname ${(lastname?.isNotEmpty??false)?lastname?.substring(0, 1):""}."})"}";
     }
     if (type == "RECHARGE") return Translate.of(context).reloading;
     return "${quantity.abs().toInt()} $name";
@@ -130,4 +130,5 @@ class PayUtcItem {
         other.date.day == date.day &&
         other.date.month == date.month;
   }
+  String get userVirName =>"$firstname ${(lastname?.isNotEmpty??false)?lastname?.substring(0, 1):""}.";
 }
