@@ -267,7 +267,10 @@ class _SelectTransfertAmountScreenState
                           }
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Envoyé !")));
+                              const SnackBar(
+                                content: Text("Envoyé !"),
+                              ),
+                            );
                             Navigator.pop(context, true);
                           }
                         },

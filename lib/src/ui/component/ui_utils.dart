@@ -90,7 +90,11 @@ void showUserCard(BuildContext context, User user) {
                         target: user,
                       ),
                     ),
-                  );
+                  ).then((value) {
+                    if((value??false) && Navigator.canPop(context)) {
+                      Navigator.pop(context);
+                    }
+                  });
                 },
                 child: Text(Translate.of(context).beginTransfert),
               ),
