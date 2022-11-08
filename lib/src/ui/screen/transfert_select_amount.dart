@@ -227,7 +227,7 @@ class _SelectTransfertAmountScreenState
                                   Translate.of(context).authReasonTransfert,
                               authMessages: [
                                 const AndroidAuthMessages(
-                                  signInTitle: "Transfert pay'ut",
+                                  signInTitle: "Transfert payUTC",
                                 )
                               ],
                             );
@@ -267,7 +267,10 @@ class _SelectTransfertAmountScreenState
                           }
                           if (mounted) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(content: Text("Envoyé !")));
+                              const SnackBar(
+                                content: Text("Envoyé !"),
+                              ),
+                            );
                             Navigator.pop(context, true);
                           }
                         },

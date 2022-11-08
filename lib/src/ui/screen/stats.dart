@@ -260,7 +260,7 @@ class _StatPageState extends State<StatPage> {
     return map;
   }
 
-  List<PayUtcItem> sortQtt(Map map) {
+  List<PayUtcItem> sortQtt(Map<num, List<PayUtcItem>> map) {
     List<PayUtcItem> list = [];
     map.forEach((key, value) {
       //copy item [0] and add quantity
@@ -268,8 +268,9 @@ class _StatPageState extends State<StatPage> {
         name: value[0].name,
         imageUrl: value[0].imageUrl,
         productId: value[0].productId,
-        quantity: value.length,
-        amount: value[0].amount,
+        quantity: value.fold(
+            0, (previousValue, element) => previousValue + element.quantity),
+        amount: value[0].amount! / value[0].quantity,
       );
       list.add(item);
     });
@@ -298,7 +299,7 @@ class _StatPageState extends State<StatPage> {
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
         const SizedBox(height: 20),
-        _buildTopDays(history),
+        _buildTopWidget(_extractTopDays(history)),
         const SizedBox(height: 20),
         const Text("Virements",
             style: TextStyle(fontSize: 20, color: Colors.white)),
@@ -311,6 +312,14 @@ class _StatPageState extends State<StatPage> {
                 "Reçus ${AppService.instance.translateMoney(virInAmount / 100)}"),
           ],
         ),
+        const SizedBox(height: 20),
+        const Text("Sugar daddy(s)",
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+        _buildTopWidget(_extractMostReceivedMoneyFrom(history)),
+        const SizedBox(height: 20),
+        const Text("Je suis un sugar daddy de",
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+        _buildTopWidget(_extractMostSendMoneyFrom(history)),
         const SizedBox(height: 20),
         const Text("Apports",
             style: TextStyle(fontSize: 20, color: Colors.white)),
@@ -327,8 +336,7 @@ class _StatPageState extends State<StatPage> {
       ],
     );
   }
-
-  _buildTopDays(List<PayUtcItem> history) {
+  _extractTopDays(List<PayUtcItem> history){
     Map<int, PayUtcItem> map = {};
     for (PayUtcItem item in history) {
       if (item.isOutAmount && item.isProduct && (item.amount ?? 1500) < 1500) {
@@ -347,6 +355,9 @@ class _StatPageState extends State<StatPage> {
     }
     List<PayUtcItem> list = map.values.toList();
     list.sort((a, b) => b.amount!.compareTo(a.amount!));
+    return list;
+  }
+  _buildTopWidget(List<PayUtcItem> list) {
     return Column(
       children: [
         SizedBox(
@@ -428,6 +439,49 @@ class _StatPageState extends State<StatPage> {
       ],
     );
   }
+
+  List<PayUtcItem> _extractMostReceivedMoneyFrom(List<PayUtcItem> history) {
+    Map<String,List<PayUtcItem>> map = {};
+    for (PayUtcItem item in history) {
+      if (item.isInAmount && item.isVirement){
+        if (map.containsKey(item.userVirName)) {
+          map[item.userVirName]!.add(item);
+        } else {
+          map[item.userVirName] = [item];
+        }
+      }
+    }
+    List<PayUtcItem> list = [];
+    map.forEach((key, value) {
+      list.add(PayUtcItem(
+          name: key,
+          amount: value.fold(0, (previousValue, element) => (previousValue??0) + (element.amount ?? 0)),
+          quantity: value.length));
+    });
+    list.sort((a, b) => b.amount!.compareTo(a.amount!));
+    return list.length> 4 ? list.sublist(0, 4) : list;
+  }
+  List<PayUtcItem> _extractMostSendMoneyFrom(List<PayUtcItem> history) {
+    Map<String,List<PayUtcItem>> map = {};
+    for (PayUtcItem item in history) {
+      if (item.isOutAmount && item.isVirement){
+        if (map.containsKey(item.userVirName)) {
+          map[item.userVirName]!.add(item);
+        } else {
+          map[item.userVirName] = [item];
+        }
+      }
+    }
+    List<PayUtcItem> list = [];
+    map.forEach((key, value) {
+      list.add(PayUtcItem(
+          name: key,
+          amount: value.fold(0, (previousValue, element) => (previousValue??0) + (element.amount ?? 0)),
+          quantity: value.length));
+    });
+    list.sort((a, b) => b.amount!.compareTo(a.amount!));
+    return list.length> 4 ? list.sublist(0, 4) : list;
+  }
 }
 
 class PieItems {
@@ -488,7 +542,11 @@ class _PieState extends State<Pie> {
       const SizedBox(
         width: 20,
       ),
-      Flexible(flex: 1, fit: FlexFit.tight, child: _buildLegend()),
+      Flexible(
+        flex: 1,
+        fit: FlexFit.tight,
+        child: _buildLegend(),
+      ),
     ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
@@ -661,7 +719,7 @@ class _ProductPageState extends State<ProductPage> {
                     style: const TextStyle(color: Colors.white),
                   ),
                   Text(
-                    " (${widget.item.quantity} achats)",
+                    " (${widget.item.quantity.toInt()} achats)",
                     style: const TextStyle(color: Colors.white),
                   ),
                   const Spacer(),
@@ -697,12 +755,12 @@ class _ProductPageState extends State<ProductPage> {
                           style: const TextStyle(color: Colors.white),
                         ),
                         subtitle: Text(
-                          "${item.quantity} achats",
+                          "${item.quantity.toInt()} achats",
                           style: const TextStyle(color: Colors.white),
                         ),
                         trailing: Text(
-                          AppService.instance.translateMoney(
-                              ((item.amount ?? 1) * item.quantity) / 100),
+                          AppService.instance
+                              .translateMoney(((item.amount ?? 1)) / 100),
                           style: const TextStyle(color: AppColors.orange),
                         ),
                       ),

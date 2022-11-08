@@ -346,9 +346,12 @@ class _LoginPageState extends State<LoginPage> {
           content: Text(Translate.of(context).splashError),
         ),
       );
+    }finally {
+      if (mounted) {
+        setState(() {
+          loading = false;
+        });
+      }
     }
-    setState(() {
-      loading = false;
-    });
   }
 }

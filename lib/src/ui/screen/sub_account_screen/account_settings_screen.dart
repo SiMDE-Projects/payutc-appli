@@ -179,7 +179,7 @@ class APropos extends StatelessWidget {
         children: [
           btnAccount(
             "Remercier le développer",
-                () {
+            () {
               showUserCard(
                 context,
                 User.fromJson(
@@ -194,14 +194,14 @@ class APropos extends StatelessWidget {
           ),
           btnAccount(
             Translate.of(context).mentionsLgales,
-                () {
+            () {
               showWebView(context, "assets/therms/contact.html",
                   Translate.of(context).mentionsLgales);
             },
           ),
           btnAccount(
             Translate.of(context).licensesPayutc,
-                () {
+            () {
               showWebView(
                 context,
                 "assets/therms/gnu.html",
@@ -211,7 +211,7 @@ class APropos extends StatelessWidget {
           ),
           btnAccount(
             Translate.of(context).licenseDeLapplication,
-                () {
+            () {
               showLicensePage(
                 context: context,
                 applicationName: "Pay'ut",
