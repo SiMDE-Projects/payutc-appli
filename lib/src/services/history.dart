@@ -71,12 +71,16 @@ class HistoryController extends ChangeNotifier {
     }
     Map<DateTime, List<PayUtcItem>> itemsDate =
         out.map((key, value) => MapEntry(DateTime.parse(key), value));
-    DateTime mostRecent = itemsDate.keys
-        .reduce((value, element) => value.isAfter(element) ? value : element);
-    itemsDate
-        .removeWhere((key, value) => mostRecent.difference(key).inDays > 10);
-    return itemsDate
-        .map((key, value) => MapEntry(_stringOfDateDiff(context, key), value));
+    //get most 7 most recents dates
+    List<DateTime> dates = itemsDate.keys.toList();
+    dates.sort((a, b) => b.compareTo(a));
+    dates = dates.sublist(0, dates.length > 5 ? 5 : dates.length);
+    //get items for each date
+    Map<String, List<PayUtcItem>> out2 = {};
+    for (final date in dates) {
+      out2[_stringOfDateDiff(context,date)] = itemsDate[date]!;
+    }
+    return out2;
   }
 
   String _generate(DateTime date) =>
