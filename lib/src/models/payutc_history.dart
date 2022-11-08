@@ -38,6 +38,23 @@ class PayUtcHistory {
 /// type : "VIROUT"
 
 class PayUtcItem {
+  PayUtcItem({
+    this.amount,
+    DateTime ? date,
+    this.firstname,
+    this.fun,
+    this.id,
+    this.imageId,
+    this.invoice,
+    this.lastname,
+    this.name,
+    this.quantity = 1,
+    this.removed,
+    this.type = 'PURCHASE',
+    this.imageUrl,
+    this.productId,
+  }):date = date ?? DateTime.now();
+
   PayUtcItem.fromJson(dynamic json) {
     amount = json['amount'];
     date = DateTime.parse(json['date'] ?? "");
@@ -51,6 +68,8 @@ class PayUtcItem {
     quantity = json['quantity'];
     removed = json['removed'];
     type = json['type'];
+    productId = json['product_id'];
+    imageUrl = json['image_url'];
   }
 
   num? amount;
@@ -62,13 +81,16 @@ class PayUtcItem {
   dynamic invoice;
   String? lastname;
   String? name;
-  num? quantity;
+  num quantity = 0;
   bool? removed;
   late String type;
+  num? productId;
+  String? imageUrl;
 
+  bool get isProduct => productId != null;
   bool get isOutAmount {
     //Consigne éco-cup
-    if (type == "PURCHASE" && quantity!.isNegative) return false;
+    if (type == "PURCHASE" && quantity.isNegative) return false;
     //Si achat ou virement
     if (type == "PURCHASE" || type == "VIROUT") return true;
     return false;
@@ -100,7 +122,7 @@ class PayUtcItem {
       return "${Translate.of(context).transfertPayutc}${isOutAmount ? "(${Translate.of(context).sendedTransfertPayutc})" : "(${Translate.of(context).reveivedTransfertPayutc})"}";
     }
     if (type == "RECHARGE") return Translate.of(context).reloading;
-    return "${quantity!.abs().toInt()} $name";
+    return "${quantity.abs().toInt()} $name";
   }
 
   bool isAtSameDay(PayUtcItem other) {

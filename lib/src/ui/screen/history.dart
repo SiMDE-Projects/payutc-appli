@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:payutc/generated/l10n.dart';
-import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
+import 'package:payutc/src/services/utils.dart';
 import 'package:payutc/src/ui/component/payutc_item.dart';
 import 'package:payutc/src/ui/style/theme.dart';
 
@@ -19,6 +19,7 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   void initState() {
+    //maybe for the future in case of a lot of history -> Use compute() in **Isolate** and a loading screen
     compute();
     super.initState();
   }
@@ -97,7 +98,7 @@ class _HistoryPageState extends State<HistoryPage> {
               height: 15,
             ),
             for (final payItem in list.entries.elementAt(index).value)
-              PayutcItemWidget(item: payItem),
+              PayUtcItemWidget(item: payItem),
             const SizedBox(
               height: 20,
             ),
@@ -108,32 +109,7 @@ class _HistoryPageState extends State<HistoryPage> {
     );
   }
 
-  Map<String, List<PayUtcItem>> formatDays(List<PayUtcItem> inData) {
-    Map<String, List<PayUtcItem>> out = {};
-    List<PayUtcItem> items = inData;
-    for (final item in items) {
-      String key = _generate(item.date);
-      if (out[key] == null) {
-        out[key] = [];
-      }
-      out[key]!.add(item);
-    }
-    Map<DateTime, List<PayUtcItem>> itemsDate =
-        out.map((key, value) => MapEntry(DateTime.parse(key), value));
-    return itemsDate
-        .map((key, value) => MapEntry(_stringOfDateDiff(key), value));
-  }
 
-  String _generate(DateTime date) =>
-      "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
-
-  String _stringOfDateDiff(DateTime key) {
-    DateTime now = DateTime.now();
-    Duration diff = now.difference(key);
-    if (diff.abs().inDays < 1) return "aujourd'hui";
-    if (diff.abs().inDays < 2) return "Hier";
-    return "Le ${key.day.toString().padLeft(2, '0')}/${key.month.toString().padLeft(2, '0')}/${key.year}";
-  }
 
   void compute() async {
     HistoryService service = AppService.instance.historyService;
