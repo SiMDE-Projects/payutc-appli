@@ -2,6 +2,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/utils.dart';
@@ -37,7 +38,7 @@ class _StatPageState extends State<StatPage> {
         centerTitle: true,
       ),
       body: DefaultTabController(
-        length: 4,
+        length: 5,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -60,6 +61,9 @@ class _StatPageState extends State<StatPage> {
                 ),
                 Tab(
                   child: Text("Depuis le jour 1"),
+                ),
+                Tab(
+                  child: Text("SY02"),
                 ),
               ],
             ),
@@ -85,6 +89,7 @@ class _StatPageState extends State<StatPage> {
                     _buildPage(history, DateTime(DateTime.now().year),
                         DateTime.now(), "l'année actuelle"),
                     _buildPage(history, null, null, "la totale"),
+                    _buildCrazyStats(history),
                   ],
                 ),
               ),
@@ -270,6 +275,280 @@ class _StatPageState extends State<StatPage> {
     });
     list.sort((a, b) => b.quantity.compareTo(a.quantity));
     return list;
+  }
+
+  Widget _buildCrazyStats(List<PayUtcItem> history) {
+    List vir = history.where((element) => element.isVirement).toList();
+    List reloads = history.where((element) => element.isReload).toList();
+    num reloadsAmount = reloads.fold(
+        0, (previousValue, element) => previousValue + element.amount!);
+    List virOut = vir.where((element) => element.isOutAmount).toList();
+    num virOutAmount = virOut.fold(
+        0, (previousValue, element) => previousValue + element.amount!);
+    List virIn = vir.where((element) => element.isInAmount).toList();
+    num virInAmount = virIn.fold(
+        0, (previousValue, element) => previousValue + element.amount!);
+    num totalIn = reloadsAmount + virInAmount;
+    num virTotal = virOutAmount + virInAmount;
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        const Text(
+          "Jours avec le plus de dépenses",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        const SizedBox(height: 20),
+        _buildTopDays(history),
+        const SizedBox(height: 20),
+        const Text("Virements",
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+        const SizedBox(height: 5),
+        Pie(
+          items: [
+            PieItems(AppColors.red, virOutAmount / virTotal,
+                "Envoyés ${AppService.instance.translateMoney(virOutAmount / 100)}"),
+            PieItems(AppColors.orange, virInAmount / virTotal,
+                "Reçus ${AppService.instance.translateMoney(virInAmount / 100)}"),
+          ],
+        ),
+        const SizedBox(height: 20),
+        const Text("Apports",
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+        const SizedBox(height: 5),
+        Pie(
+          items: [
+            PieItems(AppColors.red, virInAmount / totalIn,
+                "Virements reçus ${AppService.instance.translateMoney(virInAmount / 100)}"),
+            PieItems(AppColors.orange, reloadsAmount / totalIn,
+                "Recharges ${AppService.instance.translateMoney(reloadsAmount / 100)}"),
+          ],
+          reverse: true,
+        ),
+      ],
+    );
+  }
+
+  _buildTopDays(List<PayUtcItem> history) {
+    Map<int, PayUtcItem> map = {};
+    for (PayUtcItem item in history) {
+      if (item.isOutAmount && item.isProduct && (item.amount ?? 1500) < 1500) {
+        if (map.containsKey(item.date.weekday)) {
+          map[item.date.weekday]!.amount =
+              (map[item.date.weekday]!.amount ?? 0) + (item.amount ?? 0);
+          map[item.date.weekday]!.quantity =
+              map[item.date.weekday]!.quantity + 1;
+        } else {
+          map[item.date.weekday] = PayUtcItem(
+              amount: item.amount,
+              name: DateFormat("EEEE", "fr_FR").format(item.date).toUpperCase(),
+              quantity: 1);
+        }
+      }
+    }
+    List<PayUtcItem> list = map.values.toList();
+    list.sort((a, b) => b.amount!.compareTo(a.amount!));
+    return Column(
+      children: [
+        SizedBox(
+          height: 200,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              if (list.length > 1)
+                _buildScore(list[1], 110, AppColors.orange.shade900),
+              if (list.isNotEmpty) _buildScore(list[0], 150, AppColors.red),
+              if (list.length > 2)
+                _buildScore(list[2], 80, AppColors.orange.shade500),
+            ],
+          ),
+        ),
+        if (list.length > 3)
+          for (final item in list.sublist(3)) ...[
+            const SizedBox(height: 10),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+              decoration: BoxDecoration(
+                color: AppColors.orange.shade300,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    item.name ?? "",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  Text(
+                    AppService.instance
+                        .translateMoney((item.amount ?? 0) / 100),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ],
+              ),
+            )
+          ]
+      ],
+    );
+  }
+
+  Widget _buildScore(PayUtcItem item, double height, Color color) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Text(
+          "${item.name}",
+          style: const TextStyle(color: Colors.white),
+        ),
+        Container(
+          margin: const EdgeInsets.only(top: 10, right: 5, left: 5),
+          constraints: const BoxConstraints(maxWidth: 100),
+          height: height,
+          decoration: BoxDecoration(
+            color: color,
+            borderRadius: BorderRadius.circular(15),
+          ),
+          child: Stack(
+            children: [
+              Positioned.fill(
+                top: 15,
+                child: Align(
+                  alignment: Alignment.topCenter,
+                  child: Text(
+                    AppService.instance
+                        .translateMoney((item.amount ?? 0) / 100),
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class PieItems {
+  final Color color;
+  final double value;
+  final String label;
+
+  PieItems(this.color, this.value, this.label);
+}
+
+class Pie extends StatefulWidget {
+  final List<PieItems> items;
+  final bool reverse;
+
+  const Pie({super.key, required this.items, this.reverse = false});
+
+  @override
+  State<Pie> createState() => _PieState();
+}
+
+class _PieState extends State<Pie> {
+  int touchedIndex = -1;
+
+  @override
+  Widget build(BuildContext context) {
+    final widgets = [
+      Flexible(
+        flex: 1,
+        fit: FlexFit.tight,
+        child: AspectRatio(
+          aspectRatio: 1,
+          child: PieChart(
+            PieChartData(
+              pieTouchData: PieTouchData(
+                touchCallback: (FlTouchEvent event, pieTouchResponse) {
+                  setState(() {
+                    if (!event.isInterestedForInteractions ||
+                        pieTouchResponse == null ||
+                        pieTouchResponse.touchedSection == null) {
+                      touchedIndex = -1;
+                      return;
+                    }
+                    touchedIndex =
+                        pieTouchResponse.touchedSection!.touchedSectionIndex;
+                  });
+                },
+              ),
+              borderData: FlBorderData(
+                show: false,
+              ),
+              sectionsSpace: 0,
+              centerSpaceRadius: 50,
+              sections: showingSections(),
+            ),
+          ),
+        ),
+      ),
+      const SizedBox(
+        width: 20,
+      ),
+      Flexible(flex: 1, fit: FlexFit.tight, child: _buildLegend()),
+    ];
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+      child: Row(
+        children: widget.reverse ? widgets.reversed.toList() : widgets,
+      ),
+    );
+  }
+
+  List<PieChartSectionData> showingSections() {
+    return widget.items
+        .map(
+          (e) => PieChartSectionData(
+            color: e.color,
+            value: e.value,
+            title: e.label,
+            showTitle: false,
+            badgePositionPercentageOffset: 0.98,
+            badgeWidget: CircleAvatar(
+              backgroundColor: Colors.black,
+              child: Text(
+                "${(e.value * 100).toInt()}%",
+                style: const TextStyle(color: Colors.white),
+              ),
+            ),
+          ),
+        )
+        .toList();
+  }
+
+  _buildLegend() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (PieItems item in widget.items.toList()
+          ..sort((a, b) => b.value.compareTo(a.value))) ...[
+          Row(
+            children: [
+              Container(
+                width: 20,
+                height: 20,
+                margin: const EdgeInsets.only(bottom: 10),
+                decoration: BoxDecoration(
+                  color: item.color,
+                  shape: BoxShape.circle,
+                ),
+              ),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Text(
+                  item.label,
+                  style: const TextStyle(color: Colors.white),
+                  softWrap: true,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ],
+    );
   }
 }
 
