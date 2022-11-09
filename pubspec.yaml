@@ -83,6 +83,7 @@ flutter_intl:
   enabled: true
   main_locale: fr
   class_name: Translate
+  generate: true
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true

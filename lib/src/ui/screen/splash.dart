@@ -274,21 +274,6 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Text.rich(
-                          TextSpan(
-                            text: Translate.of(context).connect_mention_legs,
-                            children: [
-                              TextSpan(
-                                  text:
-                                      " ${Translate.of(context).mentionsLgales}",
-                                  style: const TextStyle(
-                                    color: AppColors.orange,
-                                  ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _mentionsLeg)
-                            ],
-                          ),
-                        ),
                       ],
                     ),
                   ),
@@ -298,14 +283,6 @@ class _LoginPageState extends State<LoginPage> {
           );
         }),
       ),
-    );
-  }
-
-  void _mentionsLeg() {
-    showWebView(
-      context,
-      "assets/therms/contact.html",
-      Translate.of(context).mentionsLgales,
     );
   }
 
