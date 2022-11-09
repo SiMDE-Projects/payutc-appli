@@ -1,13 +1,11 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
-import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/home.dart';
 import 'package:payutc/src/ui/style/color.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
@@ -126,6 +124,14 @@ class _SplashPageState extends State<SplashPage> {
     logger.i("User logged : $isLogged");
     await Future.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
+    if (isLogged) {
+      Sentry.configureScope(
+        (p0) => p0.setContexts(
+          "user",
+          {"username": AppService.instance.user.username},
+        ),
+      );
+    }
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -323,7 +329,7 @@ class _LoginPageState extends State<LoginPage> {
           content: Text(Translate.of(context).splashError),
         ),
       );
-    }finally {
+    } finally {
       if (mounted) {
         setState(() {
           loading = false;
