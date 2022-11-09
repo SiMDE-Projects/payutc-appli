@@ -65,7 +65,7 @@ dependencies:
   #logs
   logger: any
   logger_flutter_viewer: ^0.8.0
-  sentry_flutter: ^6.12.1
+  sentry_flutter: ^6.15.0
   sentry_dio: ^6.12.1
 
 dev_dependencies:
@@ -83,6 +83,7 @@ flutter_intl:
   enabled: true
   main_locale: fr
   class_name: Translate
+  generate: true
 # The following section is specific to Flutter packages.
 flutter:
   uses-material-design: true

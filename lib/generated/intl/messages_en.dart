@@ -38,7 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "connect": MessageLookupByLibrary.simpleMessage("To log in"),
         "connectToPayutc": MessageLookupByLibrary.simpleMessage("To log in\n"),
         "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
-            "Log in to use the pay\'ut app"),
+            "Log in to use the Pay'UTC app"),
         "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
             "By logging in you accept the"),
         "consomation": MessageLookupByLibrary.simpleMessage("Consumption"),
@@ -67,7 +67,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "licenseDeLapplication":
             MessageLookupByLibrary.simpleMessage("Application license"),
         "licensesPayutc":
-            MessageLookupByLibrary.simpleMessage("pay\'ut license"),
+            MessageLookupByLibrary.simpleMessage("Pay'UTC license"),
         "lock_card": MessageLookupByLibrary.simpleMessage("Lock my badge"),
         "lock_info": MessageLookupByLibrary.simpleMessage(
             "When the badge is locked, it can no longer be used to pay."),
@@ -95,7 +95,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Random sentence"),
         "receive": MessageLookupByLibrary.simpleMessage("Receive"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Scan the code with the pay\'ut app to share your profile."),
+            "Scan the code with the Pay'UTC app to share your profile."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Recent Transfers"),
         "reload": MessageLookupByLibrary.simpleMessage("Reload"),
@@ -108,7 +108,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Received"),
         "scan": MessageLookupByLibrary.simpleMessage("To scan"),
         "scannPayutcCode":
-            MessageLookupByLibrary.simpleMessage("Scan a pay\'ut qr code"),
+            MessageLookupByLibrary.simpleMessage("Scan a Pay'UTC qr code"),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("See my history"),
         "select": MessageLookupByLibrary.simpleMessage("Select"),

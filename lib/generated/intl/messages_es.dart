@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "connect": MessageLookupByLibrary.simpleMessage("Conectarse"),
         "connectToPayutc": MessageLookupByLibrary.simpleMessage("Conectarse\n"),
         "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
-            "Inicie sesión para usar la aplicación pay\'ut"),
+            "Inicie sesión para usar la aplicación Pay'UTC"),
         "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
             "Al iniciar sesión aceptas las"),
         "consomation": MessageLookupByLibrary.simpleMessage("Consumo"),
@@ -100,7 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Oración aleatoria"),
         "receive": MessageLookupByLibrary.simpleMessage("Recibir"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Escanee el código con la aplicación pay\'ut para compartir su perfil."),
+            "Escanee el código con la aplicación Pay'UTC para compartir su perfil."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Transferencias recientes"),
         "reload": MessageLookupByLibrary.simpleMessage("Recargar"),
