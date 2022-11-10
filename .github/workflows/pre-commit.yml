@@ -1,0 +1,22 @@
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+          with:
+            java-version: '12.x'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Install dependencies 📦
+        run: flutter pub get
+      - uses: pre-commit/action@v2.0.3
