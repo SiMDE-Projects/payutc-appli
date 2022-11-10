@@ -86,7 +86,7 @@ Future<void> translateArb(
         String translated =
             await translateGoogle(data["@@locale"], locale, entry.value);
         out[entry.key] = translated;
-      } catch (e) {}
+      } catch (_) {}
       counter++;
       stdout
           .write("\rTranslating for $locale:($counter/${data.entries.length})");

@@ -24,8 +24,9 @@ class WalletService extends ChangeNotifier {
       return context.nemoPayApi
           .getUserWallet(context.userName!)
           .then((value) => data = value)
-          .catchError((error, stackTrace) =>
-              logger.e("load wallet :", error, stackTrace));
+          .catchError((error, stackTrace) {
+            logger.e("load wallet :", error, stackTrace);
+          });
     }
     throw "Context error";
   }

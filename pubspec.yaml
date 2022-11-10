@@ -40,6 +40,7 @@ dependencies:
   dio: ^4.0.6
   dio_cookie_manager: ^2.0.0
   dio_smart_retry: ^1.3.2
+  cookie_jar: ^3.0.1
 
   #services
   local_auth: ^2.1.2
@@ -62,6 +63,7 @@ dependencies:
   qr_flutter: ^4.0.0
   fl_chart: ^0.55.1
   url_launcher: ^6.1.5
+
   #logs
   logger: any
   logger_flutter_viewer: ^0.8.0

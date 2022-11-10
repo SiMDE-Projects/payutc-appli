@@ -1,9 +1,11 @@
+// ignore_for_file: depend_on_referenced_packages
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:local_auth_android/local_auth_android.dart';
+import 'package:local_auth_ios/local_auth_ios.dart';
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/transfert.dart';
@@ -222,15 +224,27 @@ class _SelectTransfertAmountScreenState
                             if (!await auth.isDeviceSupported()) {
                               throw 'no-check-possible';
                             }
-                            didAuth = await auth.authenticate(
-                              localizedReason:
-                                  Translate.of(context).authReasonTransfert,
-                              authMessages: [
-                                const AndroidAuthMessages(
-                                  signInTitle: "Transfert payUTC",
-                                )
-                              ],
-                            );
+                            if (!await auth.canCheckBiometrics) {
+                              throw 'no-check-possible';
+                            }
+                            if (mounted) {
+                              didAuth = await auth.authenticate(
+                                localizedReason:
+                                    Translate.of(context).authReasonTransfert,
+                                authMessages: [
+                                  const AndroidAuthMessages(
+                                    signInTitle: "Transfert payUTC",
+                                  ),
+                                  const IOSAuthMessages(
+                                    cancelButton: "Annuler",
+                                    goToSettingsButton: "Paramètres",
+                                    goToSettingsDescription:
+                                        "Veuillez vous authentifier pour continuer",
+                                    lockOut: "Veuillez vous authentifier",
+                                  ),
+                                ],
+                              );
+                            }
                           } catch (e, st) {
                             logger.e('error Auth transfert', e, st);
                           }
@@ -300,7 +314,7 @@ class _SelectTransfertAmountScreenState
         initialChildSize: 0.5,
         minChildSize: 0.3,
         maxChildSize: 0.85,
-        snapSizes: [0.3, 0.5, 0.85],
+        snapSizes: const [0.3, 0.5, 0.85],
         snap: true,
         expand: false,
         builder: (_, controller) => SafeArea(
