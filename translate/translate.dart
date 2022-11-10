@@ -33,7 +33,6 @@ void main(List<String> args) async {
   switch (command) {
     case "arb":
       for (final locale in locales) {
-        if (locale == locales.first) continue;
         await translateArb(json, inFile.parent.path, locale);
       }
       break;

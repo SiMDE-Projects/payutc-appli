@@ -73,6 +73,10 @@ const translateClient = "YOUR_GOOGLE_TRANSLATE_CLIENT";
 dart ./translate/translate.dart <command> <local1,local2> <source_path>
 ```
 Type `dart ./translate/translate.dart` to see all commands examples
+#### To translate the app
+```shell
+dart .\translate\translate.dart arb en,es,it,de lib/l10n/intl_fr.arb
+```
 # Authors
 
 - [Tom JUMEL](https://github.com/TomJumel)

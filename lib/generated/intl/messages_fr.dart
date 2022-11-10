@@ -39,9 +39,9 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("(Badge verrouillé)"),
         "connect": MessageLookupByLibrary.simpleMessage("Se connecter"),
         "connectToPayutc":
-            MessageLookupByLibrary.simpleMessage("Se connecter\nà payutc"),
+            MessageLookupByLibrary.simpleMessage("Se connecter\nà Pay\'UTC"),
         "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
-            "Connectez-vous pour utiliser l\'application payutc"),
+            "Connectez-vous pour utiliser l\'application Pay\'UTC"),
         "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
             "En vous connectant vous acceptez les"),
         "consomation": MessageLookupByLibrary.simpleMessage("Consomation"),
@@ -71,7 +71,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "licenseDeLapplication":
             MessageLookupByLibrary.simpleMessage("Licence de l\'application"),
         "licensesPayutc":
-            MessageLookupByLibrary.simpleMessage("Licence payutc"),
+            MessageLookupByLibrary.simpleMessage("Licence Pay\'UTC"),
         "lock_card":
             MessageLookupByLibrary.simpleMessage("Verrouiller mon badge"),
         "lock_info": MessageLookupByLibrary.simpleMessage(
@@ -81,7 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Mentions légales"),
         "myAccount": MessageLookupByLibrary.simpleMessage("Mon compte"),
         "myCard": MessageLookupByLibrary.simpleMessage("Mon Badge"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("Mon payutc"),
+        "myPayutc": MessageLookupByLibrary.simpleMessage("Mon Pay\'UTC"),
         "name": MessageLookupByLibrary.simpleMessage("Nom"),
         "no": MessageLookupByLibrary.simpleMessage("Non"),
         "noFavorisFound":
@@ -101,7 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Phrase aléatoire"),
         "receive": MessageLookupByLibrary.simpleMessage("Recevoir"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Fait scanner le code avec l\'application payutc pour partager ton profil."),
+            "Fait scanner le code avec l\'application Pay\'UTC pour partager ton profil."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Transfert récents"),
         "reload": MessageLookupByLibrary.simpleMessage("Recharger"),

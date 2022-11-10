@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "connect": MessageLookupByLibrary.simpleMessage("Einloggen"),
         "connectToPayutc": MessageLookupByLibrary.simpleMessage("Einloggen\n"),
         "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
-            "Melden Sie sich an, um die Pay\'UTCApp zu nutzen"),
+            "Melden Sie sich an, um die Pay\'UTC-Anwendung zu verwenden"),
         "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
             "Mit der Anmeldung akzeptieren Sie die"),
         "consomation": MessageLookupByLibrary.simpleMessage("Verbrauch"),
@@ -55,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "en_lang": MessageLookupByLibrary.simpleMessage("Englisch"),
         "es_lang": MessageLookupByLibrary.simpleMessage("Spanisch"),
         "favoris": MessageLookupByLibrary.simpleMessage("Favoriten"),
+        "fieldNeeded": MessageLookupByLibrary.simpleMessage("Pflichtfeld"),
         "fr_lang": MessageLookupByLibrary.simpleMessage("Französisch"),
         "helpMessageTransfert": MessageLookupByLibrary.simpleMessage(
             "Eine schöne Nachricht voller Liebe"),
@@ -72,7 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "licenseDeLapplication":
             MessageLookupByLibrary.simpleMessage("Anwendungslizenz"),
         "licensesPayutc":
-            MessageLookupByLibrary.simpleMessage("Pay\'ut-Lizenz"),
+            MessageLookupByLibrary.simpleMessage("Pay’UTC-Lizenz"),
         "lock_card":
             MessageLookupByLibrary.simpleMessage("Sperren Sie mein Abzeichen"),
         "lock_info": MessageLookupByLibrary.simpleMessage(
@@ -81,7 +82,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mentionsLgales": MessageLookupByLibrary.simpleMessage("Impressum"),
         "myAccount": MessageLookupByLibrary.simpleMessage("Mein Konto"),
         "myCard": MessageLookupByLibrary.simpleMessage("Mein Abzeichen"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("Meine Zahlung"),
+        "myPayutc": MessageLookupByLibrary.simpleMessage("Mein Pay’UTC"),
         "name": MessageLookupByLibrary.simpleMessage("Nachname"),
         "no": MessageLookupByLibrary.simpleMessage("Nö"),
         "noFavorisFound": MessageLookupByLibrary.simpleMessage(
@@ -102,7 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Zufälliger Satz"),
         "receive": MessageLookupByLibrary.simpleMessage("Erhalten"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Scannen Sie den Code mit der Pay\'UTCApp, um Ihr Profil zu teilen."),
+            "Scannen Sie den Code mit der Pay\'UTC-App, um Ihr Profil zu teilen."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Letzte Übertragungen"),
         "reload": MessageLookupByLibrary.simpleMessage("Neu laden"),
@@ -115,8 +116,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "reveivedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Erhalten"),
         "scan": MessageLookupByLibrary.simpleMessage("Scannen"),
-        "scannPayutcCode": MessageLookupByLibrary.simpleMessage(
-            "Scannen Sie einen Pay\'ut-QR-Code"),
+        "scannPayutcCode":
+            MessageLookupByLibrary.simpleMessage("payutc-qr-code scannen"),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("Siehe meine Geschichte"),
         "select": MessageLookupByLibrary.simpleMessage("Auswählen"),
