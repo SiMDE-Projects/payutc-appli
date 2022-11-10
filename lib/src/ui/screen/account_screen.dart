@@ -1,6 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
@@ -8,7 +11,6 @@ import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
 import 'package:payutc/src/ui/screen/sub_account_screen/account_settings_screen.dart';
 import 'package:payutc/src/ui/style/color.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -58,7 +60,9 @@ class _AccountPageState extends State<AccountPage> {
                               radius: 30,
                               backgroundColor: AppColors.orange,
                               foregroundColor: Colors.white,
-                              child: Text("${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName??"U")}".toUpperCase()),
+                              child: Text(
+                                  "${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName ?? "U")}"
+                                      .toUpperCase()),
                             ),
                             const SizedBox(
                               width: 10,
@@ -190,7 +194,7 @@ class _AccountPageState extends State<AccountPage> {
     if (firstName == null) {
       return "U";
     }
-    if(firstName.length == 1){
+    if (firstName.length == 1) {
       return firstName;
     }
     return firstName.substring(0, 1);

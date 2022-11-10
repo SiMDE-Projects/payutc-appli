@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+
 import 'package:payutc/compil.dart';
 import 'package:payutc/src/models/transfert.dart';
 import 'package:payutc/src/models/wallet.dart';
@@ -25,8 +26,8 @@ class WalletService extends ChangeNotifier {
           .getUserWallet(context.userName!)
           .then((value) => data = value)
           .catchError((error, stackTrace) {
-            logger.e("load wallet :", error, stackTrace);
-          });
+        logger.e("load wallet :", error, stackTrace);
+      });
     }
     throw "Context error";
   }

@@ -1,10 +1,12 @@
 // ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
+
 import 'package:uni_links/uni_links.dart';
 
+import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import '../models/user.dart';
 
 class UniLinks {
@@ -21,7 +23,7 @@ class UniLinks {
                   builder: (_) => SelectTransfertAmountScreen(target: user)));
           break;
       }
-    } on FormatException catch(_){}
+    } on FormatException catch (_) {}
   }
 
   static handleTransfertUri(Uri uri) {

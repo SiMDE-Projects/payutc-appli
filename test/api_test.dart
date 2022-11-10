@@ -1,15 +1,14 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+
 import 'package:payutc/src/api/nemopay.dart';
 import 'package:payutc/src/models/nemopay_app_properties.dart';
 import 'package:payutc/src/models/wallet.dart';
-
 import 'api_test.mocks.dart';
 
 @GenerateMocks([NemoPayApi])
-@GenerateNiceMocks([MockSpec<NemoPayAppProperties>(),MockSpec<Wallet>()])
-
+@GenerateNiceMocks([MockSpec<NemoPayAppProperties>(), MockSpec<Wallet>()])
 void main() {
   //test NemoPayApi mock
   group("NemoPayApi", () {
@@ -23,8 +22,7 @@ void main() {
     //test all others methods
     test('Test connectCas', () async {
       final mock = MockNemoPayApi();
-      when(mock.connectCas("ticket"))
-          .thenAnswer((_) async => "username");
+      when(mock.connectCas("ticket")).thenAnswer((_) async => "username");
       final resp = await mock.connectCas("ticket");
       expect(resp, "username");
     });

@@ -1,4 +1,3 @@
-
 import 'package:payutc/src/models/payutc_history.dart';
 
 class DayWithBalanceInfos {
@@ -21,7 +20,7 @@ class DayWithBalanceInfos {
       DateTime day = DateTime(item.date.year, item.date.month, item.date.day);
       //get all item of the day
       List<PayUtcItem> itemsOfDay =
-      history.where((element) => element.date.day == day.day).toList();
+          history.where((element) => element.date.day == day.day).toList();
       num dayReloads = 0;
       num dayVirements = 0;
       num dayPurchases = 0;

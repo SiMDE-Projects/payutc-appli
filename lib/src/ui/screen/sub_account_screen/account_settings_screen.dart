@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/ginger_user_infos.dart';
 import 'package:payutc/src/models/user.dart';
