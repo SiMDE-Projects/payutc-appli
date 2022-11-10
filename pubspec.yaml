@@ -1,5 +1,5 @@
 name: payutc
-description: The payut app
+description: The Pay'UTC app
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
@@ -65,7 +65,7 @@ dependencies:
   #logs
   logger: any
   logger_flutter_viewer: ^0.8.0
-  sentry_flutter: ^6.12.1
+  sentry_flutter: ^6.15.0
   sentry_dio: ^6.12.1
 
 dev_dependencies:
