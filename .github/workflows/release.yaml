@@ -73,6 +73,7 @@ jobs:
       - name: Build APK
         run: |
           flutter pub get
+          flutter test
           flutter build apk
 #      - name: Retrieve Release Version
 #        id: versionstep

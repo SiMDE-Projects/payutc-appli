@@ -33,17 +33,6 @@ class AppTheme {
       scaffoldBackgroundColor: AppColors.scaffold,
       appBarTheme: _default.appBarTheme
           .copyWith(iconTheme: const IconThemeData(color: Colors.black)));
-  static final ThemeData _dark = _default.copyWith(
-    appBarTheme: AppBarTheme(
-        systemOverlayStyle: SystemUiOverlayStyle.light
-            .copyWith(statusBarColor: Colors.transparent),
-        iconTheme: const IconThemeData(color: Colors.white)),
-    textTheme: _default.textTheme.copyWith(
-      bodyText1: const TextStyle(color: Colors.white),
-      bodyText2: const TextStyle(color: Colors.white),
-    ),
-    scaffoldBackgroundColor: AppColors.scaffoldDark,
-  );
 
   static SystemUiOverlayStyle combineOverlay(SystemUiOverlayStyle other) =>
       _default.appBarTheme.systemOverlayStyle!.copyWith(
@@ -61,6 +50,5 @@ class AppTheme {
 
   static ThemeData getTheme(Brightness brightness) {
     return _light;
-    //return brightness == Brightness.light ? _light : _dark;
   }
 }

@@ -1,4 +1,3 @@
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:payutc/src/env.dart' as env;
@@ -7,6 +6,7 @@ import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/models/wallet.dart';
 import 'package:sentry_dio/sentry_dio.dart';
+import 'package:cookie_jar/cookie_jar.dart';
 
 import '../env.dart';
 import '../models/transfert.dart';

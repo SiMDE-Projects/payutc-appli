@@ -22,42 +22,88 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "aPropos": MessageLookupByLibrary.simpleMessage("Di"),
         "activity": MessageLookupByLibrary.simpleMessage("Attività"),
         "addToFav":
             MessageLookupByLibrary.simpleMessage("Aggiungi ai preferiti"),
+        "addtofav":
+            MessageLookupByLibrary.simpleMessage("Aggiungi ai preferiti"),
+        "adult": MessageLookupByLibrary.simpleMessage("Adulto"),
         "all": MessageLookupByLibrary.simpleMessage("tutto"),
+        "annuler": MessageLookupByLibrary.simpleMessage("per cancellare"),
         "authReasonTransfert":
             MessageLookupByLibrary.simpleMessage("È per inviare i soldi lì."),
         "badPassword": MessageLookupByLibrary.simpleMessage("Password errata"),
+        "beginTransfert":
+            MessageLookupByLibrary.simpleMessage("Avvia un trasferimento"),
+        "card_blocked":
+            MessageLookupByLibrary.simpleMessage("(distintivo bloccato)"),
         "connect": MessageLookupByLibrary.simpleMessage("Per accedere"),
         "connectToPayutc":
             MessageLookupByLibrary.simpleMessage("Per accedere\n"),
         "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
-            "Accedi per utilizzare l\'app di pagamento"),
+            "Accedi per utilizzare l\'applicazione Pay\'UTC"),
+        "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
+            "Effettuando il login accetti il"),
         "consomation": MessageLookupByLibrary.simpleMessage("Consumo"),
+        "contributor_desc": MessageLookupByLibrary.simpleMessage(
+            "Essere un collaboratore dà accesso alla MDE, al Picasso e agli eventi organizzati dalla BDE. "),
+        "cotiz": MessageLookupByLibrary.simpleMessage("Contributo"),
+        "de_lang": MessageLookupByLibrary.simpleMessage("Tedesco"),
         "deleteRecentTransfert": MessageLookupByLibrary.simpleMessage(
             "Elimina dalla mia cronologia"),
+        "en_lang": MessageLookupByLibrary.simpleMessage("inglese"),
+        "es_lang": MessageLookupByLibrary.simpleMessage("spagnolo"),
         "favoris": MessageLookupByLibrary.simpleMessage("Preferiti"),
+        "fieldNeeded":
+            MessageLookupByLibrary.simpleMessage("campo obbligatorio"),
+        "fr_lang": MessageLookupByLibrary.simpleMessage("Francese"),
         "helpMessageTransfert": MessageLookupByLibrary.simpleMessage(
             "Un bel messaggio pieno di amore"),
         "history": MessageLookupByLibrary.simpleMessage("Storico"),
         "historyReloads": MessageLookupByLibrary.simpleMessage("Ricariche"),
         "historytransferts":
             MessageLookupByLibrary.simpleMessage("Trasferimenti"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("Il mio pagamento"),
+        "informations": MessageLookupByLibrary.simpleMessage("Informazione"),
+        "is_contributor": MessageLookupByLibrary.simpleMessage(
+            "Sei un collaboratore BDE-UTC!"),
+        "is_not_contributor": MessageLookupByLibrary.simpleMessage(
+            "Non sei un collaboratore BDE-UTC"),
+        "language": MessageLookupByLibrary.simpleMessage("Lingua"),
+        "lastname": MessageLookupByLibrary.simpleMessage("Nome"),
+        "licenseDeLapplication":
+            MessageLookupByLibrary.simpleMessage("Licenza applicativa"),
+        "licensesPayutc":
+            MessageLookupByLibrary.simpleMessage("Licenza Pay\'UTC"),
+        "lock_card":
+            MessageLookupByLibrary.simpleMessage("Blocca il mio badge"),
+        "lock_info": MessageLookupByLibrary.simpleMessage(
+            "Quando il badge è bloccato, non può più essere utilizzato per pagare."),
+        "logOut": MessageLookupByLibrary.simpleMessage("disconnessione"),
+        "mentionsLgales": MessageLookupByLibrary.simpleMessage("Avviso legale"),
+        "myAccount": MessageLookupByLibrary.simpleMessage("Il mio account"),
+        "myCard": MessageLookupByLibrary.simpleMessage("Il mio distintivo"),
+        "myPayutc": MessageLookupByLibrary.simpleMessage("My Pay\'UTC"),
+        "name": MessageLookupByLibrary.simpleMessage("Nome"),
+        "no": MessageLookupByLibrary.simpleMessage("No"),
         "noFavorisFound":
             MessageLookupByLibrary.simpleMessage("Nessun preferito salvato"),
         "noTransfertFound": MessageLookupByLibrary.simpleMessage(
             "Nessun trasferimento recente"),
         "nothingToTransfert":
             MessageLookupByLibrary.simpleMessage("0€ sul serio? "),
+        "nousContacter": MessageLookupByLibrary.simpleMessage("Contattaci"),
         "other": MessageLookupByLibrary.simpleMessage("Altro"),
         "password": MessageLookupByLibrary.simpleMessage("Parola d\'ordine"),
+        "qr_read_error": MessageLookupByLibrary.simpleMessage(
+            "Errore di lettura del codice QR"),
+        "quitterLaPage":
+            MessageLookupByLibrary.simpleMessage("Abbandonare la pagina?"),
         "randomTransfertSentence":
             MessageLookupByLibrary.simpleMessage("Frase casuale"),
         "receive": MessageLookupByLibrary.simpleMessage("Ricevere"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Scansiona il codice con l\'app Pay'UTC per condividere il tuo profilo."),
+            "Scansiona il codice con l\'app Pay\'UTC per condividere il tuo profilo."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Trasferimenti recenti"),
         "reload": MessageLookupByLibrary.simpleMessage("Ricaricare"),
@@ -70,13 +116,17 @@ class MessageLookup extends MessageLookupByLibrary {
         "reveivedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Ricevuto"),
         "scan": MessageLookupByLibrary.simpleMessage("Scannerizzare"),
+        "scannPayutcCode": MessageLookupByLibrary.simpleMessage(
+            "scansiona il codice qr payutc"),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("Vedi la mia storia"),
+        "select": MessageLookupByLibrary.simpleMessage("Selezionare"),
         "select_user":
             MessageLookupByLibrary.simpleMessage("Seleziona un utente"),
         "send": MessageLookupByLibrary.simpleMessage("mandare"),
         "sendedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Inviato"),
+        "settings": MessageLookupByLibrary.simpleMessage("Impostazioni"),
         "splashConnect": MessageLookupByLibrary.simpleMessage("PER ACCEDERE"),
         "splashError":
             MessageLookupByLibrary.simpleMessage("C\'è stato un errore"),
@@ -85,10 +135,15 @@ class MessageLookup extends MessageLookupByLibrary {
         "statistics": MessageLookupByLibrary.simpleMessage("Statistiche"),
         "today": MessageLookupByLibrary.simpleMessage("Oggi"),
         "transfertPayutc": MessageLookupByLibrary.simpleMessage("Pagamento"),
+        "transfert_error": MessageLookupByLibrary.simpleMessage(
+            "Impossibile eseguire questo trasferimento"),
         "transfert_montant_select_amount":
             MessageLookupByLibrary.simpleMessage("Importo del trasferimento"),
+        "userFound": MessageLookupByLibrary.simpleMessage("Utente trovato!"),
         "userName": MessageLookupByLibrary.simpleMessage("nome utente"),
+        "user_name_texxt": MessageLookupByLibrary.simpleMessage("nome utente"),
         "validate": MessageLookupByLibrary.simpleMessage("convalidare"),
+        "yes": MessageLookupByLibrary.simpleMessage("sì"),
         "yesterday": MessageLookupByLibrary.simpleMessage("Ieri"),
         "yourCard":
             MessageLookupByLibrary.simpleMessage("La tua carta di credito")

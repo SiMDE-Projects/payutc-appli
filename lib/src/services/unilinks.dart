@@ -1,3 +1,4 @@
+// ignore_for_file: use_build_context_synchronously
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class UniLinks {
                   builder: (_) => SelectTransfertAmountScreen(target: user)));
           break;
       }
-    } on FormatException {}
+    } on FormatException catch(_){}
   }
 
   static handleTransfertUri(Uri uri) {

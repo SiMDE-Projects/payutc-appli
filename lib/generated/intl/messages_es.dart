@@ -42,7 +42,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "connect": MessageLookupByLibrary.simpleMessage("Conectarse"),
         "connectToPayutc": MessageLookupByLibrary.simpleMessage("Conectarse\n"),
         "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
-            "Inicie sesión para usar la aplicación Pay'UTC"),
+            "Inicie sesión para utilizar la aplicación Pay\'UTC"),
         "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
             "Al iniciar sesión aceptas las"),
         "consomation": MessageLookupByLibrary.simpleMessage("Consumo"),
@@ -55,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "en_lang": MessageLookupByLibrary.simpleMessage("inglés"),
         "es_lang": MessageLookupByLibrary.simpleMessage("español"),
         "favoris": MessageLookupByLibrary.simpleMessage("Favoritos"),
+        "fieldNeeded": MessageLookupByLibrary.simpleMessage("Campo requerido"),
         "fr_lang": MessageLookupByLibrary.simpleMessage("Francés"),
         "helpMessageTransfert": MessageLookupByLibrary.simpleMessage(
             "Un lindo mensaje lleno de amor."),
@@ -72,7 +73,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "licenseDeLapplication":
             MessageLookupByLibrary.simpleMessage("Licencia de aplicación"),
         "licensesPayutc":
-            MessageLookupByLibrary.simpleMessage("licencia de pago"),
+            MessageLookupByLibrary.simpleMessage("Licencia Pay\'UTC"),
         "lock_card": MessageLookupByLibrary.simpleMessage("bloquear mi placa"),
         "lock_info": MessageLookupByLibrary.simpleMessage(
             "Cuando la credencial está bloqueada, ya no se puede usar para pagar."),
@@ -80,7 +81,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mentionsLgales": MessageLookupByLibrary.simpleMessage("Notas legales"),
         "myAccount": MessageLookupByLibrary.simpleMessage("Mi cuenta"),
         "myCard": MessageLookupByLibrary.simpleMessage("mi insignia"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("Mi pago"),
+        "myPayutc": MessageLookupByLibrary.simpleMessage("Mi Pay\'UTC"),
         "name": MessageLookupByLibrary.simpleMessage("apellido"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noFavorisFound":
@@ -97,10 +98,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "quitterLaPage":
             MessageLookupByLibrary.simpleMessage("¿Dejar la página?"),
         "randomTransfertSentence":
-            MessageLookupByLibrary.simpleMessage("Oración aleatoria"),
+            MessageLookupByLibrary.simpleMessage("Frase aleatoria"),
         "receive": MessageLookupByLibrary.simpleMessage("Recibir"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Escanee el código con la aplicación Pay'UTC para compartir su perfil."),
+            "Escanea el código con la aplicación Pay\'UTC para compartir tu perfil."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Transferencias recientes"),
         "reload": MessageLookupByLibrary.simpleMessage("Recargar"),
@@ -113,8 +114,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "reveivedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Recibió"),
         "scan": MessageLookupByLibrary.simpleMessage("escanear"),
-        "scannPayutcCode": MessageLookupByLibrary.simpleMessage(
-            "Escanea un código qr de pago"),
+        "scannPayutcCode":
+            MessageLookupByLibrary.simpleMessage("escanear codigo qr payutc"),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("ver mi historial"),
         "select": MessageLookupByLibrary.simpleMessage("Seleccione"),

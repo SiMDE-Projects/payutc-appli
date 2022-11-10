@@ -48,7 +48,6 @@ class PaymentFlowPage extends StatefulWidget {
 }
 
 class _PaymentFlowPageState extends State<PaymentFlowPage> {
-  WebViewController? _controller;
 
   @override
   Widget build(BuildContext context) {
@@ -96,7 +95,6 @@ class _PaymentFlowPageState extends State<PaymentFlowPage> {
                       child: WebView(
                     javascriptMode: JavascriptMode.unrestricted,
                     initialUrl: snapshot.data!,
-                    onWebViewCreated: (controller) => _controller = controller,
                     onPageStarted: (navigation) {
                       Uri url = Uri.parse(navigation);
                       Uri callback = Uri.parse(payUrlCallback);

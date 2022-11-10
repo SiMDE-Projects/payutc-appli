@@ -50,10 +50,10 @@ class Translate {
     return Localizations.of<Translate>(context, Translate);
   }
 
-  /// `Mon payutc`
+  /// `Mon Pay'UTC`
   String get myPayutc {
     return Intl.message(
-      'Mon payutc',
+      'Mon Pay\'UTC',
       name: 'myPayutc',
       desc: '',
       args: [],
@@ -130,10 +130,10 @@ class Translate {
     );
   }
 
-  /// `Fait scanner le code avec l'application payutc pour partager ton profil.`
+  /// `Fait scanner le code avec l'application Pay'UTC pour partager ton profil.`
   String get receiveMoneyScanSentence {
     return Intl.message(
-      'Fait scanner le code avec l\'application payutc pour partager ton profil.',
+      'Fait scanner le code avec l\'application Pay\'UTC pour partager ton profil.',
       name: 'receiveMoneyScanSentence',
       desc: '',
       args: [],
@@ -320,20 +320,20 @@ class Translate {
     );
   }
 
-  /// `Se connecter\nà payutc`
+  /// `Se connecter\nà Pay'UTC`
   String get connectToPayutc {
     return Intl.message(
-      'Se connecter\nà payutc',
+      'Se connecter\nà Pay\'UTC',
       name: 'connectToPayutc',
       desc: '',
       args: [],
     );
   }
 
-  /// `Connectez-vous pour utiliser l'application payutc`
+  /// `Connectez-vous pour utiliser l'application Pay'UTC`
   String get connectToPayutcSentence {
     return Intl.message(
-      'Connectez-vous pour utiliser l\'application payutc',
+      'Connectez-vous pour utiliser l\'application Pay\'UTC',
       name: 'connectToPayutcSentence',
       desc: '',
       args: [],
@@ -620,10 +620,10 @@ class Translate {
     );
   }
 
-  /// `Licence payutc`
+  /// `Licence Pay'UTC`
   String get licensesPayutc {
     return Intl.message(
-      'Licence payutc',
+      'Licence Pay\'UTC',
       name: 'licensesPayutc',
       desc: '',
       args: [],

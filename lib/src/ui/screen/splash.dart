@@ -125,6 +125,7 @@ class _SplashPageState extends State<SplashPage> {
     await Future.delayed(const Duration(milliseconds: 500));
     if (!mounted) return;
     if (isLogged) {
+      logger.i("User logged as ${AppService.instance.user.username}");
       Sentry.configureScope(
         (p0) => p0.setContexts(
           "user",
