@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:payutc/generated/l10n.dart';
 
 /// credit : 820
@@ -40,7 +41,7 @@ class PayUtcHistory {
 class PayUtcItem {
   PayUtcItem({
     this.amount,
-    DateTime ? date,
+    DateTime? date,
     this.firstname,
     this.fun,
     this.id,
@@ -53,7 +54,7 @@ class PayUtcItem {
     this.type = 'PURCHASE',
     this.imageUrl,
     this.productId,
-  }):date = date ?? DateTime.now();
+  }) : date = date ?? DateTime.now();
 
   PayUtcItem.fromJson(dynamic json) {
     amount = json['amount'];
@@ -119,7 +120,7 @@ class PayUtcItem {
 
   String nameExtracted(BuildContext context) {
     if (isVirement) {
-      return "${Translate.of(context).transfertPayutc}${"(${"$firstname ${(lastname?.isNotEmpty??false)?lastname?.substring(0, 1):""}."})"}";
+      return "${Translate.of(context).transfertPayutc}${"(${"$firstname ${(lastname?.isNotEmpty ?? false) ? lastname?.substring(0, 1) : ""}."})"}";
     }
     if (type == "RECHARGE") return Translate.of(context).reloading;
     return "${quantity.abs().toInt()} $name";
@@ -130,5 +131,7 @@ class PayUtcItem {
         other.date.day == date.day &&
         other.date.month == date.month;
   }
-  String get userVirName =>"$firstname ${(lastname?.isNotEmpty??false)?lastname?.substring(0, 1):""}.";
+
+  String get userVirName =>
+      "$firstname ${(lastname?.isNotEmpty ?? false) ? lastname?.substring(0, 1) : ""}.";
 }

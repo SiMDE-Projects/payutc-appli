@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
 import 'package:mobile_scanner/mobile_scanner.dart';
+
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/services/app.dart';

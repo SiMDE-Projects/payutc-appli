@@ -51,3 +51,5 @@ app.*.map.json
 #all
 lib/src/env.dart
 /translate/env.dart
+/test/*.mocks.dart
+/lib/generated

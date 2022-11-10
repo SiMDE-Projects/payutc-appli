@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
+
 import 'package:payutc/compil.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
 import 'package:payutc/src/ui/style/theme.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-
 import 'generated/l10n.dart';
 import 'src/env.dart';
 
@@ -37,7 +38,7 @@ class PayutcApp extends StatelessWidget {
       animation: AppService.instance,
       builder: (context, snapshot) {
         return MaterialApp(
-          title: 'PayUTC',
+          title: 'Pay\'UTC',
           theme: AppTheme.getTheme(Brightness.light),
           home: const SplashPage(),
           localizationsDelegates: const [

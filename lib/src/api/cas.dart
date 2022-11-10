@@ -1,7 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:dio_smart_retry/dio_smart_retry.dart';
-import 'package:payutc/src/env.dart' as env;
 import 'package:sentry_dio/sentry_dio.dart';
+
+import 'package:payutc/src/env.dart' as env;
 
 class CasApi {
   late Dio client;

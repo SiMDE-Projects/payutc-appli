@@ -3,11 +3,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:webview_flutter/webview_flutter.dart';
+
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/env.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/ui/screen/select_amount.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentFlowPage extends StatefulWidget {
   final double amount;
@@ -48,7 +50,6 @@ class PaymentFlowPage extends StatefulWidget {
 }
 
 class _PaymentFlowPageState extends State<PaymentFlowPage> {
-
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

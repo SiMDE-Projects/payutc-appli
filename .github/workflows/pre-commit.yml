@@ -1,0 +1,37 @@
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-java@v1
+        with:
+          java-version: '12.x'
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Configure signature & envs
+        run: |
+          echo "${{secrets.KEY_PROPERTIES}}" > android/key.properties
+          echo "${{secrets.RELEASE_KEYSTORE}}" > upload-keystore.encoded
+          base64 -d -i upload-keystore.encoded > ./android/app/upload-keystore.jks
+          echo "const String nemoPayAppId='80405';" >> lib/src/env.dart
+          echo "const String casUrl='https://cas.utc.fr/cas/';" >> lib/src/env.dart
+          echo "const String nemoPayUrl='https://api.nemopay.net/';" >> lib/src/env.dart
+          echo "const String payUrlCallback='https://assos.utc.fr/pay_app_callback';" >> lib/src/env.dart
+          echo "const String nemoPayKey='${{secrets.WEEZPAY_APPKEY}}';" >> lib/src/env.dart
+          echo "const String gingerKey='${{secrets.GINGER_APPKEY}}';" >> lib/src/env.dart
+          echo "const String sentryDsn='${{secrets.SENTRY_DSN}}';" >> lib/src/env.dart
+          echo "const String translateClient = 'gtx';" >> translate/env.dart
+      - name: Install dependencies 📦
+        run: flutter pub get
+      - run: flutter pub run build_runner build --delete-conflicting-outputs
+      - run: flutter test
+      - uses: pre-commit/action@v2.0.3

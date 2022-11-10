@@ -1,8 +1,10 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
+
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/utils.dart';
@@ -336,7 +338,8 @@ class _StatPageState extends State<StatPage> {
       ],
     );
   }
-  _extractTopDays(List<PayUtcItem> history){
+
+  _extractTopDays(List<PayUtcItem> history) {
     Map<int, PayUtcItem> map = {};
     for (PayUtcItem item in history) {
       if (item.isOutAmount && item.isProduct && (item.amount ?? 1500) < 1500) {
@@ -357,6 +360,7 @@ class _StatPageState extends State<StatPage> {
     list.sort((a, b) => b.amount!.compareTo(a.amount!));
     return list;
   }
+
   _buildTopWidget(List<PayUtcItem> list) {
     return Column(
       children: [
@@ -441,9 +445,9 @@ class _StatPageState extends State<StatPage> {
   }
 
   List<PayUtcItem> _extractMostReceivedMoneyFrom(List<PayUtcItem> history) {
-    Map<String,List<PayUtcItem>> map = {};
+    Map<String, List<PayUtcItem>> map = {};
     for (PayUtcItem item in history) {
-      if (item.isInAmount && item.isVirement){
+      if (item.isInAmount && item.isVirement) {
         if (map.containsKey(item.userVirName)) {
           map[item.userVirName]!.add(item);
         } else {
@@ -455,16 +459,20 @@ class _StatPageState extends State<StatPage> {
     map.forEach((key, value) {
       list.add(PayUtcItem(
           name: key,
-          amount: value.fold(0, (previousValue, element) => (previousValue??0) + (element.amount ?? 0)),
+          amount: value.fold(
+              0,
+              (previousValue, element) =>
+                  (previousValue ?? 0) + (element.amount ?? 0)),
           quantity: value.length));
     });
     list.sort((a, b) => b.amount!.compareTo(a.amount!));
-    return list.length> 4 ? list.sublist(0, 4) : list;
+    return list.length > 4 ? list.sublist(0, 4) : list;
   }
+
   List<PayUtcItem> _extractMostSendMoneyFrom(List<PayUtcItem> history) {
-    Map<String,List<PayUtcItem>> map = {};
+    Map<String, List<PayUtcItem>> map = {};
     for (PayUtcItem item in history) {
-      if (item.isOutAmount && item.isVirement){
+      if (item.isOutAmount && item.isVirement) {
         if (map.containsKey(item.userVirName)) {
           map[item.userVirName]!.add(item);
         } else {
@@ -476,11 +484,14 @@ class _StatPageState extends State<StatPage> {
     map.forEach((key, value) {
       list.add(PayUtcItem(
           name: key,
-          amount: value.fold(0, (previousValue, element) => (previousValue??0) + (element.amount ?? 0)),
+          amount: value.fold(
+              0,
+              (previousValue, element) =>
+                  (previousValue ?? 0) + (element.amount ?? 0)),
           quantity: value.length));
     });
     list.sort((a, b) => b.amount!.compareTo(a.amount!));
-    return list.length> 4 ? list.sublist(0, 4) : list;
+    return list.length > 4 ? list.sublist(0, 4) : list;
   }
 }
 

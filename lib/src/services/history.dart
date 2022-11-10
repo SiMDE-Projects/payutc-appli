@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/payutc_history.dart';
@@ -79,7 +80,7 @@ class HistoryController extends ChangeNotifier {
     //get items for each date
     Map<String, List<PayUtcItem>> out2 = {};
     for (final date in dates) {
-      out2[_stringOfDateDiff(context,date)] = itemsDate[date]!;
+      out2[_stringOfDateDiff(context, date)] = itemsDate[date]!;
     }
     return out2;
   }

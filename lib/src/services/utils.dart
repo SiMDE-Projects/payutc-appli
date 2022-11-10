@@ -11,9 +11,8 @@ Map<String, List<PayUtcItem>> formatDays(List<PayUtcItem> inData) {
     out[key]!.add(item);
   }
   Map<DateTime, List<PayUtcItem>> itemsDate =
-  out.map((key, value) => MapEntry(DateTime.parse(key), value));
-  return itemsDate
-      .map((key, value) => MapEntry(_stringOfDateDiff(key), value));
+      out.map((key, value) => MapEntry(DateTime.parse(key), value));
+  return itemsDate.map((key, value) => MapEntry(_stringOfDateDiff(key), value));
 }
 
 String _generate(DateTime date) =>

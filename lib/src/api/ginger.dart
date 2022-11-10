@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+
 import 'package:payutc/src/models/ginger_user_infos.dart';
 
 class Ginger {
