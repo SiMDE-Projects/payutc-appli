@@ -57,7 +57,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Frase casuale"),
         "receive": MessageLookupByLibrary.simpleMessage("Ricevere"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Scansiona il codice con l\'app Pay'UTC per condividere il tuo profilo."),
+            "Scansiona il codice con l\'app Pay\'UTCper condividere il tuo profilo."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Trasferimenti recenti"),
         "reload": MessageLookupByLibrary.simpleMessage("Ricaricare"),
