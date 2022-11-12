@@ -89,6 +89,7 @@ class PayUtcItem {
   String? imageUrl;
 
   bool get isProduct => productId != null;
+
   bool get isOutAmount {
     //Consigne éco-cup
     if (type == "PURCHASE" && quantity.isNegative) return false;
