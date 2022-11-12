@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:payutc/src/models/payutc_history.dart';
 
+import 'package:payutc/src/models/payutc_history.dart';
 import '../../services/app.dart';
 import '../style/color.dart';
 

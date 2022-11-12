@@ -1,8 +1,10 @@
-import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
+
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/utils.dart';
@@ -115,7 +117,8 @@ class _StatPageState extends State<StatPage> {
 
   Widget _buildPage(
       List<PayUtcItem> items, DateTime? start, DateTime? end, String s) {
-    items = splitForPeriod(items, start ?? items.last.date, end ?? DateTime.now());
+    items =
+        splitForPeriod(items, start ?? items.last.date, end ?? DateTime.now());
     if (items.isEmpty) {
       return Center(
         child: Text("Aucune donnée pour l'instant pour $s",
