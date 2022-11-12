@@ -52,7 +52,7 @@ jobs:
           dry_run: true
 
   build:
-    name: Prepare Flutter for other jobs
+    name: Prepare & build packages
     needs:
       - version
     runs-on: ubuntu-latest
@@ -125,8 +125,8 @@ jobs:
         uses: r0adkll/upload-google-play@v1
         with:
           serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-          packageName: fr.simde.payutc
-          releaseFiles: '*.apk,*.aab'
+          packageName: com.simde.payutc
+          releaseFiles: 'app-release.aab'
           track: internal
           releaseName: ${{ needs.version.outputs.new_tag }}
           whatsNewDirectory: distribution/whatsnew
