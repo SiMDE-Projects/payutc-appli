@@ -1,4 +1,4 @@
-package com.simde.payutc
+package fr.simde.payutc
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 
