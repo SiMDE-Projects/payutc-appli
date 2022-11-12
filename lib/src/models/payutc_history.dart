@@ -1,5 +1,4 @@
 import 'package:flutter/cupertino.dart';
-
 import 'package:payutc/generated/l10n.dart';
 
 /// credit : 820
@@ -70,11 +69,7 @@ class PayUtcItem {
     removed = json['removed'];
     type = json['type'];
     productId = json['product_id'];
-    if(isProduct) {
-      imageUrl = json['image_url'];
-    }else {
-      imageUrl = "assets/img/transfert.png";
-    }
+    imageUrl = json['image_url'];
   }
 
   num? amount;
@@ -93,6 +88,7 @@ class PayUtcItem {
   String? imageUrl;
 
   bool get isProduct => productId != null;
+
   bool get isOutAmount {
     //Consigne éco-cup
     if (type == "PURCHASE" && quantity.isNegative) return false;
