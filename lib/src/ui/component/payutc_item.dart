@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:payutc/src/models/payutc_history.dart';
+
 import '../../services/app.dart';
 import '../style/color.dart';
 
@@ -83,8 +83,15 @@ class PayUtcItemWidget extends StatelessWidget {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                    color: Colors.white30,
-                    borderRadius: BorderRadius.circular(15)),
+                  color: Colors.white30,
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    colorFilter: ColorFilter.mode(
+                        Colors.black.withOpacity(0.8), BlendMode.dstATop),
+                    image: NetworkImage(item.imageUrl ?? ""),
+                    fit: BoxFit.cover,
+                  ),
+                ),
                 child: Icon(
                   item.isInAmount
                       ? Icons.keyboard_arrow_up

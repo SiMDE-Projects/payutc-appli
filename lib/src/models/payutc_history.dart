@@ -70,7 +70,11 @@ class PayUtcItem {
     removed = json['removed'];
     type = json['type'];
     productId = json['product_id'];
-    imageUrl = json['image_url'];
+    if(isProduct) {
+      imageUrl = json['image_url'];
+    }else {
+      imageUrl = "assets/img/transfert.png";
+    }
   }
 
   num? amount;

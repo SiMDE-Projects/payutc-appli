@@ -1,10 +1,8 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/utils.dart';
@@ -117,7 +115,7 @@ class _StatPageState extends State<StatPage> {
 
   Widget _buildPage(
       List<PayUtcItem> items, DateTime? start, DateTime? end, String s) {
-    items = splitForPeriod(items, start ?? DateTime(0), end ?? DateTime.now());
+    items = splitForPeriod(items, start ?? items.last.date, end ?? DateTime.now());
     if (items.isEmpty) {
       return Center(
         child: Text("Aucune donnée pour l'instant pour $s",
@@ -129,6 +127,10 @@ class _StatPageState extends State<StatPage> {
       children: [
         Text("Infos ($s)",
             style: const TextStyle(fontSize: 20, color: Colors.white)),
+        Text(
+          "Période du ${DateFormat("dd/MM/yyyy").format(start ?? items.last.date)} au ${DateFormat("dd/MM/yyyy").format(end ?? DateTime.now())}",
+          style: const TextStyle(fontSize: 11, color: Colors.white54),
+        ),
         const SizedBox(height: 20),
         _buildInfo(
             "Achats",
@@ -164,6 +166,10 @@ class _StatPageState extends State<StatPage> {
         const SizedBox(height: 20),
         const Text("Top des achats",
             style: TextStyle(fontSize: 20, color: Colors.white)),
+        const Text(
+          "Trié par achats",
+          style: TextStyle(fontSize: 11, color: Colors.white54),
+        ),
         const SizedBox(height: 20),
         _buildTop(items.toList(), start, end),
       ],
@@ -300,7 +306,11 @@ class _StatPageState extends State<StatPage> {
           "Jours avec le plus de dépenses",
           style: TextStyle(fontSize: 20, color: Colors.white),
         ),
-        const SizedBox(height: 20),
+        const Text(
+          "En moyenne par jours depuis le début",
+          style: TextStyle(fontSize: 11, color: Colors.white54),
+        ),
+        const SizedBox(height: 5),
         _buildTopWidget(_extractTopDays(history)),
         const SizedBox(height: 20),
         const Text("Virements",
@@ -315,16 +325,33 @@ class _StatPageState extends State<StatPage> {
           ],
         ),
         const SizedBox(height: 20),
-        const Text("Sugar daddy(s)",
-            style: TextStyle(fontSize: 20, color: Colors.white)),
+        const Text(
+          "Sugar daddy(s)",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        const Text(
+          "Personne qui t'a envoyé le plus d'argent (remboursements ,photos pieds ,etc)",
+          style: TextStyle(fontSize: 11, color: Colors.white54),
+        ),
+        const SizedBox(height: 5),
         _buildTopWidget(_extractMostReceivedMoneyFrom(history)),
         const SizedBox(height: 20),
-        const Text("Je suis un sugar daddy de",
-            style: TextStyle(fontSize: 20, color: Colors.white)),
+        const Text(
+          "Je suis un sugar daddy de",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        const Text(
+          "Les gens que tu régales le plus ou à qui tu dois beaucoup de choses",
+          style: TextStyle(fontSize: 11, color: Colors.white54),
+        ),
         _buildTopWidget(_extractMostSendMoneyFrom(history)),
         const SizedBox(height: 20),
         const Text("Apports",
             style: TextStyle(fontSize: 20, color: Colors.white)),
+        const Text(
+          "Avec quoi/qui tu as rechargé ton compte",
+          style: TextStyle(fontSize: 11, color: Colors.white54),
+        ),
         const SizedBox(height: 5),
         Pie(
           items: [
@@ -340,23 +367,42 @@ class _StatPageState extends State<StatPage> {
   }
 
   _extractTopDays(List<PayUtcItem> history) {
-    Map<int, PayUtcItem> map = {};
+    Map<DateTime, PayUtcItem> map = {};
+    //group history by date day/month/year
     for (PayUtcItem item in history) {
-      if (item.isOutAmount && item.isProduct && (item.amount ?? 1500) < 1500) {
-        if (map.containsKey(item.date.weekday)) {
-          map[item.date.weekday]!.amount =
-              (map[item.date.weekday]!.amount ?? 0) + (item.amount ?? 0);
-          map[item.date.weekday]!.quantity =
-              map[item.date.weekday]!.quantity + 1;
+      if (item.isOutAmount && item.isProduct && item.amount! < 1500) {
+        DateTime date =
+            DateTime(item.date.year, item.date.month, item.date.day);
+        if (map.containsKey(date)) {
+          map[date]!.amount = map[date]!.amount! + item.amount!;
+          map[date]!.quantity = map[date]!.quantity + item.quantity;
         } else {
-          map[item.date.weekday] = PayUtcItem(
-              amount: item.amount,
-              name: DateFormat("EEEE", "fr_FR").format(item.date).toUpperCase(),
-              quantity: 1);
+          map[date] = PayUtcItem(
+            date: date,
+            amount: item.amount,
+            quantity: item.quantity,
+          );
         }
       }
     }
-    List<PayUtcItem> list = map.values.toList();
+    Map<int, PayUtcItem> out = {};
+    map.forEach((key, value) {
+      if (out.containsKey(key.weekday)) {
+        out[key.weekday]!.quantity = out[key.weekday]!.quantity + 1;
+        out[key.weekday]!.amount = out[key.weekday]!.amount! + value.amount!;
+      } else {
+        out[key.weekday] = PayUtcItem(
+          date: value.date,
+          amount: value.amount,
+          quantity: 1,
+          name: DateFormat("EEEE", "fr_FR").format(value.date).toUpperCase(),
+        );
+      }
+    });
+    List<PayUtcItem> list = out.values.toList();
+    for (int i = 0; i < list.length; i++) {
+      list[i].amount = list[i].amount! / list[i].quantity;
+    }
     list.sort((a, b) => b.amount!.compareTo(a.amount!));
     return list;
   }
