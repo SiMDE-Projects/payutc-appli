@@ -27,6 +27,7 @@ class WalletService extends ChangeNotifier {
           .then((value) => data = value)
           .catchError((error, stackTrace) {
         logger.e("load wallet :", error, stackTrace);
+        throw error;
       });
     }
     throw "Context error";

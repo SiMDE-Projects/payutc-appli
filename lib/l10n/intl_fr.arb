@@ -85,5 +85,6 @@
   "userFound": "Utilisateur trouvé !",
   "qr_read_error": "Erreur de lecture du QR code",
   "beginTransfert": "Commencer un transfert",
-  "fieldNeeded": "Champ requis"
+  "fieldNeeded": "Champ requis",
+  "refreshContentError": "Impossible de rafraichir, une erreur est survenue"
 }

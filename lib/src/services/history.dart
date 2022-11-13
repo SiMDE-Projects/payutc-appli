@@ -28,6 +28,7 @@ class HistoryService extends ChangeNotifier {
         return history!;
       }).catchError((error, stackTrace) {
         logger.e("force load history", error, stackTrace);
+        throw error;
       });
     }
     throw "Context error";
