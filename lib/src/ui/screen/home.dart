@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:skeletons/skeletons.dart';
-
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
@@ -15,6 +12,8 @@ import 'package:payutc/src/ui/screen/stats.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
 import 'package:payutc/src/ui/style/theme.dart';
+import 'package:skeletons/skeletons.dart';
+
 import '../component/rounded_icon.dart';
 import 'account_screen.dart';
 import 'receive.dart';
@@ -99,12 +98,13 @@ class _HomePageState extends State<HomePage>
                             icon: const Icon(Icons.refresh),
                             onPressed: () async {
                               historyController.loadHistory(forced: true);
-                              try{
+                              try {
                                 await AppService.instance.refreshContent();
-                              }catch(_){
+                              } catch (_) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
-                                    content: Text(Translate.of(context).refreshContentError),
+                                    content: Text(Translate.of(context)
+                                        .refreshContentError),
                                   ),
                                 );
                               }

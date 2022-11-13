@@ -1,14 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:mobile_scanner/mobile_scanner.dart';
-
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/search_user_manager.dart';
 import 'package:payutc/src/services/unilinks.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 typedef SelectUserCallBack = void Function(BuildContext context, User user);
 
@@ -315,7 +314,10 @@ class _SelectUserPageState extends State<SelectUserPage> {
       user = UniLinks.handleTransfertUri(uri);
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(Translate.of(context).qr_read_error)));
+        SnackBar(
+          content: Text(Translate.of(context).qr_read_error),
+        ),
+      );
       return;
     }
     showDialog(
@@ -376,14 +378,24 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   },
                   child: Text(Translate.of(context).select),
                 ),
-                if (!favManager.exist(user))
-                  TextButton(
-                    onPressed: () {
-                      favManager.add(user);
-                      Navigator.pop(context);
-                    },
-                    child: Text(Translate.of(context).addtofav),
-                  ),
+                AnimatedBuilder(
+                    animation: favManager,
+                    builder: (context, snapshot) {
+                      return TextButton(
+                        onPressed: () {
+                          if (favManager.exist(user)) {
+                            favManager.remove(user);
+                          } else {
+                            favManager.add(user);
+                          }
+                        },
+                        child: Text(
+                          favManager.exist(user)
+                              ? Translate.of(context).removeFromFav
+                              : Translate.of(context).addtofav,
+                        ),
+                      );
+                    }),
                 TextButton(
                   onPressed: () => Navigator.pop(context),
                   child: Text(Translate.of(context).annuler),
@@ -397,9 +409,14 @@ class _SelectUserPageState extends State<SelectUserPage> {
   }
 }
 
-class ScanPage extends StatelessWidget {
+class ScanPage extends StatefulWidget {
   const ScanPage({super.key});
 
+  @override
+  State<ScanPage> createState() => _ScanPageState();
+}
+
+class _ScanPageState extends State<ScanPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -412,7 +429,40 @@ class ScanPage extends StatelessWidget {
         backgroundColor: Colors.black,
         iconTheme: const IconThemeData(color: Colors.white),
       ),
-      body: Stack(
+      backgroundColor: Colors.black,
+      body: FutureBuilder<PermissionStatus>(
+        future: _checkPerm(),
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text("Une erreur est survenue"),
+            );
+          }
+          if (snapshot.hasData) {
+            if (snapshot.data == PermissionStatus.granted) {
+              return _mobileScannerContent();
+            }
+            return const Center(
+              child: Text(
+                "Vous devez autoriser l'accès à la caméra dans les paramètres",
+                style: TextStyle(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<PermissionStatus> _checkPerm() {
+    return Permission.camera.request();
+  }
+
+  Widget _mobileScannerContent() => Stack(
         children: [
           MobileScanner(
             allowDuplicates: false,
@@ -472,9 +522,7 @@ class ScanPage extends StatelessWidget {
             ),
           ),
         ],
-      ),
-    );
-  }
+      );
 }
 
 class PersistantHeader extends SliverPersistentHeaderDelegate {
