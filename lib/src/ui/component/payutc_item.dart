@@ -21,7 +21,7 @@ class PayUtcItemWidget extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: 7.0),
       child: GestureDetector(
         behavior: HitTestBehavior.opaque,
-        onTap: ()=>_showModal(context),
+        onTap: () => _showModal(context),
         child: SizedBox(
           height: 60,
           child: Row(
@@ -115,57 +115,55 @@ class PayUtcItemWidget extends StatelessWidget {
         barrierColor: Colors.white30,
         context: context,
         shape: const RoundedRectangleBorder(
-            borderRadius:
-            BorderRadius.vertical(top: Radius.circular(15))),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(15))),
         builder: (_) => SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                const Text(
-                  "Details",
-                  style: TextStyle(color: Colors.white, fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 5,
-                ),
-                _row("Montant", item.amountParse.toStringAsFixed(2)),
-                _row("Dénomination", item.nameExtracted(context)),
-                _row("Service", item.service(context)),
-                _row("Date", DateFormat("dd/MM/yyyy").format(item.date)),
-                _row("Heure", DateFormat("HH:mm").format(item.date)),
-                const SizedBox(
-                  height: 10,
-                ),
-                if (item.isVirement) ...[
-                  const Text(
-                    "Message",
-                    style:
-                    TextStyle(color: Colors.white, fontSize: 18),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Colors.white12,
-                        borderRadius: BorderRadius.circular(15)),
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.all(10),
-                    child: Text(
-                      "${item.name}",
-                      style: const TextStyle(color: Colors.white),
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      "Details",
+                      style: TextStyle(color: Colors.white, fontSize: 18),
                     ),
-                  ),
-                ],
-                const SizedBox(
-                  height: 25,
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    _row("Montant", item.amountParse.toStringAsFixed(2)),
+                    _row("Dénomination", item.nameExtracted(context)),
+                    _row("Service", item.service(context)),
+                    _row("Date", DateFormat("dd/MM/yyyy").format(item.date)),
+                    _row("Heure", DateFormat("HH:mm").format(item.date)),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    if (item.isVirement) ...[
+                      const Text(
+                        "Message",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            color: Colors.white12,
+                            borderRadius: BorderRadius.circular(15)),
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.all(10),
+                        child: Text(
+                          "${item.name}",
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
+                    ],
+                    const SizedBox(
+                      height: 25,
+                    ),
+                  ],
                 ),
-              ],
-            ),
-          ),
-        ));
+              ),
+            ));
   }
 }
