@@ -104,6 +104,8 @@ class MessageLookup extends MessageLookupByLibrary {
             "Fait scanner le code avec l\'application Pay\'UTC pour partager ton profil."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Transfert récents"),
+        "refreshContentError": MessageLookupByLibrary.simpleMessage(
+            "Impossible de rafraichir, une erreur est survenue"),
         "reload": MessageLookupByLibrary.simpleMessage("Recharger"),
         "reloadAmount":
             MessageLookupByLibrary.simpleMessage("Montant de la recharge"),

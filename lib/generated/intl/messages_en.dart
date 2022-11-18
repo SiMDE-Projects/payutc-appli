@@ -38,7 +38,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "connect": MessageLookupByLibrary.simpleMessage("To log in"),
         "connectToPayutc": MessageLookupByLibrary.simpleMessage("To log in\n"),
         "connectToPayutcSentence": MessageLookupByLibrary.simpleMessage(
-            "Log in to use the Pay\'UTC application"),
+            "Log in to use the Pay\'UTC app"),
         "connect_mention_legs": MessageLookupByLibrary.simpleMessage(
             "By logging in you accept the"),
         "consomation": MessageLookupByLibrary.simpleMessage("Consumption"),
@@ -66,7 +66,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lastname": MessageLookupByLibrary.simpleMessage("First name"),
         "licenseDeLapplication":
-            MessageLookupByLibrary.simpleMessage("Application license"),
+            MessageLookupByLibrary.simpleMessage("Application License"),
         "licensesPayutc":
             MessageLookupByLibrary.simpleMessage("Pay’UTC license"),
         "lock_card": MessageLookupByLibrary.simpleMessage("Lock my badge"),
@@ -93,12 +93,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "quitterLaPage":
             MessageLookupByLibrary.simpleMessage("Leave the page?"),
         "randomTransfertSentence":
-            MessageLookupByLibrary.simpleMessage("Random sentence"),
+            MessageLookupByLibrary.simpleMessage("Random phrase"),
         "receive": MessageLookupByLibrary.simpleMessage("Receive"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
             "Scan the code with the Pay\'UTC app to share your profile."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Recent Transfers"),
+        "refreshContentError": MessageLookupByLibrary.simpleMessage(
+            "Unable to refresh, an error has occurred"),
         "reload": MessageLookupByLibrary.simpleMessage("Reload"),
         "reloadAmount": MessageLookupByLibrary.simpleMessage("Recharge amount"),
         "reloading": MessageLookupByLibrary.simpleMessage("Reload"),

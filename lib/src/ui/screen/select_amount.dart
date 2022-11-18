@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/ui/style/color.dart';
 

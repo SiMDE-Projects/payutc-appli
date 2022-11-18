@@ -98,12 +98,14 @@ class MessageLookup extends MessageLookupByLibrary {
         "quitterLaPage":
             MessageLookupByLibrary.simpleMessage("¿Dejar la página?"),
         "randomTransfertSentence":
-            MessageLookupByLibrary.simpleMessage("Frase aleatoria"),
+            MessageLookupByLibrary.simpleMessage("Oración aleatoria"),
         "receive": MessageLookupByLibrary.simpleMessage("Recibir"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
             "Escanea el código con la aplicación Pay\'UTC para compartir tu perfil."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Transferencias recientes"),
+        "refreshContentError": MessageLookupByLibrary.simpleMessage(
+            "No se puede actualizar, ha ocurrido un error"),
         "reload": MessageLookupByLibrary.simpleMessage("Recargar"),
         "reloadAmount":
             MessageLookupByLibrary.simpleMessage("Monto de recarga"),

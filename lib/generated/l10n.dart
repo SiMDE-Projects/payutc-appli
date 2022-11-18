@@ -912,6 +912,16 @@ class Translate {
       args: [],
     );
   }
+
+  /// `Impossible de rafraichir, une erreur est survenue`
+  String get refreshContentError {
+    return Intl.message(
+      'Impossible de rafraichir, une erreur est survenue',
+      name: 'refreshContentError',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<Translate> {

@@ -1,7 +1,9 @@
 import 'dart:convert';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+
+import 'package:dio/dio.dart';
+
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/ginger.dart';
 import 'package:payutc/src/api/nemopay.dart';
@@ -13,7 +15,6 @@ import 'package:payutc/src/models/wallet.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/storage.dart';
 import 'package:payutc/src/services/wallet.dart';
-
 import '../env.dart';
 
 class AppService extends ChangeNotifier {
