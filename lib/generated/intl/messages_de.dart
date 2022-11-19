@@ -103,9 +103,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Zufälliger Satz"),
         "receive": MessageLookupByLibrary.simpleMessage("Erhalten"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Scannen Sie den Code mit der Pay\'UTC-App, um Ihr Profil zu teilen."),
+            "Scannen Sie den Code mit der Pay\'UTC-Anwendung, um Ihr Profil zu teilen."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Letzte Übertragungen"),
+        "refreshContentError": MessageLookupByLibrary.simpleMessage(
+            "Aktualisierung nicht möglich, es ist ein Fehler aufgetreten"),
         "reload": MessageLookupByLibrary.simpleMessage("Neu laden"),
         "reloadAmount": MessageLookupByLibrary.simpleMessage("Aufladebetrag"),
         "reloading": MessageLookupByLibrary.simpleMessage("Neu laden"),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -152,7 +154,6 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   TextEditingController username = TextEditingController(),
       password = TextEditingController();
-  final FocusNode passNode = FocusNode();
   bool isCas = true;
 
   bool loading = false;
@@ -161,7 +162,6 @@ class _LoginPageState extends State<LoginPage> {
   void dispose() {
     username.dispose();
     password.dispose();
-    passNode.dispose();
     super.dispose();
   }
 
@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: GestureDetector(
-              onTap: () {
+              onLongPress: () {
                 setState(() {
                   isCas = !isCas;
                 });
@@ -238,7 +238,10 @@ class _LoginPageState extends State<LoginPage> {
                           validator: (_) => _!.isEmpty
                               ? Translate.of(context).fieldNeeded
                               : null,
-                          autofillHints: const [AutofillHints.username],
+                          autofillHints: [
+                            if (!isCas) AutofillHints.email,
+                            AutofillHints.username
+                          ],
                           decoration: InputDecoration(
                             hintText: isCas
                                 ? Translate.of(context).userName
@@ -246,9 +249,6 @@ class _LoginPageState extends State<LoginPage> {
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15)),
                           ),
-                          onFieldSubmitted: (_) {
-                            FocusScope.of(context).requestFocus(passNode);
-                          },
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(
@@ -267,15 +267,19 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(15),
                             ),
                           ),
-                          focusNode: passNode,
                           onFieldSubmitted: (_) {
                             _connect(context);
-                            passNode.unfocus();
                           },
+                          textInputAction: TextInputAction.done,
                         ),
                         const SizedBox(
                           height: 100,
                         ),
+                        if (!isCas)
+                          const Text(
+                            "Attention, connexion HORS CAS UTC",
+                            textAlign: TextAlign.center,
+                          ),
                         ElevatedButton(
                           onPressed: loading ? null : () => _connect(context),
                           child: Text(Translate.of(context).connect),
@@ -304,6 +308,7 @@ class _LoginPageState extends State<LoginPage> {
       bool b = await AppService.instance
           .connectUser(username.text, password.text, isCas);
       if (b && mounted) {
+        if (Platform.isAndroid) TextInput.finishAutofillContext();
         Navigator.pushReplacement(
           context,
           CupertinoPageRoute(

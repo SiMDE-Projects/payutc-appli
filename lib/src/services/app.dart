@@ -92,9 +92,9 @@ class AppService extends ChangeNotifier {
     return "${num.toDouble().toStringAsFixed(2)}${appProperties.config?.currencySymbol}";
   }
 
-  void refreshContent() {
-    historyService.forceLoadHistory();
-    walletService.forceLoad();
+  Future<void> refreshContent() async {
+    await historyService.forceLoadHistory();
+    await walletService.forceLoad();
   }
 
   String generateShareLink() {

@@ -77,6 +77,14 @@ Type `dart ./translate/translate.dart` to see all commands examples
 ```shell
 dart ./translate/translate.dart arb en,es,it,de lib/l10n/intl_fr.arb
 ```
+
+# Contribute
+Before pushing your code, please run flutter analysis commands.
+```shell
+flutter analyze
+flutter pub run import_sorter:main
+flutter format .
+```
 # Authors
 
 - [Tom JUMEL](https://github.com/TomJumel)

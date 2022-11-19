@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -98,28 +100,53 @@ class _SelectAmountState extends State<SelectAmount> {
   }
 
   Widget _pad(TextEditingController controller) {
-    return GridView(
-      physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: true,
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 3, mainAxisExtent: 90),
-      children: [
-        for (int i = 1; i < 10; i++)
+    return LayoutBuilder(builder: (context, snapshot) {
+      double maxExtent = min(snapshot.maxHeight / 4, 90);
+      return GridView(
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 3,
+          mainAxisExtent: maxExtent,
+        ),
+        children: [
+          for (int i = 1; i < 10; i++)
+            Center(
+              child: SizedBox.square(
+                dimension: maxExtent - 20,
+                child: Material(
+                  color: Colors.white24,
+                  clipBehavior: Clip.hardEdge,
+                  borderRadius: BorderRadius.circular(50),
+                  child: InkWell(
+                    onTap: () => _padInteract(i),
+                    child: SizedBox.expand(
+                      child: Center(
+                        child: Text(
+                          "$i",
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 18),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           Center(
             child: SizedBox.square(
-              dimension: 70,
+              dimension: maxExtent - 20,
               child: Material(
                 color: Colors.white24,
                 clipBehavior: Clip.hardEdge,
                 borderRadius: BorderRadius.circular(50),
                 child: InkWell(
-                  onTap: () => _padInteract(i),
-                  child: SizedBox.expand(
+                  onTap: () => _padInteract(-2),
+                  child: const SizedBox.expand(
                     child: Center(
                       child: Text(
-                        "$i",
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 18),
+                        ".",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
                       ),
                     ),
                   ),
@@ -127,71 +154,51 @@ class _SelectAmountState extends State<SelectAmount> {
               ),
             ),
           ),
-        Center(
-          child: SizedBox.square(
-            dimension: 70,
-            child: Material(
-              color: Colors.white24,
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.circular(50),
-              child: InkWell(
-                onTap: () => _padInteract(-2),
-                child: const SizedBox.expand(
-                  child: Center(
-                    child: Text(
-                      ".",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+          Center(
+            child: SizedBox.square(
+              dimension: maxExtent - 20,
+              child: Material(
+                color: Colors.white24,
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(50),
+                child: InkWell(
+                  onTap: () => _padInteract(0),
+                  child: const SizedBox.expand(
+                    child: Center(
+                      child: Text(
+                        "0",
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        Center(
-          child: SizedBox.square(
-            dimension: 70,
-            child: Material(
-              color: Colors.white24,
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.circular(50),
-              child: InkWell(
-                onTap: () => _padInteract(0),
-                child: const SizedBox.expand(
-                  child: Center(
-                    child: Text(
-                      "0",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+          Center(
+            child: SizedBox.square(
+              dimension: maxExtent - 20,
+              child: Material(
+                color: Colors.white24,
+                clipBehavior: Clip.hardEdge,
+                borderRadius: BorderRadius.circular(50),
+                child: InkWell(
+                  onTap: () => _padInteract(-1),
+                  child: const SizedBox.expand(
+                    child: Center(
+                      child: Icon(
+                        Icons.backspace,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
           ),
-        ),
-        Center(
-          child: SizedBox.square(
-            dimension: 70,
-            child: Material(
-              color: Colors.white24,
-              clipBehavior: Clip.hardEdge,
-              borderRadius: BorderRadius.circular(50),
-              child: InkWell(
-                onTap: () => _padInteract(-1),
-                child: const SizedBox.expand(
-                  child: Center(
-                    child: Icon(
-                      Icons.backspace,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+        ],
+      );
+    });
   }
 
   _padInteract(int num) {

@@ -72,7 +72,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Lingua"),
         "lastname": MessageLookupByLibrary.simpleMessage("Nome"),
         "licenseDeLapplication":
-            MessageLookupByLibrary.simpleMessage("Licenza applicativa"),
+            MessageLookupByLibrary.simpleMessage("Licenza dell\'applicazione"),
         "licensesPayutc":
             MessageLookupByLibrary.simpleMessage("Licenza Pay\'UTC"),
         "lock_card":
@@ -103,9 +103,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Frase casuale"),
         "receive": MessageLookupByLibrary.simpleMessage("Ricevere"),
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
-            "Scansiona il codice con l\'app Pay\'UTC per condividere il tuo profilo."),
+            "Scansiona il codice con l\'applicazione Pay\'UTC per condividere il tuo profilo."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Trasferimenti recenti"),
+        "refreshContentError": MessageLookupByLibrary.simpleMessage(
+            "Impossibile aggiornare, si è verificato un errore"),
         "reload": MessageLookupByLibrary.simpleMessage("Ricaricare"),
         "reloadAmount":
             MessageLookupByLibrary.simpleMessage("Importo di ricarica"),

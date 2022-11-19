@@ -97,9 +97,18 @@ class _HomePageState extends State<HomePage>
                           ],
                           leading: IconButton(
                             icon: const Icon(Icons.refresh),
-                            onPressed: () {
+                            onPressed: () async {
                               historyController.loadHistory(forced: true);
-                              AppService.instance.refreshContent();
+                              try {
+                                await AppService.instance.refreshContent();
+                              } catch (_) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(Translate.of(context)
+                                        .refreshContentError),
+                                  ),
+                                );
+                              }
                             },
                           ),
                         ),
