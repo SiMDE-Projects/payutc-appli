@@ -1,9 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:skeletons/skeletons.dart';
-
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
@@ -15,6 +12,8 @@ import 'package:payutc/src/ui/screen/stats.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
 import 'package:payutc/src/ui/style/theme.dart';
+import 'package:skeletons/skeletons.dart';
+
 import '../component/rounded_icon.dart';
 import 'account_screen.dart';
 import 'receive.dart';
@@ -101,6 +100,10 @@ class _HomePageState extends State<HomePage>
                               historyController.loadHistory(forced: true);
                               try {
                                 await AppService.instance.refreshContent();
+                                if (mounted) {
+                                  ScaffoldMessenger.of(context)
+                                      .hideCurrentMaterialBanner();
+                                }
                               } catch (_) {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(
@@ -143,7 +146,7 @@ class _HomePageState extends State<HomePage>
                               children: [
                                 Text(
                                   AppService.instance.translateMoney(
-                                      (historyController.history?.credit ??
+                                      (AppService.instance.userWallet?.credit ??
                                               00) /
                                           100),
                                   style: const TextStyle(
@@ -184,6 +187,31 @@ class _HomePageState extends State<HomePage>
                           bool res = await PaymentFlowPage.paymentFlow(context);
                           if (res) {
                             historyController.loadHistory(forced: true);
+                            await AppService.instance
+                                .refreshContent()
+                                .then((value) {
+                              ScaffoldMessenger.of(context).showMaterialBanner(
+                                MaterialBanner(
+                                  leading: const Icon(
+                                    Icons.campaign,
+                                    color: AppColors.orange,
+                                  ),
+                                  content: const Text(
+                                      "L'apparition de la recharge peut prendre 1-2 minutes"),
+                                  actions: [
+                                    IconButton(
+                                      onPressed: () {
+                                        ScaffoldMessenger.of(context)
+                                            .hideCurrentMaterialBanner();
+                                      },
+                                      icon: const Icon(Icons.close),
+                                      color: AppColors.orange,
+                                    )
+                                  ],
+                                ),
+                              );
+                              if (mounted) setState(() {});
+                            });
                           }
                         },
                       ),
