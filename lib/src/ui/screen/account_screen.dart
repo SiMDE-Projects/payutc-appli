@@ -120,7 +120,9 @@ class _AccountPageState extends State<AccountPage> {
                         Translate.of(context).nousContacter,
                         () {
                           launchUrlString(
-                              "mailto:payutc@assos.utc.fr?subject=[App]&body=Bonjour,\n");
+                            "mailto:payutc@assos.utc.fr?subject=[App]&body=Bonjour,\n",
+                            mode: LaunchMode.externalApplication,
+                          );
                         },
                       ),
                       if (showLogConsole)
