@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import 'package:dio/dio.dart';
-
+import 'package:flutter/material.dart';
 import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/ginger.dart';
@@ -16,6 +14,7 @@ import 'package:payutc/src/models/wallet.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/storage.dart';
 import 'package:payutc/src/services/wallet.dart';
+
 import '../env.dart';
 
 class AppService extends ChangeNotifier {
@@ -65,8 +64,8 @@ class AppService extends ChangeNotifier {
 
   Future<bool> initApp() async {
     await storageService.init();
-    if (await isFirstConnect) return false;
-    UserData d = (await storageService.userData)!;
+    UserData? d = (await storageService.userData);
+    if (await isFirstConnect || d == null) return false;
     userName = await (d.isCas ? _casConnect() : _classicConnect());
     appProperties = await nemoPayApi.getAppProperties();
     await walletService.forceLoad();
