@@ -102,9 +102,19 @@ class PayUtcItemWidget extends StatelessWidget {
             s,
             style: const TextStyle(color: Colors.white),
           ),
-          Text(
-            t,
-            style: const TextStyle(color: Colors.white),
+          const SizedBox(
+            width: 10,
+          ),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                t,
+                style: const TextStyle(color: Colors.white),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
           ),
         ],
       );
@@ -132,16 +142,18 @@ class PayUtcItemWidget extends StatelessWidget {
                     ),
                     _row("Montant", item.amountParse.toStringAsFixed(2)),
                     _row("Dénomination", item.nameExtracted(context)),
-                    _row("Service", item.service(context)),
+                    if (!item.isVirement)
+                      _row("Service", item.service(context)),
                     _row("Date", DateFormat("dd/MM/yyyy").format(item.date)),
                     _row("Heure", DateFormat("HH:mm").format(item.date)),
                     const SizedBox(
                       height: 10,
                     ),
                     if (item.isVirement) ...[
-                      const Text(
-                        "Message",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      Text(
+                        "${item.userVirName} a écrit :",
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 18),
                       ),
                       const SizedBox(
                         height: 5,
