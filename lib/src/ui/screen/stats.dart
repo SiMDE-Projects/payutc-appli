@@ -1,10 +1,8 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
-
 import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
@@ -66,6 +64,9 @@ class _StatPageState extends State<StatPage> {
               ),
               tabs: [
                 const Tab(
+                  child: Text("SY02"),
+                ),
+                const Tab(
                   child: Text("Semaine"),
                 ),
                 const Tab(
@@ -81,9 +82,6 @@ class _StatPageState extends State<StatPage> {
                 const Tab(
                   child: Text("Depuis le jour 1"),
                 ),
-                const Tab(
-                  child: Text("SY02"),
-                ),
               ],
             ),
             Expanded(
@@ -95,6 +93,7 @@ class _StatPageState extends State<StatPage> {
                     color: Colors.black),
                 child: TabBarView(
                   children: [
+                    _buildCrazyStats(history),
                     _buildPage(
                         history,
                         DateTime.now().subtract(const Duration(days: 7)),
@@ -109,7 +108,6 @@ class _StatPageState extends State<StatPage> {
                     _buildPage(history, DateTime(DateTime.now().year),
                         DateTime.now(), "l'année actuelle"),
                     _buildPage(history, null, null, "la totale"),
-                    _buildCrazyStats(history),
                   ],
                 ),
               ),
@@ -400,10 +398,12 @@ class _StatPageState extends State<StatPage> {
   }
 
   _extractTopDays(List<PayUtcItem> history) {
+    history = history.toList();
+    history.removeWhere((element) => (element.amount ?? 0) > 1500);
     Map<DateTime, PayUtcItem> map = {};
     //group history by date day/month/year
     for (PayUtcItem item in history) {
-      if (item.isOutAmount && item.isProduct && item.amount! < 1500) {
+      if (item.isOutAmount && item.isProduct) {
         DateTime date =
             DateTime(item.date.year, item.date.month, item.date.day);
         if (map.containsKey(date)) {
