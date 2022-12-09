@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dio/dio.dart';
 
+import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/ginger.dart';
 import 'package:payutc/src/api/nemopay.dart';
@@ -60,6 +61,8 @@ class AppService extends ChangeNotifier {
 
   Owner get user => userWallet!.user;
 
+  List<Semester> semesters = [];
+
   Future<bool> initApp() async {
     await storageService.init();
     if (await isFirstConnect) return false;
@@ -68,6 +71,7 @@ class AppService extends ChangeNotifier {
     appProperties = await nemoPayApi.getAppProperties();
     await walletService.forceLoad();
     await historyService.forceLoadHistory();
+    semesters = await AssosUTC.getSemesters();
     return true;
   }
 
