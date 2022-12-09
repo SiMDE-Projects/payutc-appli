@@ -54,7 +54,7 @@ class _SplashPageState extends State<SplashPage> {
               height: 30,
             ),
             const Text(
-              "Pay'ut",
+              "Pay'UTC",
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
             const SizedBox(
