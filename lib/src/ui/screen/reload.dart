@@ -4,12 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/env.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/ui/screen/select_amount.dart';
+import 'package:payutc/src/ui/style/color.dart';
 
 class PaymentFlowPage extends StatefulWidget {
   final double amount;
@@ -50,6 +52,27 @@ class PaymentFlowPage extends StatefulWidget {
 }
 
 class _PaymentFlowPageState extends State<PaymentFlowPage> {
+  String? _url, _error;
+
+  @override
+  void initState() {
+    AppService.instance.nemoPayApi
+        .requestTransfertUrl(widget.amount)
+        .then((value) => setState(() {
+              _url = value;
+              if (mounted) {
+                setState(() {});
+              }
+            }))
+        .catchError((e) {
+      _error = "Une erreur est survenue";
+      if (mounted) {
+        setState(() {});
+      }
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -82,11 +105,50 @@ class _PaymentFlowPageState extends State<PaymentFlowPage> {
           elevation: 0,
           iconTheme: const IconThemeData(color: Colors.white),
           systemOverlayStyle: SystemUiOverlayStyle.light,
+          actions: [
+            if (_url != null)
+              IconButton(
+                icon: const Icon(Icons.open_in_new),
+                onPressed: () => showDialog(
+                  context: context,
+                  builder: (_) {
+                    return AlertDialog(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      title: const Text("Ouvrir dans le navigateur"),
+                      content: const Text(
+                        "Tu n'arrive pas à accéder à la page ou au "
+                        "paiement ? Tu peux essayer d'ouvrir la page dans "
+                        "un navigateur. (Il faudra ensuite revenir sur l'application)",
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(context, false),
+                          child: const Text("Annuler"),
+                        ),
+                        TextButton(
+                          style: TextButton.styleFrom(
+                              foregroundColor: Colors.black54),
+                          onPressed: () {
+                            Navigator.pop(context, true);
+                            Navigator.pop(context, true);
+                            launchUrlString(_url!,
+                                mode: LaunchMode.externalApplication);
+                          },
+                          child: const Text("Passer par le navigateur"),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+              ),
+          ],
         ),
         backgroundColor: Colors.black,
-        body: FutureBuilder<String>(
-            future: AppService.instance.nemoPayApi
-                .requestTransfertUrl(widget.amount),
+        body: FutureBuilder<String?>(
+            future: Future.value(_url),
             builder: (context, snapshot) {
               if (snapshot.data != null) {
                 return ClipRRect(
@@ -108,13 +170,24 @@ class _PaymentFlowPageState extends State<PaymentFlowPage> {
                   )),
                 );
               }
-              if (!snapshot.hasData &&
-                  snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+              if (_error != null) {
+                return Center(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    padding: const EdgeInsets.all(16),
+                    child: Text(
+                      "$_error",
+                      style: const TextStyle(color: AppColors.red),
+                    ),
+                  ),
                 );
               }
-              return const SizedBox();
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
             }),
       ),
     );
