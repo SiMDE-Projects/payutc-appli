@@ -194,6 +194,16 @@ class APropos extends StatelessWidget {
             },
           ),
           btnAccount(
+            Translate.of(context).mentionsLgales,
+            () {
+              showWebView(
+                context,
+                "assets/therms/cgu.html",
+                Translate.of(context).mentionsLgales,
+              );
+            },
+          ),
+          btnAccount(
             Translate.of(context).licensesPayutc,
             () {
               showWebView(
