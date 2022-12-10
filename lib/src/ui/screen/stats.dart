@@ -260,7 +260,7 @@ class _StatPageState extends State<StatPage> {
               style: const TextStyle(color: Colors.white),
             ),
             subtitle: Text(
-              "${item.quantity} achats",
+              "${item.quantity.toInt()} achats",
               style: const TextStyle(color: Colors.white),
             ),
             trailing: Text(
