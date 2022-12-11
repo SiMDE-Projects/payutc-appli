@@ -54,6 +54,7 @@ dependencies:
   mobile_scanner: ^2.0.0
   permission_handler: ^10.2.0
   intl: ^0.17.0
+  package_info_plus: ^3.0.2
 
   #ui
   cupertino_icons: ^1.0.2

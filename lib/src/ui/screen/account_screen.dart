@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
 import 'package:payutc/compil.dart';
@@ -118,9 +121,17 @@ class _AccountPageState extends State<AccountPage> {
                       btnAccount(Translate.of(context).aPropos, _aproposScreen),
                       btnAccount(
                         Translate.of(context).nousContacter,
-                        () {
+                        () async {
+                          final info = await PackageInfo.fromPlatform();
+                          StringBuffer sb = StringBuffer();
+                          sb.writeln("------------------");
+                          sb.writeln("Version : ${info.version}");
+                          sb.writeln("Build : ${info.buildNumber}");
+                          sb.writeln("OS : ${Platform.operatingSystem}");
+                          sb.writeln("User : ${AppService.instance.user.username}");
+                          sb.writeln("------------------");
                           launchUrlString(
-                            "mailto:payutc@assos.utc.fr?subject=[App]&body=Bonjour,\n",
+                            "mailto:payutc@assos.utc.fr?subject=[App]&body=$sb\nBonjour,\n",
                             mode: LaunchMode.externalApplication,
                           );
                         },
