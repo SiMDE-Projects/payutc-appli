@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 
+import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/utils.dart';
@@ -24,10 +25,22 @@ class _StatPageState extends State<StatPage> {
   int select = 0;
   List<PayUtcItem> history =
       AppService.instance.historyService.history?.historique ?? [];
+  late Semester selectedSemester;
+  List<Semester> semesters = [];
 
   @override
   void initState() {
     super.initState();
+    semesters = AppService.instance.semesters.toList();
+    semesters.removeWhere((element) {
+      //remove future semesters
+      if (DateTime.now().isBefore(element.beginAt)) return true;
+      //remove semesters without history
+      if (history.isNotEmpty &&
+          !(history.any((e) => isInSemester(e.date, element)))) return true;
+      return false;
+    });
+    selectedSemester = _findCurrentSemester(semesters);
   }
 
   @override
@@ -40,7 +53,7 @@ class _StatPageState extends State<StatPage> {
         centerTitle: true,
       ),
       body: DefaultTabController(
-        length: 5,
+        length: 5 + (semesters.isNotEmpty ? 1 : 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -51,21 +64,25 @@ class _StatPageState extends State<StatPage> {
                 color: Colors.black12,
                 borderRadius: BorderRadius.circular(15),
               ),
-              tabs: const [
-                Tab(
+              tabs: [
+                const Tab(
+                  child: Text("SY02"),
+                ),
+                const Tab(
                   child: Text("Semaine"),
                 ),
-                Tab(
+                const Tab(
                   child: Text("Mois"),
                 ),
-                Tab(
+                if (semesters.isNotEmpty)
+                  const Tab(
+                    child: Text("Semestre"),
+                  ),
+                const Tab(
                   child: Text("Année"),
                 ),
-                Tab(
+                const Tab(
                   child: Text("Depuis le jour 1"),
-                ),
-                Tab(
-                  child: Text("SY02"),
                 ),
               ],
             ),
@@ -78,6 +95,7 @@ class _StatPageState extends State<StatPage> {
                     color: Colors.black),
                 child: TabBarView(
                   children: [
+                    _buildCrazyStats(history),
                     _buildPage(
                         history,
                         DateTime.now().subtract(const Duration(days: 7)),
@@ -88,10 +106,10 @@ class _StatPageState extends State<StatPage> {
                         DateTime(DateTime.now().year, DateTime.now().month),
                         DateTime.now(),
                         "le mois actuel"),
+                    if (semesters.isNotEmpty) _buildSemesterPage(),
                     _buildPage(history, DateTime(DateTime.now().year),
                         DateTime.now(), "l'année actuelle"),
                     _buildPage(history, null, null, "la totale"),
-                    _buildCrazyStats(history),
                   ],
                 ),
               ),
@@ -99,6 +117,64 @@ class _StatPageState extends State<StatPage> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildSemesterPage() {
+    return ListView(
+      padding: const EdgeInsets.all(20),
+      children: [
+        const Text(
+          "Semestre",
+          style: TextStyle(fontSize: 20, color: Colors.white),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        DropdownButtonFormField<Semester>(
+          value: selectedSemester,
+          iconSize: 24,
+          elevation: 16,
+          decoration: const InputDecoration(
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: AppColors.scaffold),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: AppColors.scaffold),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(10)),
+              borderSide: BorderSide(color: AppColors.scaffold),
+            ),
+            fillColor: AppColors.scaffold,
+            filled: true,
+            hintText: 'Choisissez un semestre',
+            contentPadding: EdgeInsets.symmetric(horizontal: 15),
+          ),
+          onChanged: (Semester? newValue) {
+            setState(() {
+              selectedSemester = newValue!;
+            });
+          },
+          items: semesters.map<DropdownMenuItem<Semester>>((Semester value) {
+            return DropdownMenuItem<Semester>(
+              value: value,
+              child: Text(value.name),
+            );
+          }).toList(),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        ...buildContentPage(
+            splitForPeriod(
+                history, selectedSemester.beginAt, selectedSemester.endAt),
+            selectedSemester.beginAt,
+            selectedSemester.endAt,
+            selectedSemester.name)
+      ],
     );
   }
 
@@ -128,53 +204,7 @@ class _StatPageState extends State<StatPage> {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        Text("Infos ($s)",
-            style: const TextStyle(fontSize: 20, color: Colors.white)),
-        Text(
-          "Période du ${DateFormat("dd/MM/yyyy").format(start ?? items.last.date)} au ${DateFormat("dd/MM/yyyy").format(end ?? DateTime.now())}",
-          style: const TextStyle(fontSize: 11, color: Colors.white54),
-        ),
-        const SizedBox(height: 20),
-        _buildInfo(
-            "Achats",
-            items.where((element) => element.isPurchase).fold(
-                0,
-                (previousValue, element) =>
-                    previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 10),
-        _buildInfo(
-            "Virements envoyé",
-            items
-                .where((element) => element.isVirement && element.isOutAmount)
-                .fold(
-                    0,
-                    (previousValue, element) =>
-                        previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 10),
-        _buildInfo(
-            "Virements reçu",
-            items
-                .where((element) => element.isVirement && element.isInAmount)
-                .fold(
-                    0,
-                    (previousValue, element) =>
-                        previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 10),
-        _buildInfo(
-            "Recharges",
-            items.where((element) => element.isReload).fold(
-                0,
-                (previousValue, element) =>
-                    previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 20),
-        const Text("Top des achats",
-            style: TextStyle(fontSize: 20, color: Colors.white)),
-        const Text(
-          "Trié par achats",
-          style: TextStyle(fontSize: 11, color: Colors.white54),
-        ),
-        const SizedBox(height: 20),
-        _buildTop(items.toList(), start, end),
+        ...buildContentPage(items, start, end, s),
       ],
     );
   }
@@ -232,7 +262,7 @@ class _StatPageState extends State<StatPage> {
               style: const TextStyle(color: Colors.white),
             ),
             subtitle: Text(
-              "${item.quantity} achats",
+              "${item.quantity.toInt()} achats",
               style: const TextStyle(color: Colors.white),
             ),
             trailing: Text(
@@ -370,10 +400,12 @@ class _StatPageState extends State<StatPage> {
   }
 
   _extractTopDays(List<PayUtcItem> history) {
+    history = history.toList();
+    history.removeWhere((element) => (element.amount ?? 0) > 1500);
     Map<DateTime, PayUtcItem> map = {};
     //group history by date day/month/year
     for (PayUtcItem item in history) {
-      if (item.isOutAmount && item.isProduct && item.amount! < 1500) {
+      if (item.isOutAmount && item.isProduct) {
         DateTime date =
             DateTime(item.date.year, item.date.month, item.date.day);
         if (map.containsKey(date)) {
@@ -542,6 +574,71 @@ class _StatPageState extends State<StatPage> {
     list.sort((a, b) => b.amount!.compareTo(a.amount!));
     return list.length > 4 ? list.sublist(0, 4) : list;
   }
+
+  Semester _findCurrentSemester(List<Semester> semesters) {
+    final now = DateTime.now();
+    for (final semester in semesters) {
+      if (semester.beginAt.isBefore(now) && semester.endAt.isAfter(now)) {
+        return semester;
+      }
+    }
+    return semesters.first;
+  }
+
+  List<Widget> buildContentPage(
+          List<PayUtcItem> items, DateTime? start, DateTime? end, String s) =>
+      [
+        Text("Infos ($s)",
+            style: const TextStyle(fontSize: 20, color: Colors.white)),
+        Text(
+          "Période du ${DateFormat("dd/MM/yyyy").format(start ?? items.last.date)} au ${DateFormat("dd/MM/yyyy").format(end ?? DateTime.now())}",
+          style: const TextStyle(fontSize: 11, color: Colors.white54),
+        ),
+        const SizedBox(height: 20),
+        _buildInfo(
+            "Achats",
+            items.where((element) => element.isPurchase).fold(
+                0,
+                (previousValue, element) =>
+                    previousValue + (element.amount!.abs().toInt()))),
+        const SizedBox(height: 10),
+        _buildInfo(
+            "Virements envoyé",
+            items
+                .where((element) => element.isVirement && element.isOutAmount)
+                .fold(
+                    0,
+                    (previousValue, element) =>
+                        previousValue + (element.amount!.abs().toInt()))),
+        const SizedBox(height: 10),
+        _buildInfo(
+            "Virements reçu",
+            items
+                .where((element) => element.isVirement && element.isInAmount)
+                .fold(
+                    0,
+                    (previousValue, element) =>
+                        previousValue + (element.amount!.abs().toInt()))),
+        const SizedBox(height: 10),
+        _buildInfo(
+            "Recharges",
+            items.where((element) => element.isReload).fold(
+                0,
+                (previousValue, element) =>
+                    previousValue + (element.amount!.abs().toInt()))),
+        const SizedBox(height: 20),
+        const Text("Top des achats",
+            style: TextStyle(fontSize: 20, color: Colors.white)),
+        const Text(
+          "Trié par achats",
+          style: TextStyle(fontSize: 11, color: Colors.white54),
+        ),
+        const SizedBox(height: 20),
+        _buildTop(items.toList(), start, end),
+      ];
+
+  isInSemester(DateTime date, Semester element) =>
+      date.isAfter(element.beginAt) && date.isBefore(element.endAt);
 }
 
 class PieItems {

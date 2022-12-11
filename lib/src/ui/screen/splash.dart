@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -11,6 +12,7 @@ import 'package:sentry_flutter/sentry_flutter.dart';
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/home.dart';
 import 'package:payutc/src/ui/style/color.dart';
 
@@ -54,7 +56,7 @@ class _SplashPageState extends State<SplashPage> {
               height: 30,
             ),
             const Text(
-              "Pay'ut",
+              "Pay'UTC",
               style: TextStyle(color: Colors.white, fontSize: 30),
             ),
             const SizedBox(
@@ -287,6 +289,21 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 5,
                         ),
+                        Text.rich(
+                          TextSpan(
+                            text: Translate.of(context).connect_mention_legs,
+                            children: [
+                              TextSpan(
+                                  text:
+                                      " ${Translate.of(context).mentionsLgales}",
+                                  style: const TextStyle(
+                                    color: AppColors.orange,
+                                  ),
+                                  recognizer: TapGestureRecognizer()
+                                    ..onTap = _mentionsLeg)
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -296,6 +313,14 @@ class _LoginPageState extends State<LoginPage> {
           );
         }),
       ),
+    );
+  }
+
+  void _mentionsLeg() {
+    showWebView(
+      context,
+      "assets/therms/cgu.html",
+      Translate.of(context).mentionsLgales,
     );
   }
 
