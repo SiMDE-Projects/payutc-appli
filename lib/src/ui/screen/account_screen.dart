@@ -128,7 +128,8 @@ class _AccountPageState extends State<AccountPage> {
                           sb.writeln("Version : ${info.version}");
                           sb.writeln("Build : ${info.buildNumber}");
                           sb.writeln("OS : ${Platform.operatingSystem}");
-                          sb.writeln("User : ${AppService.instance.user.username}");
+                          sb.writeln(
+                              "User : ${AppService.instance.user.username}");
                           sb.writeln("------------------");
                           launchUrlString(
                             "mailto:payutc@assos.utc.fr?subject=[App]&body=$sb\nBonjour,\n",
