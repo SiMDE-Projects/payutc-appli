@@ -40,7 +40,9 @@ class _AccountPageState extends State<AccountPage> {
                       },
                       icon: const Icon(Icons.arrow_back_ios)),
                   Text(
-                    Translate.of(context).settings,
+                    Translate
+                        .of(context)
+                        .settings,
                     style: const TextStyle(color: Colors.black, fontSize: 16),
                   ),
                 ],
@@ -64,7 +66,10 @@ class _AccountPageState extends State<AccountPage> {
                               backgroundColor: AppColors.orange,
                               foregroundColor: Colors.white,
                               child: Text(
-                                  "${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName ?? "U")}"
+                                  "${_getFirst(AppService.instance.user
+                                      .firstName)}${_getFirst(
+                                      AppService.instance.user.lastName ??
+                                          "U")}"
                                       .toUpperCase()),
                             ),
                             const SizedBox(
@@ -75,13 +80,16 @@ class _AccountPageState extends State<AccountPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${AppService.instance.userWallet!.user.firstName!} ${AppService.instance.userWallet!.user.lastName!}",
+                                    "${AppService.instance.userWallet!.user
+                                        .firstName!} ${AppService.instance
+                                        .userWallet!.user.lastName!}",
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    "${AppService.instance.userWallet!.user.username}",
+                                    "${AppService.instance.userWallet!.user
+                                        .username}",
                                     style: const TextStyle(
                                       color: Colors.white54,
                                       fontSize: 12,
@@ -96,7 +104,7 @@ class _AccountPageState extends State<AccountPage> {
                                     context,
                                     CupertinoPageRoute(
                                         builder: (_) =>
-                                            const AccountSettingsPage()));
+                                        const AccountSettingsPage()));
                               },
                               icon: const Icon(
                                 Icons.settings_rounded,
@@ -118,10 +126,14 @@ class _AccountPageState extends State<AccountPage> {
                               borderRadius: BorderRadius.circular(15)),
                           padding: const EdgeInsets.all(10),
                           child: const LanguageSwitcher()),
-                      btnAccount(Translate.of(context).aPropos, _aproposScreen),
+                      btnAccount(Translate
+                          .of(context)
+                          .aPropos, _aproposScreen),
                       btnAccount(
-                        Translate.of(context).nousContacter,
-                        () async {
+                        Translate
+                            .of(context)
+                            .nousContacter,
+                            () async {
                           final info = await PackageInfo.fromPlatform();
                           StringBuffer sb = StringBuffer();
                           sb.writeln("------------------");
@@ -142,10 +154,11 @@ class _AccountPageState extends State<AccountPage> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (builder) => const LogConsole(
-                                        dark: false,
-                                        showCloseButton: true,
-                                      )));
+                                  builder: (builder) =>
+                                  const LogConsole(
+                                    dark: false,
+                                    showCloseButton: true,
+                                  )));
                         }),
                     ],
                   ),
@@ -168,7 +181,7 @@ class _AccountPageState extends State<AccountPage> {
                           context,
                           CupertinoPageRoute(
                               builder: (builder) => const SplashPage()),
-                          (route) => false);
+                              (route) => false);
                     }
                   },
                   child: Padding(
@@ -177,7 +190,9 @@ class _AccountPageState extends State<AccountPage> {
                       children: [
                         Expanded(
                           child: Text(
-                            Translate.of(context).logOut,
+                            Translate
+                                .of(context)
+                                .logOut,
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold),
@@ -235,9 +250,11 @@ class _LanguageSwitcherState extends State<LanguageSwitcher>
       _localeController = TabController(length: localesMap.length, vsync: this);
       _localeController!.index = localesMap.values.toList().indexWhere(
             (element) =>
-                element.languageCode ==
-                Localizations.localeOf(context).languageCode,
-          );
+        element.languageCode ==
+            Localizations
+                .localeOf(context)
+                .languageCode,
+      );
       setState(() {});
     });
   }
@@ -248,7 +265,9 @@ class _LanguageSwitcherState extends State<LanguageSwitcher>
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          Translate.of(context).language,
+          Translate
+              .of(context)
+              .language,
           style: const TextStyle(
               fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
         ),

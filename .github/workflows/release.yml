@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - git-actions
 
 jobs:
   on-failure:
