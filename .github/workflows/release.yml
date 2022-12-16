@@ -80,19 +80,22 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter pub get
-      - run: flutter pub global activate intl_utils
-      - run: flutter pub global run intl_utils:generate
-      - run: flutter pub run build_runner build --delete-conflicting-outputs
-      - run: flutter test
-      - run: flutter build appbundle
-      - run: flutter build apk --release --split-per-abi
-      - name: Upload app bundle
+      - name: 📦 Get dependencies and prepare build
+        - run: flutter pub get
+        - run: flutter pub global activate intl_utils
+        - run: flutter pub global run intl_utils:generate
+      - name: 🧪 Run tests
+        - run: flutter pub run build_runner build --delete-conflicting-outputs
+        - run: flutter test
+      - name: 🏗️ Build
+        - run: flutter build appbundle
+        - run: flutter build apk --release --split-per-abi
+      - name: ☁ Upload app bundle
         uses: actions/upload-artifact@v3
         with:
           name: appbundle
           path: build/app/outputs/bundle/release/*.aab
-      - name: Upload apk
+      - name: ☁ Upload apk
         uses: actions/upload-artifact@v3
         with:
           name: apk
