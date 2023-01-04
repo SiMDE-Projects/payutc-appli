@@ -1,6 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+
+import 'package:skeletons/skeletons.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/ginger_user_infos.dart';
 import 'package:payutc/src/services/app.dart';
@@ -13,9 +17,6 @@ import 'package:payutc/src/ui/screen/stats.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
 import 'package:payutc/src/ui/style/theme.dart';
-import 'package:skeletons/skeletons.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
 import '../component/rounded_icon.dart';
 import 'account_screen.dart';
 import 'receive.dart';
