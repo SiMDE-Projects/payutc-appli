@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:skeletons/skeletons.dart';
-
 import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/ginger_user_infos.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/unilinks.dart';
@@ -15,6 +13,9 @@ import 'package:payutc/src/ui/screen/stats.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
 import 'package:payutc/src/ui/style/theme.dart';
+import 'package:skeletons/skeletons.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 import '../component/rounded_icon.dart';
 import 'account_screen.dart';
 import 'receive.dart';
@@ -504,26 +505,50 @@ class _HomePageState extends State<HomePage>
         ),
       );
 
-  void _sendMoneyPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (builder) => SelectUserPage(
-          callBack: (c, user) async {
-            bool? res = await Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (builder) => SelectTransfertAmountScreen(target: user),
-              ),
-            );
-            if (res == true) {
-              historyController.loadHistory(forced: true);
-            }
-            if ((res ?? false) && mounted) Navigator.pop(context);
-          },
+  void _sendMoneyPage() async {
+    GingerUserInfos uInfos = await AppService.instance.gingerUserInfos;
+    uInfos.isCotisant = false;
+    if (uInfos.isCotisant! && mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (builder) => SelectUserPage(
+            callBack: (c, user) async {
+              bool? res = await Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (builder) =>
+                      SelectTransfertAmountScreen(target: user),
+                ),
+              );
+              if (res == true) {
+                historyController.loadHistory(forced: true);
+              }
+              if ((res ?? false) && mounted) Navigator.pop(context);
+            },
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              "Vous devez être cotisant pour effectuer des virements",
+            ),
+            action: SnackBarAction(
+              label: "Devenir cotisant",
+              onPressed: () {
+                launchUrlString(
+                  "https://assos.utc.fr/bde/bdecotiz/",
+                  mode: LaunchMode.externalApplication,
+                );
+              },
+            ),
+          ),
+        );
+      }
+    }
   }
 
   void _statPage() {

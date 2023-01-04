@@ -2,11 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
@@ -14,6 +11,7 @@ import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
 import 'package:payutc/src/ui/screen/sub_account_screen/account_settings_screen.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -54,7 +52,7 @@ class _AccountPageState extends State<AccountPage> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: AppColors.orange.shade300,
+                            color: AppColors.orange,
                             borderRadius: BorderRadius.circular(15)),
                         padding: const EdgeInsets.all(15),
                         child: Row(
@@ -83,7 +81,7 @@ class _AccountPageState extends State<AccountPage> {
                                   Text(
                                     "${AppService.instance.userWallet!.user.username}",
                                     style: const TextStyle(
-                                      color: Colors.white54,
+                                      color: Colors.white70,
                                       fontSize: 12,
                                     ),
                                   ),

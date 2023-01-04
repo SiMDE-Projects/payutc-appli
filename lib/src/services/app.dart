@@ -1,9 +1,7 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import 'package:dio/dio.dart';
-
+import 'package:flutter/material.dart';
 import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/ginger.dart';
@@ -16,6 +14,7 @@ import 'package:payutc/src/models/wallet.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/storage.dart';
 import 'package:payutc/src/services/wallet.dart';
+
 import '../env.dart';
 
 class AppService extends ChangeNotifier {
@@ -72,6 +71,8 @@ class AppService extends ChangeNotifier {
     await walletService.forceLoad();
     await historyService.forceLoadHistory();
     semesters = await AssosUTC.getSemesters();
+    //get ginger user infos
+    await gingerUserInfos;
     return true;
   }
 
@@ -119,8 +120,18 @@ class AppService extends ChangeNotifier {
     return "${user.firstName} ${user.lastName!.toUpperCase()} (${user.username})";
   }
 
+  GingerUserInfos? _gingerUserInfos;
+
+  Future<GingerUserInfos> get gingerUserInfos async {
+    _gingerUserInfos ??= await getGingerInfos();
+    return _gingerUserInfos!;
+  }
+
   Future<GingerUserInfos> getGingerInfos() {
-    return Ginger.getUserInfos(userName!, gingerKey);
+    return Ginger.getUserInfos(userName!, gingerKey).then((value) {
+      _gingerUserInfos = value;
+      return value;
+    });
   }
 
   Future<bool> changeBadgeState(bool value) => nemoPayApi.setBadgeState(value);
