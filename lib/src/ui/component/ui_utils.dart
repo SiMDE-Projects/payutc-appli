@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'package:url_launcher/url_launcher_string.dart';
+import 'package:webview_flutter/webview_flutter.dart';
+
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-import 'package:webview_flutter/webview_flutter.dart';
 
 void showWebView(BuildContext context, String fileUrl, String name) {
   Navigator.push(
