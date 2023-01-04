@@ -2,11 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
 import 'package:package_info_plus/package_info_plus.dart';
-import 'package:url_launcher/url_launcher_string.dart';
-
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
@@ -14,6 +11,7 @@ import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
 import 'package:payutc/src/ui/screen/sub_account_screen/account_settings_screen.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({Key? key}) : super(key: key);
@@ -54,14 +52,14 @@ class _AccountPageState extends State<AccountPage> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: AppColors.orange.shade300,
                             borderRadius: BorderRadius.circular(15)),
                         padding: const EdgeInsets.all(15),
                         child: Row(
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundColor: AppColors.orange,
+                              backgroundColor: AppColors.scaffoldDark,
                               foregroundColor: Colors.white,
                               child: Text(
                                   "${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName ?? "U")}"
@@ -113,11 +111,13 @@ class _AccountPageState extends State<AccountPage> {
                         height: 10,
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(15)),
-                          padding: const EdgeInsets.all(10),
-                          child: const LanguageSwitcher()),
+                        decoration: BoxDecoration(
+                          color: AppColors.scaffoldDark,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: const LanguageSwitcher(),
+                      ),
                       btnAccount(Translate.of(context).aPropos, _aproposScreen),
                       btnAccount(
                         Translate.of(context).nousContacter,

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/utils.dart';
 import 'package:payutc/src/ui/component/payutc_item.dart';
+import 'package:payutc/src/ui/style/color.dart';
 import 'package:payutc/src/ui/style/theme.dart';
 
 class HistoryPage extends StatefulWidget {
@@ -39,7 +39,7 @@ class _HistoryPageState extends State<HistoryPage> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.scaffoldDark,
       body: DefaultTabController(
         length: 4,
         child: Column(

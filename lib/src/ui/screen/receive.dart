@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:qr_flutter/qr_flutter.dart';
-import 'package:screen_brightness/screen_brightness.dart';
-
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
+import 'package:payutc/src/ui/style/color.dart';
+import 'package:qr_flutter/qr_flutter.dart';
+import 'package:screen_brightness/screen_brightness.dart';
 
 class ReceivePage extends StatefulWidget {
   const ReceivePage({Key? key}) : super(key: key);
@@ -43,7 +42,7 @@ class _ReceivePageState extends State<ReceivePage> {
           style: const TextStyle(color: Colors.white),
         ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.scaffoldDark,
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(15.0),

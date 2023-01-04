@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static const Color scaffold = Colors.white;
-  static const Color black = Colors.black;
+  static const Color black = Color(0xFF171717);
   static const Color red = Color(0xffB82010);
   static const MaterialColor orange = MaterialColor(_orangeValue, <int, Color>{
     50: Color(0xFFFEF3E4),
@@ -18,5 +18,5 @@ class AppColors {
   });
   static const int _orangeValue = 0xFFF99F1C;
 
-  static const Color scaffoldDark = Color(0xFF424242);
+  static const Color scaffoldDark = Color(0xFF111111);
 }
