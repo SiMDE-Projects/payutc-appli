@@ -79,19 +79,25 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
-      - run: flutter pub get
-      - run: flutter pub global activate intl_utils
-      - run: flutter pub global run intl_utils:generate
-      - run: flutter pub run build_runner build --delete-conflicting-outputs
-      - run: flutter test
-      - run: flutter build appbundle
-      - run: flutter build apk --release --split-per-abi
-      - name: Upload app bundle
+      - name: 📦 Get dependencies and prepare build
+        run: |
+          flutter pub get
+          flutter pub global activate intl_utils
+          flutter pub global run intl_utils:generate
+      - name: 🧪 Run tests
+        run: |
+          flutter pub run build_runner build --delete-conflicting-outputs
+          flutter test
+      - name: 🏗️ Build
+        run: |
+          flutter build appbundle
+          flutter build apk --release --split-per-abi
+      - name: ☁ Upload app bundle
         uses: actions/upload-artifact@v3
         with:
           name: appbundle
           path: build/app/outputs/bundle/release/*.aab
-      - name: Upload apk
+      - name: ☁ Upload apk
         uses: actions/upload-artifact@v3
         with:
           name: apk
@@ -121,15 +127,15 @@ jobs:
           tag: ${{ needs.version.outputs.new_tag }}
           body: ${{ needs.version.outputs.tag_changelog }}
           generateReleaseNotes: true
-#      - name: Release app to internal track
-#        uses: r0adkll/upload-google-play@v1
-#        with:
-#          serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
-#          packageName: com.simde.payutc
-#          releaseFiles: 'app-release.aab'
-#          track: internal
-#          releaseName: ${{ needs.version.outputs.new_tag }}
-#          whatsNewDirectory: distribution/whatsnew
+  #      - name: Release app to internal track
+  #        uses: r0adkll/upload-google-play@v1
+  #        with:
+  #          serviceAccountJsonPlainText: ${{ secrets.PLAYSTORE_ACCOUNT_KEY }}
+  #          packageName: com.simde.payutc
+  #          releaseFiles: 'app-release.aab'
+  #          track: internal
+  #          releaseName: ${{ needs.version.outputs.new_tag }}
+  #          whatsNewDirectory: distribution/whatsnew
 
   sentry:
     name: Sentry Release

@@ -137,10 +137,21 @@ class _SelectTransfertAmountScreenState
                             );
                           },
                           child: Center(
-                            child: Text(
-                              "${(amount).toStringAsFixed(2)}€",
-                              style: const TextStyle(fontSize: 25),
-                              textAlign: TextAlign.center,
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "${(amount).toStringAsFixed(2)}€",
+                                  style: const TextStyle(fontSize: 25),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const Text(
+                                  "Changer",
+                                  style: TextStyle(
+                                      fontSize: 13, color: AppColors.orange),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
                             ),
                           ),
                         ),

@@ -54,14 +54,14 @@ class _AccountPageState extends State<AccountPage> {
                     children: [
                       Container(
                         decoration: BoxDecoration(
-                            color: Colors.black,
+                            color: AppColors.orange,
                             borderRadius: BorderRadius.circular(15)),
                         padding: const EdgeInsets.all(15),
                         child: Row(
                           children: [
                             CircleAvatar(
                               radius: 30,
-                              backgroundColor: AppColors.orange,
+                              backgroundColor: AppColors.scaffoldDark,
                               foregroundColor: Colors.white,
                               child: Text(
                                   "${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName ?? "U")}"
@@ -83,7 +83,7 @@ class _AccountPageState extends State<AccountPage> {
                                   Text(
                                     "${AppService.instance.userWallet!.user.username}",
                                     style: const TextStyle(
-                                      color: Colors.white54,
+                                      color: Colors.white70,
                                       fontSize: 12,
                                     ),
                                   ),
@@ -113,11 +113,13 @@ class _AccountPageState extends State<AccountPage> {
                         height: 10,
                       ),
                       Container(
-                          decoration: BoxDecoration(
-                              color: Colors.black,
-                              borderRadius: BorderRadius.circular(15)),
-                          padding: const EdgeInsets.all(10),
-                          child: const LanguageSwitcher()),
+                        decoration: BoxDecoration(
+                          color: AppColors.scaffoldDark,
+                          borderRadius: BorderRadius.circular(15),
+                        ),
+                        padding: const EdgeInsets.all(10),
+                        child: const LanguageSwitcher(),
+                      ),
                       btnAccount(Translate.of(context).aPropos, _aproposScreen),
                       btnAccount(
                         Translate.of(context).nousContacter,

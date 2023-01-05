@@ -72,6 +72,8 @@ class AppService extends ChangeNotifier {
     await walletService.forceLoad();
     await historyService.forceLoadHistory();
     semesters = await AssosUTC.getSemesters();
+    //get ginger user infos
+    await gingerUserInfos;
     return true;
   }
 
@@ -119,8 +121,18 @@ class AppService extends ChangeNotifier {
     return "${user.firstName} ${user.lastName!.toUpperCase()} (${user.username})";
   }
 
+  GingerUserInfos? _gingerUserInfos;
+
+  Future<GingerUserInfos> get gingerUserInfos async {
+    _gingerUserInfos ??= await getGingerInfos();
+    return _gingerUserInfos!;
+  }
+
   Future<GingerUserInfos> getGingerInfos() {
-    return Ginger.getUserInfos(userName!, gingerKey);
+    return Ginger.getUserInfos(userName!, gingerKey).then((value) {
+      _gingerUserInfos = value;
+      return value;
+    });
   }
 
   Future<bool> changeBadgeState(bool value) => nemoPayApi.setBadgeState(value);

@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -20,13 +21,17 @@ void main() async {
   );
   FlutterError.onError =
       (details) => logger.e(details.context, details.exception, details.stack);
-  await SentryFlutter.init(
-    (options) {
-      options.dsn = sentryDsn;
-      options.tracesSampleRate = 1.0;
-    },
-    appRunner: () => runApp(const PayutcApp()),
-  );
+  if (!kDebugMode) {
+    await SentryFlutter.init(
+      (options) {
+        options.dsn = sentryDsn;
+        options.tracesSampleRate = 0.5;
+      },
+      appRunner: () => runApp(const PayutcApp()),
+    );
+  } else {
+    runApp(const PayutcApp());
+  }
 }
 
 class PayutcApp extends StatelessWidget {

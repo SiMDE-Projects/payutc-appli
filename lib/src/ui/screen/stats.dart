@@ -1,16 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
-import 'package:fl_chart/fl_chart.dart';
 import 'package:intl/intl.dart';
 
 import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/services/app.dart';
-import 'package:payutc/src/services/utils.dart';
+import 'package:payutc/src/ui/component/overlay.dart';
+import 'package:payutc/src/ui/component/pie.dart';
 import 'package:payutc/src/ui/style/color.dart';
-import 'package:payutc/src/ui/style/theme.dart';
+import 'stats_product.dart';
 
 class StatPage extends StatefulWidget {
   const StatPage({
@@ -90,9 +89,9 @@ class _StatPageState extends State<StatPage> {
               child: Container(
                 clipBehavior: Clip.antiAlias,
                 decoration: const BoxDecoration(
-                    borderRadius:
-                        BorderRadius.vertical(top: Radius.circular(30)),
-                    color: Colors.black),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+                  color: AppColors.scaffoldDark,
+                ),
                 child: TabBarView(
                   children: [
                     _buildCrazyStats(history),
@@ -100,16 +99,18 @@ class _StatPageState extends State<StatPage> {
                         history,
                         DateTime.now().subtract(const Duration(days: 7)),
                         DateTime.now(),
-                        "la semaine glissante"),
+                        "la semaine glissante",
+                        8),
                     _buildPage(
                         history,
                         DateTime(DateTime.now().year, DateTime.now().month),
                         DateTime.now(),
-                        "le mois actuel"),
+                        "le mois actuel",
+                        12),
                     if (semesters.isNotEmpty) _buildSemesterPage(),
                     _buildPage(history, DateTime(DateTime.now().year),
-                        DateTime.now(), "l'année actuelle"),
-                    _buildPage(history, null, null, "la totale"),
+                        DateTime.now(), "l'année actuelle", 20),
+                    _buildPage(history, null, null, "la totale", 50),
                   ],
                 ),
               ),
@@ -169,30 +170,20 @@ class _StatPageState extends State<StatPage> {
           height: 20,
         ),
         ...buildContentPage(
-            splitForPeriod(
-                history, selectedSemester.beginAt, selectedSemester.endAt),
-            selectedSemester.beginAt,
-            selectedSemester.endAt,
-            selectedSemester.name)
+          splitForPeriod(
+              history, selectedSemester.beginAt, selectedSemester.endAt),
+          selectedSemester.beginAt,
+          selectedSemester.endAt,
+          selectedSemester.name,
+          20,
+        )
       ],
     );
   }
 
-  List<PayUtcItem> splitForPeriod(
-      List<PayUtcItem> items, DateTime start, DateTime end) {
-    List<PayUtcItem> res = [];
-    start = DateTime(start.year, start.month, start.day);
-    end = DateTime(end.year, end.month, end.day);
-    for (PayUtcItem item in items) {
-      if (item.date.isAfter(start) && item.date.isBefore(end)) {
-        res.add(item);
-      }
-    }
-    return res;
-  }
-
   Widget _buildPage(
-      List<PayUtcItem> items, DateTime? start, DateTime? end, String s) {
+      List<PayUtcItem> items, DateTime? start, DateTime? end, String s,
+      [int? maxTopItems]) {
     items =
         splitForPeriod(items, start ?? items.last.date, end ?? DateTime.now());
     if (items.isEmpty) {
@@ -204,7 +195,7 @@ class _StatPageState extends State<StatPage> {
     return ListView(
       padding: const EdgeInsets.all(20),
       children: [
-        ...buildContentPage(items, start, end, s),
+        ...buildContentPage(items, start, end, s, maxTopItems),
       ],
     );
   }
@@ -232,91 +223,87 @@ class _StatPageState extends State<StatPage> {
     );
   }
 
-  _buildTop(List<PayUtcItem> items, DateTime? start, DateTime? end) {
-    List toDisplay = sortQtt(_extractProducts(items));
+  _buildTop(List<PayUtcItem> items, DateTime? start, DateTime? end,
+      [int max = 8, bool isQttMode = true]) {
+    late List<PayUtcItem> toDisplay;
+    toDisplay = _extractProducts(items).values.map((e) {
+      return e.fold<PayUtcItem>(e.first.copyWith(quantity: 0, amount: 0),
+          (previousValue, element) {
+        return previousValue.copyWith(
+          quantity: previousValue.quantity + element.quantity,
+          amount: previousValue.amount! + element.amount!,
+        );
+      });
+    }).toList();
+    if (!isQttMode) {
+      toDisplay.sort((a, b) => b.amount!.compareTo(a.amount!));
+    } else {
+      toDisplay.sort((a, b) => b.quantity.compareTo(a.quantity));
+    }
     toDisplay =
-        toDisplay.sublist(0, toDisplay.length > 8 ? 8 : toDisplay.length);
+        toDisplay.sublist(0, toDisplay.length > max ? max : toDisplay.length);
     return Column(
       children: [
         for (PayUtcItem item in toDisplay)
-          ListTile(
-            leading: Hero(
-              tag: item.productId!,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  item.imageUrl ?? "",
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                  errorBuilder: (_, __, a) => Container(
-                    width: 50,
-                    height: 50,
-                    color: Colors.white,
-                  ),
+          Row(
+            children: [
+              Text(
+                "#${toDisplay.indexOf(item) + 1}",
+                style: const TextStyle(
+                  color: Colors.white54,
                 ),
               ),
-            ),
-            title: Text(
-              item.name ?? "",
-              style: const TextStyle(color: Colors.white),
-            ),
-            subtitle: Text(
-              "${item.quantity.toInt()} achats",
-              style: const TextStyle(color: Colors.white),
-            ),
-            trailing: Text(
-              AppService.instance
-                  .translateMoney(((item.amount ?? 1) * item.quantity) / 100),
-              style: const TextStyle(color: AppColors.orange),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                CupertinoPageRoute(
-                  builder: (context) => ProductPage(
-                    item: item,
-                    start: start,
-                    end: end,
+              Expanded(
+                child: ListTile(
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 8),
+                  leading: Hero(
+                    tag: item.productId!,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.network(
+                        item.imageUrl ?? "",
+                        width: 50,
+                        height: 50,
+                        fit: BoxFit.cover,
+                        errorBuilder: (_, __, a) => Container(
+                          width: 50,
+                          height: 50,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
                   ),
+                  title: Text(
+                    item.name ?? "",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  subtitle: Text(
+                    "${item.quantity.toInt()} achats",
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                  trailing: Text(
+                    AppService.instance
+                        .translateMoney(((item.amount ?? 1)) / 100),
+                    style: const TextStyle(color: AppColors.orange),
+                  ),
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                        builder: (context) => ProductPage(
+                          item: item,
+                          start: start,
+                          end: end,
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              );
-            },
+              ),
+            ],
           ),
       ],
     );
-  }
-
-  _extractProducts(List<PayUtcItem> list) {
-    Map<num, List<PayUtcItem>> map = {};
-    for (PayUtcItem item in list) {
-      if (item.isProduct && item.isOutAmount && item.name != "Ecocup") {
-        if (map.containsKey(item.productId)) {
-          map[item.productId!]!.add(item);
-        } else {
-          map[item.productId!] = [item];
-        }
-      }
-    }
-    return map;
-  }
-
-  List<PayUtcItem> sortQtt(Map<num, List<PayUtcItem>> map) {
-    List<PayUtcItem> list = [];
-    map.forEach((key, value) {
-      //copy item [0] and add quantity
-      PayUtcItem item = PayUtcItem(
-        name: value[0].name,
-        imageUrl: value[0].imageUrl,
-        productId: value[0].productId,
-        quantity: value.fold(
-            0, (previousValue, element) => previousValue + element.quantity),
-        amount: value[0].amount! / value[0].quantity,
-      );
-      list.add(item);
-    });
-    list.sort((a, b) => b.quantity.compareTo(a.quantity));
-    return list;
   }
 
   Widget _buildCrazyStats(List<PayUtcItem> history) {
@@ -397,49 +384,6 @@ class _StatPageState extends State<StatPage> {
         ),
       ],
     );
-  }
-
-  _extractTopDays(List<PayUtcItem> history) {
-    history = history.toList();
-    history.removeWhere((element) => (element.amount ?? 0) > 1500);
-    Map<DateTime, PayUtcItem> map = {};
-    //group history by date day/month/year
-    for (PayUtcItem item in history) {
-      if (item.isOutAmount && item.isProduct) {
-        DateTime date =
-            DateTime(item.date.year, item.date.month, item.date.day);
-        if (map.containsKey(date)) {
-          map[date]!.amount = map[date]!.amount! + item.amount!;
-          map[date]!.quantity = map[date]!.quantity + item.quantity;
-        } else {
-          map[date] = PayUtcItem(
-            date: date,
-            amount: item.amount,
-            quantity: item.quantity,
-          );
-        }
-      }
-    }
-    Map<int, PayUtcItem> out = {};
-    map.forEach((key, value) {
-      if (out.containsKey(key.weekday)) {
-        out[key.weekday]!.quantity = out[key.weekday]!.quantity + 1;
-        out[key.weekday]!.amount = out[key.weekday]!.amount! + value.amount!;
-      } else {
-        out[key.weekday] = PayUtcItem(
-          date: value.date,
-          amount: value.amount,
-          quantity: 1,
-          name: DateFormat("EEEE", "fr_FR").format(value.date).toUpperCase(),
-        );
-      }
-    });
-    List<PayUtcItem> list = out.values.toList();
-    for (int i = 0; i < list.length; i++) {
-      list[i].amount = list[i].amount! / list[i].quantity;
-    }
-    list.sort((a, b) => b.amount!.compareTo(a.amount!));
-    return list;
   }
 
   _buildTopWidget(List<PayUtcItem> list) {
@@ -525,6 +469,198 @@ class _StatPageState extends State<StatPage> {
     );
   }
 
+  List<Widget> buildContentPage(
+      List<PayUtcItem> items, DateTime? start, DateTime? end, String s,
+      [int? maxTopItems]) {
+    GlobalKey menuOverlayKey = GlobalKey();
+    bool isQuantityMode = true, showOverlay = false;
+    return [
+      Text("Infos ($s)",
+          style: const TextStyle(fontSize: 20, color: Colors.white)),
+      Text(
+        "Période du ${DateFormat("dd/MM/yyyy").format(start ?? items.last.date)} au ${DateFormat("dd/MM/yyyy").format(end ?? DateTime.now())}",
+        style: const TextStyle(fontSize: 11, color: Colors.white54),
+      ),
+      const SizedBox(height: 20),
+      _buildInfo(
+          "Achats",
+          items.where((element) => element.isPurchase).fold(
+              0,
+              (previousValue, element) =>
+                  previousValue + (element.amount!.abs().toInt()))),
+      const SizedBox(height: 10),
+      _buildInfo(
+          "Virements envoyé",
+          items
+              .where((element) => element.isVirement && element.isOutAmount)
+              .fold(
+                  0,
+                  (previousValue, element) =>
+                      previousValue + (element.amount!.abs().toInt()))),
+      const SizedBox(height: 10),
+      _buildInfo(
+          "Virements reçu",
+          items
+              .where((element) => element.isVirement && element.isInAmount)
+              .fold(
+                  0,
+                  (previousValue, element) =>
+                      previousValue + (element.amount!.abs().toInt()))),
+      const SizedBox(height: 10),
+      _buildInfo(
+          "Recharges",
+          items.where((element) => element.isReload).fold(
+              0,
+              (previousValue, element) =>
+                  previousValue + (element.amount!.abs().toInt()))),
+      const SizedBox(height: 20),
+      const Text("Top des achats",
+          style: TextStyle(fontSize: 20, color: Colors.white)),
+      StatefulBuilder(builder: (context, snapshot) {
+        return Column(
+          children: [
+            GestureDetector(
+              onTap: () {
+                snapshot(() {
+                  showOverlay = !showOverlay;
+                });
+              },
+              child: Row(
+                children: [
+                  const Text(
+                    "Trié par ",
+                    style: TextStyle(fontSize: 11, color: Colors.white54),
+                  ),
+                  OverlayBuilder(
+                    showOverlay: showOverlay,
+                    overlayBuilder: (BuildContext context) {
+                      RenderBox box = menuOverlayKey.currentContext
+                          ?.findRenderObject() as RenderBox;
+                      Offset center = box.localToGlobal(const Offset(0.0, 0.0));
+                      center = center.translate(0, 15);
+                      return Stack(
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.opaque,
+                            onTap: () {
+                              snapshot(() {
+                                showOverlay = false;
+                              });
+                            },
+                            child: SizedBox.expand(
+                              child: Container(),
+                            ),
+                          ),
+                          Positioned(
+                            top: center.dy,
+                            left: center.dx,
+                            child: Material(
+                              borderRadius: BorderRadius.circular(8),
+                              color: Colors.white,
+                              child: Padding(
+                                padding: const EdgeInsets.all(8),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        snapshot(() {
+                                          isQuantityMode = true;
+                                        });
+                                        snapshot(() {
+                                          showOverlay = false;
+                                        });
+                                      },
+                                      child: const SizedBox(
+                                        height: 30,
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text("Nombre d'achats"),
+                                        ),
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        snapshot(() {
+                                          isQuantityMode = false;
+                                        });
+                                        snapshot(() {
+                                          showOverlay = false;
+                                        });
+                                      },
+                                      child: const SizedBox(
+                                        height: 30,
+                                        child: Align(
+                                          alignment: Alignment.centerLeft,
+                                          child: Text("Dépenses"),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      );
+                    },
+                    child: Text(
+                      isQuantityMode ? "nb achats" : "dépenses",
+                      key: menuOverlayKey,
+                      style:
+                          const TextStyle(fontSize: 11, color: Colors.white54),
+                    ),
+                  ),
+                  const Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.white54,
+                    size: 15,
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            _buildTop(
+                items.toList(), start, end, maxTopItems ?? 8, isQuantityMode),
+          ],
+        );
+      }),
+    ];
+  }
+
+//----- logic for stats methods -----//
+
+  List<PayUtcItem> splitForPeriod(
+      List<PayUtcItem> items, DateTime start, DateTime end) {
+    List<PayUtcItem> res = [];
+    start = DateTime(start.year, start.month, start.day);
+    end = DateTime(end.year, end.month, end.day).add(const Duration(days: 1));
+    for (PayUtcItem item in items) {
+      if (item.date.isAfter(start) && item.date.isBefore(end)) {
+        res.add(item);
+      }
+    }
+    return res;
+  }
+
+  Map<num, List<PayUtcItem>> _extractProducts(List<PayUtcItem> list) {
+    Map<num, List<PayUtcItem>> map = {};
+    for (PayUtcItem item in list) {
+      if (item.isProduct &&
+          item.isOutAmount &&
+          item.name != "Ecocup" &&
+          (item.amount ?? 0) > 5) {
+        //remove in tops "politesse" item
+        if (map.containsKey(item.productId)) {
+          map[item.productId!]!.add(item);
+        } else {
+          map[item.productId!] = [item];
+        }
+      }
+    }
+    return map;
+  }
+
   List<PayUtcItem> _extractMostReceivedMoneyFrom(List<PayUtcItem> history) {
     Map<String, List<PayUtcItem>> map = {};
     for (PayUtcItem item in history) {
@@ -575,6 +711,69 @@ class _StatPageState extends State<StatPage> {
     return list.length > 4 ? list.sublist(0, 4) : list;
   }
 
+  _extractTopDays(List<PayUtcItem> history) {
+    history = history.toList();
+    history.removeWhere((element) => (element.amount ?? 0) > 1500);
+    Map<DateTime, PayUtcItem> map = {};
+    //group history by date day/month/year
+    for (PayUtcItem item in history) {
+      if (item.isOutAmount && item.isProduct) {
+        DateTime date =
+            DateTime(item.date.year, item.date.month, item.date.day);
+        if (map.containsKey(date)) {
+          map[date]!.amount = map[date]!.amount! + item.amount!;
+          map[date]!.quantity = map[date]!.quantity + item.quantity;
+        } else {
+          map[date] = PayUtcItem(
+            date: date,
+            amount: item.amount,
+            quantity: item.quantity,
+          );
+        }
+      }
+    }
+    Map<int, PayUtcItem> out = {};
+    map.forEach((key, value) {
+      if (out.containsKey(key.weekday)) {
+        out[key.weekday]!.quantity = out[key.weekday]!.quantity + 1;
+        out[key.weekday]!.amount = out[key.weekday]!.amount! + value.amount!;
+      } else {
+        out[key.weekday] = PayUtcItem(
+          date: value.date,
+          amount: value.amount,
+          quantity: 1,
+          name: DateFormat("EEEE", "fr_FR").format(value.date).toUpperCase(),
+        );
+      }
+    });
+    out.remove(6);
+    out.remove(7);
+    List<PayUtcItem> list = out.values.toList();
+    for (int i = 0; i < list.length; i++) {
+      list[i].amount = list[i].amount! / list[i].quantity;
+    }
+    list.sort((a, b) => b.amount!.compareTo(a.amount!));
+    return list;
+  }
+
+  List<PayUtcItem> sortQtt(Map<num, List<PayUtcItem>> map) {
+    List<PayUtcItem> list = [];
+    map.forEach((key, value) {
+      //copy item [0] and add quantity
+      PayUtcItem item = PayUtcItem(
+        name: value[0].name,
+        imageUrl: value[0].imageUrl,
+        productId: value[0].productId,
+        quantity: value.fold(
+            0, (previousValue, element) => previousValue + element.quantity),
+        amount: value[0].amount! / value[0].quantity,
+      );
+      list.add(item);
+    });
+    list.sort((a, b) => b.quantity.compareTo(a.quantity));
+    return list;
+  }
+
   Semester _findCurrentSemester(List<Semester> semesters) {
     final now = DateTime.now();
     for (final semester in semesters) {
@@ -585,349 +784,6 @@ class _StatPageState extends State<StatPage> {
     return semesters.first;
   }
 
-  List<Widget> buildContentPage(
-          List<PayUtcItem> items, DateTime? start, DateTime? end, String s) =>
-      [
-        Text("Infos ($s)",
-            style: const TextStyle(fontSize: 20, color: Colors.white)),
-        Text(
-          "Période du ${DateFormat("dd/MM/yyyy").format(start ?? items.last.date)} au ${DateFormat("dd/MM/yyyy").format(end ?? DateTime.now())}",
-          style: const TextStyle(fontSize: 11, color: Colors.white54),
-        ),
-        const SizedBox(height: 20),
-        _buildInfo(
-            "Achats",
-            items.where((element) => element.isPurchase).fold(
-                0,
-                (previousValue, element) =>
-                    previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 10),
-        _buildInfo(
-            "Virements envoyé",
-            items
-                .where((element) => element.isVirement && element.isOutAmount)
-                .fold(
-                    0,
-                    (previousValue, element) =>
-                        previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 10),
-        _buildInfo(
-            "Virements reçu",
-            items
-                .where((element) => element.isVirement && element.isInAmount)
-                .fold(
-                    0,
-                    (previousValue, element) =>
-                        previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 10),
-        _buildInfo(
-            "Recharges",
-            items.where((element) => element.isReload).fold(
-                0,
-                (previousValue, element) =>
-                    previousValue + (element.amount!.abs().toInt()))),
-        const SizedBox(height: 20),
-        const Text("Top des achats",
-            style: TextStyle(fontSize: 20, color: Colors.white)),
-        const Text(
-          "Trié par achats",
-          style: TextStyle(fontSize: 11, color: Colors.white54),
-        ),
-        const SizedBox(height: 20),
-        _buildTop(items.toList(), start, end),
-      ];
-
-  isInSemester(DateTime date, Semester element) =>
+  bool isInSemester(DateTime date, Semester element) =>
       date.isAfter(element.beginAt) && date.isBefore(element.endAt);
-}
-
-class PieItems {
-  final Color color;
-  final double value;
-  final String label;
-
-  PieItems(this.color, this.value, this.label);
-}
-
-class Pie extends StatefulWidget {
-  final List<PieItems> items;
-  final bool reverse;
-
-  const Pie({super.key, required this.items, this.reverse = false});
-
-  @override
-  State<Pie> createState() => _PieState();
-}
-
-class _PieState extends State<Pie> {
-  int touchedIndex = -1;
-
-  @override
-  Widget build(BuildContext context) {
-    final widgets = [
-      Flexible(
-        flex: 1,
-        fit: FlexFit.tight,
-        child: AspectRatio(
-          aspectRatio: 1,
-          child: PieChart(
-            PieChartData(
-              pieTouchData: PieTouchData(
-                touchCallback: (FlTouchEvent event, pieTouchResponse) {
-                  setState(() {
-                    if (!event.isInterestedForInteractions ||
-                        pieTouchResponse == null ||
-                        pieTouchResponse.touchedSection == null) {
-                      touchedIndex = -1;
-                      return;
-                    }
-                    touchedIndex =
-                        pieTouchResponse.touchedSection!.touchedSectionIndex;
-                  });
-                },
-              ),
-              borderData: FlBorderData(
-                show: false,
-              ),
-              sectionsSpace: 0,
-              centerSpaceRadius: 50,
-              sections: showingSections(),
-            ),
-          ),
-        ),
-      ),
-      const SizedBox(
-        width: 20,
-      ),
-      Flexible(
-        flex: 1,
-        fit: FlexFit.tight,
-        child: _buildLegend(),
-      ),
-    ];
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-      child: Row(
-        children: widget.reverse ? widgets.reversed.toList() : widgets,
-      ),
-    );
-  }
-
-  List<PieChartSectionData> showingSections() {
-    return widget.items
-        .map(
-          (e) => PieChartSectionData(
-            color: e.color,
-            value: e.value,
-            title: e.label,
-            showTitle: false,
-            badgePositionPercentageOffset: 0.98,
-            badgeWidget: CircleAvatar(
-              backgroundColor: Colors.black,
-              child: Text(
-                "${(e.value * 100).toInt()}%",
-                style: const TextStyle(color: Colors.white),
-              ),
-            ),
-          ),
-        )
-        .toList();
-  }
-
-  _buildLegend() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        for (PieItems item in widget.items.toList()
-          ..sort((a, b) => b.value.compareTo(a.value))) ...[
-          Row(
-            children: [
-              Container(
-                width: 20,
-                height: 20,
-                margin: const EdgeInsets.only(bottom: 10),
-                decoration: BoxDecoration(
-                  color: item.color,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  item.label,
-                  style: const TextStyle(color: Colors.white),
-                  softWrap: true,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ],
-    );
-  }
-}
-
-class ProductPage extends StatefulWidget {
-  final PayUtcItem item;
-  final DateTime? start, end;
-
-  const ProductPage({
-    Key? key,
-    required this.item,
-    this.start,
-    this.end,
-  }) : super(key: key);
-
-  @override
-  State<ProductPage> createState() => _ProductPageState();
-}
-
-class _ProductPageState extends State<ProductPage> {
-  Map<String, List<PayUtcItem>> items = {};
-  final ScrollController _scrollController = ScrollController();
-
-  @override
-  void initState() {
-    List<PayUtcItem> items = [];
-    if (widget.start != null && widget.end != null) {
-      items = (AppService.instance.historyService.history?.historique ?? [])
-          .where((element) =>
-              element.productId == widget.item.productId &&
-              element.date.isAfter(widget.start!) &&
-              element.date.isBefore(widget.end!))
-          .toList();
-    } else {
-      items = (AppService.instance.historyService.history?.historique ?? [])
-          .where((element) => element.productId == widget.item.productId)
-          .toList();
-    }
-    this.items = formatDays(items);
-    bool canPop = true;
-    _scrollController.addListener(() {
-      if (_scrollController.position.pixels < -150 && canPop) {
-        canPop = false;
-        Navigator.pop(context);
-      }
-    });
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Theme(
-      data: AppTheme.current.copyWith(
-        appBarTheme: AppBarTheme(
-          systemOverlayStyle: AppTheme.combineOverlay(
-            SystemUiOverlayStyle.light,
-          ),
-        ),
-      ),
-      child: Scaffold(
-        backgroundColor: Colors.black,
-        body: CustomScrollView(
-          controller: _scrollController,
-          physics: const BouncingScrollPhysics(),
-          slivers: [
-            SliverAppBar(
-              iconTheme: const IconThemeData(color: Colors.white),
-              pinned: true,
-              backgroundColor: Colors.black,
-              expandedHeight: 400,
-              flexibleSpace: FlexibleSpaceBar(
-                background: Hero(
-                  tag: widget.item.productId!,
-                  child: Opacity(
-                    opacity: 0.5,
-                    child: Image.network(
-                      widget.item.imageUrl ?? "",
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, a) => Container(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ),
-                title: Text(
-                  widget.item.name ?? "",
-                  style: const TextStyle(color: Colors.white),
-                ),
-              ),
-            ),
-            SliverAppBar(
-              pinned: true,
-              backgroundColor: Colors.black,
-              titleSpacing: 10,
-              titleTextStyle: const TextStyle(color: Colors.white),
-              leading: const SizedBox(),
-              leadingWidth: 0,
-              elevation: 20,
-              shadowColor: Colors.white12,
-              title: Row(
-                children: [
-                  const SizedBox(width: 10),
-                  Text(
-                    widget.item.name ?? "",
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  Text(
-                    " (${widget.item.quantity.toInt()} achats)",
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                  const Spacer(),
-                  Text(
-                    "Total : ${AppService.instance.translateMoney(((widget.item.amount ?? 1) * widget.item.quantity) / 100)}",
-                    style: const TextStyle(color: AppColors.orange),
-                  ),
-                ],
-              ),
-            ),
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  const Divider(
-                    color: Colors.white,
-                    thickness: 1,
-                    endIndent: 10,
-                    indent: 10,
-                  ),
-                  for (final row in items.entries) ...[
-                    Padding(
-                      padding: const EdgeInsets.all(10),
-                      child: Text(
-                        row.key,
-                        style: const TextStyle(color: Colors.white70),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    for (final item in row.value)
-                      ListTile(
-                        title: Text(
-                          item.name ?? "",
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        subtitle: Text(
-                          "${item.quantity.toInt()} achats",
-                          style: const TextStyle(color: Colors.white),
-                        ),
-                        trailing: Text(
-                          AppService.instance
-                              .translateMoney(((item.amount ?? 1)) / 100),
-                          style: const TextStyle(color: AppColors.orange),
-                        ),
-                      ),
-                  ]
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:skeletons/skeletons.dart';
-
 import 'package:payutc/generated/l10n.dart';
+import 'package:payutc/src/models/ginger_user_infos.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/unilinks.dart';
@@ -15,6 +13,9 @@ import 'package:payutc/src/ui/screen/stats.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
 import 'package:payutc/src/ui/style/theme.dart';
+import 'package:skeletons/skeletons.dart';
+import 'package:url_launcher/url_launcher_string.dart';
+
 import '../component/rounded_icon.dart';
 import 'account_screen.dart';
 import 'receive.dart';
@@ -335,11 +336,17 @@ class _HomePageState extends State<HomePage>
         },
         child: Container(
           decoration: BoxDecoration(
-            color: AppColors.black,
-            borderRadius: BorderRadius.vertical(
-              top: Radius.circular(30 * controller.value),
-            ),
-          ),
+              color: AppColors.black,
+              borderRadius: BorderRadius.vertical(
+                top: Radius.circular(30 * controller.value),
+              ),
+              boxShadow: const [
+                BoxShadow(
+                  color: Colors.black12,
+                  spreadRadius: 1,
+                  blurRadius: 15,
+                )
+              ]),
           padding: const EdgeInsets.all(20),
           child: Column(
             children: [
@@ -384,55 +391,57 @@ class _HomePageState extends State<HomePage>
                     return true;
                   },
                   child: AnimatedBuilder(
-                      animation: historyController,
-                      builder: (context, snapshot) {
-                        return Skeleton(
-                          isLoading: historyController.loading,
-                          skeleton: SkeletonListView(
-                            item: skeletonItem(),
-                          ),
-                          child: ListView(
-                            controller: _scrollController,
-                            physics: controller.value == 1
-                                ? const NeverScrollableScrollPhysics()
-                                : const BouncingScrollPhysics(),
-                            children: [
-                              for (final item in historyController
-                                  .parsedItems(context)
-                                  .entries) ...[
-                                Text(
-                                  item.key.toUpperCase(),
-                                  textAlign: TextAlign.start,
-                                  style: const TextStyle(
-                                      color: Colors.white70, letterSpacing: 1),
-                                ),
-                                const SizedBox(
-                                  height: 15,
-                                ),
-                                for (final payItem in item.value)
-                                  PayUtcItemWidget(item: payItem),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ],
-                              ElevatedButton(
-                                  style: ElevatedButton.styleFrom(
-                                      backgroundColor: AppColors.black),
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (builder) =>
-                                                const HistoryPage()));
-                                  },
-                                  child: Text(
-                                    Translate.of(context).see_history_sentence,
-                                    style: const TextStyle(color: Colors.white),
-                                  )),
+                    animation: historyController,
+                    builder: (context, snapshot) {
+                      return Skeleton(
+                        isLoading: historyController.loading,
+                        skeleton: SkeletonListView(
+                          item: skeletonItem(),
+                        ),
+                        child: ListView(
+                          controller: _scrollController,
+                          physics: controller.value == 1
+                              ? const NeverScrollableScrollPhysics()
+                              : const BouncingScrollPhysics(),
+                          children: [
+                            for (final item in historyController
+                                .parsedItems(context)
+                                .entries) ...[
+                              Text(
+                                item.key.toUpperCase(),
+                                textAlign: TextAlign.start,
+                                style: const TextStyle(
+                                    color: Colors.white70, letterSpacing: 1),
+                              ),
+                              const SizedBox(
+                                height: 15,
+                              ),
+                              for (final payItem in item.value)
+                                PayUtcItemWidget(item: payItem),
+                              const SizedBox(
+                                height: 20,
+                              ),
                             ],
-                          ),
-                        );
-                      }),
+                            ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.black),
+                              onPressed: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (builder) =>
+                                            const HistoryPage()));
+                              },
+                              child: Text(
+                                Translate.of(context).see_history_sentence,
+                                style: const TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
@@ -496,26 +505,49 @@ class _HomePageState extends State<HomePage>
         ),
       );
 
-  void _sendMoneyPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (builder) => SelectUserPage(
-          callBack: (c, user) async {
-            bool? res = await Navigator.push(
-              context,
-              CupertinoPageRoute(
-                builder: (builder) => SelectTransfertAmountScreen(target: user),
-              ),
-            );
-            if (res == true) {
-              historyController.loadHistory(forced: true);
-            }
-            if ((res ?? false) && mounted) Navigator.pop(context);
-          },
+  void _sendMoneyPage() async {
+    GingerUserInfos uInfos = await AppService.instance.gingerUserInfos;
+    if (uInfos.isCotisant! && mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (builder) => SelectUserPage(
+            callBack: (c, user) async {
+              bool? res = await Navigator.push(
+                context,
+                CupertinoPageRoute(
+                  builder: (builder) =>
+                      SelectTransfertAmountScreen(target: user),
+                ),
+              );
+              if (res == true) {
+                historyController.loadHistory(forced: true);
+              }
+              if ((res ?? false) && mounted) Navigator.pop(context);
+            },
+          ),
         ),
-      ),
-    );
+      );
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              "Vous devez être cotisant pour effectuer des virements",
+            ),
+            action: SnackBarAction(
+              label: "Devenir cotisant",
+              onPressed: () {
+                launchUrlString(
+                  "https://assos.utc.fr/bde/bdecotiz/",
+                  mode: LaunchMode.externalApplication,
+                );
+              },
+            ),
+          ),
+        );
+      }
+    }
   }
 
   void _statPage() {

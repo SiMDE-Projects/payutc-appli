@@ -7,6 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
+import 'package:payutc/src/ui/style/color.dart';
 
 void showWebView(BuildContext context, String fileUrl, String name) {
   Navigator.push(
@@ -83,7 +84,9 @@ void showUserCard(BuildContext context, User user) {
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.black, elevation: 0),
+                  backgroundColor: AppColors.black,
+                  elevation: 0,
+                ),
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -115,7 +118,8 @@ void showUserCard(BuildContext context, User user) {
 Widget btnAccount(String text, GestureTapCallback onTap) => Container(
       clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
-          color: Colors.black, borderRadius: BorderRadius.circular(15)),
+          color: AppColors.scaffoldDark,
+          borderRadius: BorderRadius.circular(15)),
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: Material(
         color: Colors.transparent,

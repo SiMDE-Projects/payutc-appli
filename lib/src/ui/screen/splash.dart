@@ -42,7 +42,7 @@ class _SplashPageState extends State<SplashPage> {
         automaticallyImplyLeading: false,
         backgroundColor: Colors.transparent,
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.scaffoldDark,
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -81,7 +81,9 @@ class _SplashPageState extends State<SplashPage> {
                 child: Text(Translate.of(context).ressayer),
               ),
               ElevatedButton(
-                style: ElevatedButton.styleFrom(backgroundColor: Colors.black),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.scaffoldDark,
+                ),
                 onPressed: () {
                   Navigator.pushReplacement(context,
                       MaterialPageRoute(builder: (_) => const LoginPage()));

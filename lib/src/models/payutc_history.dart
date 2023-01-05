@@ -88,6 +88,41 @@ class PayUtcItem {
   num? productId;
   String? imageUrl;
 
+  //copy with
+  PayUtcItem copyWith({
+    num? amount,
+    DateTime? date,
+    String? firstname,
+    String? fun,
+    num? id,
+    dynamic imageId,
+    dynamic invoice,
+    String? lastname,
+    String? name,
+    num? quantity,
+    bool? removed,
+    String? type,
+    num? productId,
+    String? imageUrl,
+  }) {
+    return PayUtcItem(
+      amount: amount ?? this.amount,
+      date: date ?? this.date,
+      firstname: firstname ?? this.firstname,
+      fun: fun ?? this.fun,
+      id: id ?? this.id,
+      imageId: imageId ?? this.imageId,
+      invoice: invoice ?? this.invoice,
+      lastname: lastname ?? this.lastname,
+      name: name ?? this.name,
+      quantity: quantity ?? this.quantity,
+      removed: removed ?? this.removed,
+      type: type ?? this.type,
+      productId: productId ?? this.productId,
+      imageUrl: imageUrl ?? this.imageUrl,
+    );
+  }
+
   bool get isProduct => productId != null;
 
   bool get isOutAmount {
