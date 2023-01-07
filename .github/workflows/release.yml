@@ -59,7 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Update version in YAML
-        run: sed -i 's/ 0.0.0+1/ ${{ needs.version.outputs.new_version }}+${{ github.run_number }}/g' pubspec.yaml
+        run: sed -i -E 's/version\: [0-9]+\.[0-9]+(\.[0-9]+)?\+[0-9]+/version\: ${{ needs.version.outputs.new_version }}+${{ github.run_attempt }}/g' pubspec.yaml
       - name: Update KeyStore password in gradle properties
         run: sed -i 's/#{KEYSTORE_PASS}#/${{ secrets.KEYSTORE_PASS }}/g' android/key.properties
       - name: Update KeyStore key password in gradle properties
