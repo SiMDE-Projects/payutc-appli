@@ -197,119 +197,138 @@ class _LoginPageState extends State<LoginPage> {
       body: Form(
         child: Builder(builder: (context) {
           return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(25),
-              child: Stack(
-                children: [
-                  AutofillGroup(
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          Translate.of(context).connectToPayutc,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 35,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        Text(
-                          Translate.of(context).connectToPayutcSentence,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 13,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 40,
-                          child: isCas
-                              ? null
-                              : const Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text("Connexion avec l'email"),
-                                ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TextFormField(
-                          controller: username,
-                          validator: (_) => _!.isEmpty
-                              ? Translate.of(context).fieldNeeded
-                              : null,
-                          autofillHints: [
-                            if (!isCas) AutofillHints.email,
-                            AutofillHints.username
-                          ],
-                          decoration: InputDecoration(
-                            hintText: isCas
-                                ? Translate.of(context).userName
-                                : "Email",
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15)),
-                          ),
-                          textInputAction: TextInputAction.next,
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        TextFormField(
-                          validator: (_) => _!.isEmpty
-                              ? Translate.of(context).fieldNeeded
-                              : null,
-                          obscureText: true,
-                          controller: password,
-                          autofillHints: const [AutofillHints.password],
-                          decoration: InputDecoration(
-                            hintText: Translate.of(context).password,
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(25),
+                child: Column(
+                  children: [
+                    AutofillGroup(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            Translate.of(context).connectToPayutc,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 35,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
-                          onFieldSubmitted: (_) {
-                            _connect(context);
-                          },
-                          textInputAction: TextInputAction.done,
-                        ),
-                        const SizedBox(
-                          height: 100,
-                        ),
-                        if (!isCas)
-                          const Text(
-                            "Attention, connexion HORS CAS UTC",
-                            textAlign: TextAlign.center,
+                          const SizedBox(
+                            height: 10,
                           ),
-                        ElevatedButton(
-                          onPressed: loading ? null : () => _connect(context),
-                          child: Text(Translate.of(context).connect),
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        Text.rich(
-                          TextSpan(
-                            text: Translate.of(context).connect_mention_legs,
-                            children: [
-                              TextSpan(
-                                  text:
-                                      " ${Translate.of(context).mentionsLgales}",
-                                  style: const TextStyle(
-                                    color: AppColors.orange,
+                          Text(
+                            Translate.of(context).connectToPayutcSentence,
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 13,
+                            ),
+                          ),
+                          SizedBox(
+                            height: 40,
+                            child: isCas
+                                ? null
+                                : const Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text("Connexion avec l'email"),
                                   ),
-                                  recognizer: TapGestureRecognizer()
-                                    ..onTap = _mentionsLeg)
-                            ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          TextFormField(
+                            controller: username,
+                            validator: (_) => _!.isEmpty
+                                ? Translate.of(context).fieldNeeded
+                                : null,
+                            autofillHints: [
+                              if (!isCas) AutofillHints.email,
+                              AutofillHints.username
+                            ],
+                            style: const TextStyle(fontSize: 18),
+                            decoration: InputDecoration(
+                              hintText: isCas
+                                  ? Translate.of(context).userName
+                                  : "Email",
+                              border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10)),
+                              contentPadding: const EdgeInsets.all(18),
+                            ),
+                            textInputAction: TextInputAction.next,
+                          ),
+                          const SizedBox(
+                            height: 18,
+                          ),
+                          TextFormField(
+                            validator: (_) => _!.isEmpty
+                                ? Translate.of(context).fieldNeeded
+                                : null,
+                            obscureText: true,
+                            controller: password,
+                            autofillHints: const [AutofillHints.password],
+                            style: const TextStyle(fontSize: 18),
+                            decoration: InputDecoration(
+                              hintText: Translate.of(context).password,
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              contentPadding: const EdgeInsets.all(18),
+                            ),
+                            onFieldSubmitted: (_) {
+                              _connect(context);
+                            },
+                            textInputAction: TextInputAction.done,
+                          ),
+                          const SizedBox(
+                            height: 60,
+                          ),
+                          if (!isCas)
+                            const Text(
+                              "Attention, connexion HORS CAS UTC",
+                              textAlign: TextAlign.center,
+                            ),
+                          ElevatedButton(
+                            onPressed: loading ? null : () => _connect(context),
+                            style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.all(12),
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10.0)),
+                            ),
+                            child: Text(
+                              Translate.of(context).connect,
+                              style: const TextStyle(fontSize: 18),
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 5,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Text.rich(
+                              TextSpan(
+                                text:
+                                    Translate.of(context).connect_mention_legs,
+                                children: [
+                                  TextSpan(
+                                      text:
+                                          " ${Translate.of(context).mentionsLgales}",
+                                      style: const TextStyle(
+                                        color: AppColors.orange,
+                                      ),
+                                      recognizer: TapGestureRecognizer()
+                                        ..onTap = _mentionsLeg)
+                                ],
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          )
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           );
