@@ -230,18 +230,22 @@ class _LoginPageState extends State<LoginPage> {
                                       fontSize: 13,
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 40,
-                                    child: isCas
-                                        ? null
-                                        : const Align(
-                                            alignment: Alignment.bottomLeft,
-                                            child:
-                                                Text("Connexion avec l'email"),
-                                          ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Center(
+                                    child: Text(
+                                      isCas
+                                          ? ""
+                                          : "Attention : connexion hors CAS UTC !",
+                                      style: const TextStyle(
+                                        color: Color(0xffD32F2F),
+                                        fontSize: 12,
+                                      ),
+                                    ),
                                   ),
                                   const SizedBox(
-                                    height: 10,
+                                    height: 3,
                                   ),
                                   TextFormField(
                                     controller: username,
@@ -292,11 +296,6 @@ class _LoginPageState extends State<LoginPage> {
                                   const SizedBox(
                                     height: 60,
                                   ),
-                                  if (!isCas)
-                                    const Text(
-                                      "Attention, connexion HORS CAS UTC",
-                                      textAlign: TextAlign.center,
-                                    ),
                                   ElevatedButton(
                                     onPressed: loading
                                         ? null
