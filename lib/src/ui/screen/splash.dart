@@ -172,178 +172,184 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: GestureDetector(
-              onLongPress: () {
-                setState(() {
-                  isCas = !isCas;
-                });
-              },
-              child: SvgPicture.asset(
-                "assets/img/payutc.svg",
-                width: 30,
-                color: isCas ? Colors.black : AppColors.orange,
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Form(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Builder(builder: (context) {
-            return SingleChildScrollView(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(25),
-                  child: Column(
-                    children: [
-                      AutofillGroup(
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              Translate.of(context).connectToPayutc,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 35,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            Text(
-                              Translate.of(context).connectToPayutcSentence,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 13,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 40,
-                              child: isCas
-                                  ? null
-                                  : const Align(
-                                      alignment: Alignment.bottomLeft,
-                                      child: Text("Connexion avec l'email"),
-                                    ),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            TextFormField(
-                              controller: username,
-                              validator: (_) => _!.isEmpty
-                                  ? Translate.of(context).fieldNeeded
-                                  : null,
-                              autofillHints: [
-                                if (!isCas) AutofillHints.email,
-                                AutofillHints.username
-                              ],
-                              style: const TextStyle(fontSize: 18),
-                              decoration: InputDecoration(
-                                hintText: isCas
-                                    ? Translate.of(context).userName
-                                    : "Email",
-                                border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(10)),
-                                contentPadding: const EdgeInsets.all(18),
-                              ),
-                              textInputAction: TextInputAction.next,
-                            ),
-                            const SizedBox(
-                              height: 18,
-                            ),
-                            TextFormField(
-                              validator: (_) => _!.isEmpty
-                                  ? Translate.of(context).fieldNeeded
-                                  : null,
-                              obscureText: true,
-                              controller: password,
-                              autofillHints: const [AutofillHints.password],
-                              style: const TextStyle(fontSize: 18),
-                              decoration: InputDecoration(
-                                hintText: Translate.of(context).password,
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                                contentPadding: const EdgeInsets.all(18),
-                              ),
-                              onFieldSubmitted: (_) {
-                                _connect(context);
-                              },
-                              textInputAction: TextInputAction.done,
-                            ),
-                            const SizedBox(
-                              height: 60,
-                            ),
-                            if (!isCas)
-                              const Text(
-                                "Attention, connexion HORS CAS UTC",
-                                textAlign: TextAlign.center,
-                              ),
-                            ElevatedButton(
-                              onPressed:
-                                  loading ? null : () => _connect(context),
-                              style: ElevatedButton.styleFrom(
-                                padding: const EdgeInsets.all(12),
-                                shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(10.0)),
-                              ),
-                              child: Text(
-                                Translate.of(context).connect,
-                                style: const TextStyle(fontSize: 18),
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 10),
-                              child: Text.rich(
-                                TextSpan(
-                                  text: Translate.of(context)
-                                      .connect_mention_legs,
-                                  children: [
-                                    TextSpan(
-                                        text:
-                                            " ${Translate.of(context).mentionsLgales}",
-                                        style: const TextStyle(
-                                          color: AppColors.orange,
-                                        ),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = _mentionsLeg)
-                                  ],
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
+      body: SafeArea(
+        child: Stack(
+          children: [
+            Positioned(
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.all(20),
+                child: GestureDetector(
+                  onLongPress: () {
+                    setState(() {
+                      isCas = !isCas;
+                    });
+                  },
+                  child: SvgPicture.asset(
+                    "assets/img/payutc.svg",
+                    width: 30,
+                    color: isCas ? Colors.black : AppColors.orange,
                   ),
                 ),
               ),
-            );
-          }),
-          const SizedBox(
-            height: 15,
-          ),
-        ],
-      )),
+            ),
+            Form(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Builder(builder: (context) {
+                  return SingleChildScrollView(
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(25),
+                        child: Column(
+                          children: [
+                            AutofillGroup(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    Translate.of(context).connectToPayutc,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 35,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text(
+                                    Translate.of(context)
+                                        .connectToPayutcSentence,
+                                    style: const TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 13,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 40,
+                                    child: isCas
+                                        ? null
+                                        : const Align(
+                                            alignment: Alignment.bottomLeft,
+                                            child:
+                                                Text("Connexion avec l'email"),
+                                          ),
+                                  ),
+                                  const SizedBox(
+                                    height: 10,
+                                  ),
+                                  TextFormField(
+                                    controller: username,
+                                    validator: (_) => _!.isEmpty
+                                        ? Translate.of(context).fieldNeeded
+                                        : null,
+                                    autofillHints: [
+                                      if (!isCas) AutofillHints.email,
+                                      AutofillHints.username
+                                    ],
+                                    style: const TextStyle(fontSize: 18),
+                                    decoration: InputDecoration(
+                                      hintText: isCas
+                                          ? Translate.of(context).userName
+                                          : "Email",
+                                      border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10)),
+                                      contentPadding: const EdgeInsets.all(18),
+                                    ),
+                                    textInputAction: TextInputAction.next,
+                                  ),
+                                  const SizedBox(
+                                    height: 18,
+                                  ),
+                                  TextFormField(
+                                    validator: (_) => _!.isEmpty
+                                        ? Translate.of(context).fieldNeeded
+                                        : null,
+                                    obscureText: true,
+                                    controller: password,
+                                    autofillHints: const [
+                                      AutofillHints.password
+                                    ],
+                                    style: const TextStyle(fontSize: 18),
+                                    decoration: InputDecoration(
+                                      hintText: Translate.of(context).password,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      contentPadding: const EdgeInsets.all(18),
+                                    ),
+                                    onFieldSubmitted: (_) {
+                                      _connect(context);
+                                    },
+                                    textInputAction: TextInputAction.done,
+                                  ),
+                                  const SizedBox(
+                                    height: 60,
+                                  ),
+                                  if (!isCas)
+                                    const Text(
+                                      "Attention, connexion HORS CAS UTC",
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ElevatedButton(
+                                    onPressed: loading
+                                        ? null
+                                        : () => _connect(context),
+                                    style: ElevatedButton.styleFrom(
+                                      padding: const EdgeInsets.all(12),
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(10.0)),
+                                    ),
+                                    child: Text(
+                                      Translate.of(context).connect,
+                                      style: const TextStyle(fontSize: 18),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10),
+                                    child: Text.rich(
+                                      TextSpan(
+                                        text: Translate.of(context)
+                                            .connect_mention_legs,
+                                        children: [
+                                          TextSpan(
+                                              text:
+                                                  " ${Translate.of(context).mentionsLgales}",
+                                              style: const TextStyle(
+                                                color: AppColors.orange,
+                                              ),
+                                              recognizer: TapGestureRecognizer()
+                                                ..onTap = _mentionsLeg)
+                                        ],
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            )),
+          ],
+        ),
+      ),
     );
   }
 
