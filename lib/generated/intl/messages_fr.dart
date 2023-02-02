@@ -85,7 +85,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "name": MessageLookupByLibrary.simpleMessage("Nom"),
         "no": MessageLookupByLibrary.simpleMessage("Non"),
         "noFavorisFound":
-            MessageLookupByLibrary.simpleMessage("Aucun favoris enregistré"),
+            MessageLookupByLibrary.simpleMessage("Aucun favori enregistré"),
         "noTransfertFound":
             MessageLookupByLibrary.simpleMessage("Aucun transfert récent"),
         "nothingToTransfert":
@@ -103,7 +103,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
             "Fait scanner le code avec l\'application Pay\'UTC pour partager ton profil."),
         "recentTransfert":
-            MessageLookupByLibrary.simpleMessage("Transfert récents"),
+            MessageLookupByLibrary.simpleMessage("Transferts récents"),
         "refreshContentError": MessageLookupByLibrary.simpleMessage(
             "Impossible de rafraichir, une erreur est survenue"),
         "reload": MessageLookupByLibrary.simpleMessage("Recharger"),
