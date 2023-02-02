@@ -95,7 +95,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
                               }
                             },
                           ),
-                          hintText: "Jean dupont, ...",
+                          hintText: "Jean Dupont, ...",
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(15),
                           ),
