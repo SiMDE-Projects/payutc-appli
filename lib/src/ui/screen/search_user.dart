@@ -72,45 +72,74 @@ class _SelectUserPageState extends State<SelectUserPage> {
               pinned: true,
               delegate: PersistantHeader(
                 builder: (overlap) {
-                  return Padding(
-                    padding: const EdgeInsets.all(10.0),
-                    child: SizedBox(
-                      height: 55,
-                      child: TextField(
-                        focusNode: focusNode,
-                        controller: searchController,
-                        decoration: InputDecoration(
-                          isDense: true,
-                          filled: true,
-                          fillColor: Colors.white,
-                          suffixIcon: IconButton(
-                            icon: showSearchContent
-                                ? const Icon(Icons.close)
-                                : const Icon(Icons.search),
-                            onPressed: () {
-                              if (showSearchContent) {
-                                searchController.clear();
-                              } else {
-                                _search(searchController.text);
-                              }
-                            },
-                          ),
-                          hintText: "Jean Dupont, ...",
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
+                  return Container(
+                    color: Colors.white,
+                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          focusNode: focusNode,
+                          controller: searchController,
+                          decoration: InputDecoration(
+                            isDense: true,
+                            prefixIcon: IconButton(
+                              padding: const EdgeInsets.only(left: 6),
+                              icon: const Icon(Icons.search),
+                              iconSize: 26,
+                              onPressed: () {
+                                FocusScope.of(context).requestFocus(focusNode);
+                              },
+                            ),
+                            suffixIcon: Visibility(
+                              visible: showSearchContent,
+                              child: IconButton(
+                                icon: const Icon(Icons.close),
+                                iconSize: 24,
+                                onPressed: () {
+                                  searchController.clear();
+                                },
+                              ),
+                            ),
+                            hintText: "Jean Dupont, ...",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(15),
+                            ),
                           ),
                         ),
-                      ),
+                        const SizedBox(
+                          height: 4,
+                        ),
+                        ElevatedButton.icon(
+                          style: ElevatedButton.styleFrom(
+                            shape: const StadiumBorder(),
+                            backgroundColor: Colors.black,
+                            elevation: 0,
+                          ),
+                          label: Text(
+                            Translate.of(context).scan,
+                            style: const TextStyle(color: Colors.white),
+                          ),
+                          onPressed: () async {
+                            String? data = await Navigator.push(
+                                context,
+                                CupertinoPageRoute(
+                                    builder: (builder) => const ScanPage()));
+                            if (data == null) return;
+                            _handleUrl(data);
+                          },
+                          icon: const Icon(Icons.qr_code),
+                        ),
+                      ],
                     ),
                   );
                 },
-                height: 75,
+                height: 116,
               ),
             )
           ];
         },
         body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 20),
           children: [
             if (showSearchContent) ...[
               if (users.isNotEmpty)
@@ -127,29 +156,8 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   ),
                 ),
             ] else ...[
-              Row(
-                children: [
-                  ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      shape: const StadiumBorder(),
-                      backgroundColor: Colors.black,
-                      elevation: 0,
-                    ),
-                    label: Text(
-                      Translate.of(context).scan,
-                      style: const TextStyle(color: Colors.white),
-                    ),
-                    onPressed: () async {
-                      String? data = await Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (builder) => const ScanPage()));
-                      if (data == null) return;
-                      _handleUrl(data);
-                    },
-                    icon: const Icon(Icons.qr_code),
-                  ),
-                ],
+              const SizedBox(
+                height: 16,
               ),
               Text(
                 Translate.of(context).favoris,
@@ -177,7 +185,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
 
               // for (int i = 0; i < 10; i++) _buildUserCase(),
               const SizedBox(
-                height: 10,
+                height: 16,
               ),
               Text(
                 Translate.of(context).recentTransfert,
