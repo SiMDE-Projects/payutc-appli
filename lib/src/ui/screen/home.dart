@@ -97,25 +97,8 @@ class _HomePageState extends State<HomePage>
                             ),
                           ],
                           leading: IconButton(
-                            icon: const Icon(Icons.refresh),
-                            onPressed: () async {
-                              historyController.loadHistory(forced: true);
-                              try {
-                                await AppService.instance.refreshContent();
-                                if (mounted) {
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentMaterialBanner();
-                                }
-                              } catch (_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(Translate.of(context)
-                                        .refreshContentError),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                              icon: const Icon(Icons.refresh),
+                              onPressed: _pullRefresh),
                         ),
                       );
                     }),
@@ -457,6 +440,22 @@ class _HomePageState extends State<HomePage>
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
     );
+  }
+
+  Future<void> _pullRefresh() async {
+    historyController.loadHistory(forced: true);
+    try {
+      await AppService.instance.refreshContent();
+      if (mounted) {
+        ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+      }
+    } catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(Translate.of(context).refreshContentError),
+        ),
+      );
+    }
   }
 
   Widget skeletonItem() => Padding(
