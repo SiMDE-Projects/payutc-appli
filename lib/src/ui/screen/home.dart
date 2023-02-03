@@ -16,8 +16,7 @@ import 'package:payutc/src/ui/style/theme.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../component/rounded_icon.dart';
-import 'account_screen.dart';
+import 'settings.dart';
 import 'receive.dart';
 import 'search_user.dart';
 
@@ -87,7 +86,7 @@ class _HomePageState extends State<HomePage>
                               onPressed: () => Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                  builder: (builder) => const AccountPage(),
+                                  builder: (builder) => const SettingsPage(),
                                 ),
                               ).then((value) => setState(() {})),
                               icon: const Icon(
