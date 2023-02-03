@@ -23,8 +23,8 @@ class AccountSettingsPage extends StatelessWidget {
               GingerUserInfos infos = snapshot.data!;
               return Padding(
                 padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                child: Wrap(
+                  runSpacing: 6,
                   children: [
                     Container(
                       decoration: BoxDecoration(
@@ -57,9 +57,6 @@ class AccountSettingsPage extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
                     Container(
                       decoration: BoxDecoration(
                           color: Colors.black,
@@ -88,9 +85,6 @@ class AccountSettingsPage extends StatelessWidget {
                           ),
                         ],
                       ),
-                    ),
-                    const SizedBox(
-                      height: 10,
                     ),
                     Container(
                       decoration: BoxDecoration(

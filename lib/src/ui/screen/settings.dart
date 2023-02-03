@@ -49,8 +49,9 @@ class _SettingsPageState extends State<SettingsPage> {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Wrap(
+                    runSpacing: 6,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -105,12 +106,6 @@ class _SettingsPageState extends State<SettingsPage> {
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      const SizedBox(
-                        height: 10,
                       ),
                       Container(
                         decoration: BoxDecoration(

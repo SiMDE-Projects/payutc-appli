@@ -120,7 +120,6 @@ Widget btnAccount(String text, GestureTapCallback onTap) => Container(
       decoration: BoxDecoration(
           color: AppColors.scaffoldDark,
           borderRadius: BorderRadius.circular(15)),
-      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
