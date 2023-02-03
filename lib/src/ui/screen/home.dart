@@ -97,7 +97,10 @@ class _HomePageState extends State<HomePage>
                             ),
                           ],
                           leading: IconButton(
-                              icon: const Icon(Icons.refresh),
+                              icon: const Icon(
+                                Icons.refresh,
+                                color: AppColors.black,
+                              ),
                               onPressed: _pullRefresh),
                         ),
                       );
@@ -108,7 +111,7 @@ class _HomePageState extends State<HomePage>
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        Translate.of(context).myPayutc,
+                        Translate.of(context).myBalance,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
                       ),

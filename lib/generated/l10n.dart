@@ -53,11 +53,11 @@ class Translate {
     return Localizations.of<Translate>(context, Translate);
   }
 
-  /// `Mon Pay'UTC`
-  String get myPayutc {
+  /// `Mon solde actuel`
+  String get myBalance {
     return Intl.message(
-      'Mon Pay\'UTC',
-      name: 'myPayutc',
+      'Mon solde actuel',
+      name: 'myBalance',
       desc: '',
       args: [],
     );

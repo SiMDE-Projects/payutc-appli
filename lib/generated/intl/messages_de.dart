@@ -82,7 +82,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "mentionsLgales": MessageLookupByLibrary.simpleMessage("Impressum"),
         "myAccount": MessageLookupByLibrary.simpleMessage("Mein Konto"),
         "myCard": MessageLookupByLibrary.simpleMessage("Mein Abzeichen"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("Mein Pay’UTC"),
+        "myBalance":
+            MessageLookupByLibrary.simpleMessage("Mein aktueller Kontostand"),
         "name": MessageLookupByLibrary.simpleMessage("Nachname"),
         "no": MessageLookupByLibrary.simpleMessage("Nö"),
         "noFavorisFound": MessageLookupByLibrary.simpleMessage(
