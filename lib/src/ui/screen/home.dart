@@ -271,10 +271,10 @@ class _HomePageState extends State<HomePage>
               decoration: BoxDecoration(
                   border: Border.all(color: AppColors.black, width: 1),
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(50.0)), //<-- SEE HERE
+                  borderRadius: BorderRadius.circular(50.0)),
               child: InkWell(
                 borderRadius: BorderRadius.circular(100.0),
-                onTap: () {},
+                onTap: onTap,
                 child: Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: icon,
