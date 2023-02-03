@@ -319,10 +319,10 @@ class _HomePageState extends State<HomePage>
           child: Column(
             children: [
               SizedBox(
-                height: 20 * (1 - controller.value),
+                height: 30 * (1 - controller.value),
               ),
               SizedBox(
-                height: 45,
+                height: 30,
                 child: Row(
                   children: [
                     Text(
@@ -377,12 +377,11 @@ class _HomePageState extends State<HomePage>
                                 .entries) ...[
                               Text(
                                 item.key.toUpperCase(),
-                                textAlign: TextAlign.start,
                                 style: const TextStyle(
                                     color: Colors.white70, letterSpacing: 1),
                               ),
                               const SizedBox(
-                                height: 15,
+                                height: 5,
                               ),
                               for (final payItem in item.value)
                                 PayUtcItemWidget(item: payItem),
