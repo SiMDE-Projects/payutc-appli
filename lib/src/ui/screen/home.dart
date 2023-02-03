@@ -108,15 +108,12 @@ class _HomePageState extends State<HomePage>
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         Translate.of(context).myBalance,
                         style: const TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 14),
-                      ),
-                      const SizedBox(
-                        height: 5,
                       ),
                       AnimatedBuilder(
                         animation: historyController,
@@ -130,7 +127,7 @@ class _HomePageState extends State<HomePage>
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            child: Row(
+                            child: Column(
                               children: [
                                 Text(
                                   AppService.instance.translateMoney(
@@ -139,13 +136,19 @@ class _HomePageState extends State<HomePage>
                                           100),
                                   style: const TextStyle(
                                     fontWeight: FontWeight.bold,
-                                    fontSize: 35,
+                                    fontSize: 50,
                                     color: AppColors.orange,
                                   ),
-                                  textAlign: TextAlign.start,
                                 ),
-                                if (AppService.instance.userWallet!.blocked)
-                                  Text(" ${Translate.of(context).card_blocked}")
+                                Text(
+                                  AppService.instance.userWallet!.blocked
+                                      ? Translate.of(context).card_blocked
+                                      : "",
+                                  style: const TextStyle(
+                                    color: Colors.black26,
+                                    fontSize: 12,
+                                  ),
+                                )
                               ],
                             ),
                           );
