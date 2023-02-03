@@ -155,92 +155,97 @@ class _HomePageState extends State<HomePage>
                         },
                       ),
                       const SizedBox(
-                        height: 35,
+                        height: 15,
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 125,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    clipBehavior: Clip.none,
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildCard(
-                        Translate.of(context).reload,
-                        const Icon(
-                          Icons.add,
-                          size: 30,
-                        ),
-                        () async {
-                          bool res = await PaymentFlowPage.paymentFlow(context);
-                          if (res) {
-                            historyController.loadHistory(forced: true);
-                            await AppService.instance
-                                .refreshContent()
-                                .then((value) {
-                              ScaffoldMessenger.of(context).showMaterialBanner(
-                                MaterialBanner(
-                                  leading: const Icon(
-                                    Icons.campaign,
-                                    color: AppColors.orange,
-                                  ),
-                                  content: const Text(
-                                      "L'apparition de la recharge peut prendre 1-2 minutes"),
-                                  actions: [
-                                    IconButton(
-                                      onPressed: () {
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentMaterialBanner();
-                                      },
-                                      icon: const Icon(Icons.close),
-                                      color: AppColors.orange,
-                                    )
-                                  ],
-                                ),
-                              );
-                              if (mounted) setState(() {});
-                            });
-                          }
-                        },
-                      ),
-                      _buildCard(
-                          Translate.of(context).send,
+                Column(
+                  children: <Widget>[
+                    Wrap(
+                      spacing: 30,
+                      children: <Widget>[
+                        _buildCard(
+                          Translate.of(context).reload,
                           const Icon(
-                            CupertinoIcons.arrow_up_right_circle_fill,
+                            Icons.add,
                             size: 30,
                           ),
-                          _sendMoneyPage),
-                      _buildCard(
-                        Translate.of(context).receive,
-                        const Icon(CupertinoIcons.arrow_down_left_circle_fill,
-                            size: 30),
-                        _receivePage,
-                      ),
-                      _buildCard(
-                        Translate.of(context).statistics,
-                        const Icon(Icons.stacked_line_chart, size: 30),
-                        _statPage,
-                      ),
-                      _buildCard(
-                        Translate.of(context).history,
-                        const Icon(Icons.history, size: 30),
-                        () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => const HistoryPage(),
+                          () async {
+                            bool res =
+                                await PaymentFlowPage.paymentFlow(context);
+                            if (res) {
+                              historyController.loadHistory(forced: true);
+                              await AppService.instance
+                                  .refreshContent()
+                                  .then((value) {
+                                ScaffoldMessenger.of(context)
+                                    .showMaterialBanner(
+                                  MaterialBanner(
+                                    leading: const Icon(
+                                      Icons.campaign,
+                                      color: AppColors.orange,
+                                    ),
+                                    content: const Text(
+                                        "L'apparition de la recharge peut prendre 1-2 minutes"),
+                                    actions: [
+                                      IconButton(
+                                        onPressed: () {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentMaterialBanner();
+                                        },
+                                        icon: const Icon(Icons.close),
+                                        color: AppColors.orange,
+                                      )
+                                    ],
+                                  ),
+                                );
+                                if (mounted) setState(() {});
+                              });
+                            }
+                          },
+                        ),
+                        _buildCard(
+                            Translate.of(context).send,
+                            const Icon(
+                              CupertinoIcons.arrow_up_right_circle_fill,
+                              size: 30,
                             ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 65,
+                            _sendMoneyPage),
+                        _buildCard(
+                          Translate.of(context).receive,
+                          const Icon(CupertinoIcons.arrow_down_left_circle_fill,
+                              size: 30),
+                          _receivePage,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Wrap(
+                      spacing: 30,
+                      children: [
+                        _buildCard(
+                          Translate.of(context).statistics,
+                          const Icon(Icons.stacked_line_chart, size: 30),
+                          _statPage,
+                        ),
+                        _buildCard(
+                          Translate.of(context).history,
+                          const Icon(Icons.history, size: 30),
+                          () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (builder) => const HistoryPage(),
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ],
             ),
@@ -258,59 +263,33 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _buildCard(String text, Icon icon, GestureTapCallback onTap) =>
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        width: 85,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x3f000000),
-              blurRadius: 55,
-              spreadRadius: -20,
-              offset: Offset(0, 13),
-            ),
-          ],
-          color: Colors.white,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: RoundedIcon(
-                      icon: icon,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Center(
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Text(
-                          text,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 13),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+  Widget _buildCard(String text, Icon icon, GestureTapCallback onTap) => Column(
+        children: [
+          Material(
+            type: MaterialType.transparency,
+            child: Ink(
+              decoration: BoxDecoration(
+                  border: Border.all(color: AppColors.black, width: 1),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(50.0)), //<-- SEE HERE
+              child: InkWell(
+                borderRadius: BorderRadius.circular(100.0),
+                onTap: () {},
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: icon,
+                ),
               ),
             ),
           ),
-        ),
+          Text(
+            text,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+            ),
+          ),
+        ],
       );
 
   _bottomSheet() => GestureDetector(
