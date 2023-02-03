@@ -154,47 +154,28 @@ class _SettingsPageState extends State<SettingsPage> {
                 ),
               ),
             ),
-            Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
+            GestureDetector(
+              onTap: () async {
+                await AppService.instance.storageService.clear();
+                if (mounted) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (builder) => const SplashPage()),
+                      (route) => false);
+                }
+              },
+              child: Text(
+                Translate.of(context).logOut,
+                style: const TextStyle(
                   color: AppColors.red,
-                  borderRadius: BorderRadius.circular(15)),
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () async {
-                    await AppService.instance.storageService.clear();
-                    if (mounted) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (builder) => const SplashPage()),
-                          (route) => false);
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            Translate.of(context).logOut,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+            const SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),
