@@ -28,7 +28,7 @@ class AccountSettingsPage extends StatelessWidget {
                   children: [
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: AppColors.black,
                           borderRadius: BorderRadius.circular(15)),
                       padding: const EdgeInsets.all(15),
                       child: Column(
@@ -59,7 +59,7 @@ class AccountSettingsPage extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: AppColors.black,
                           borderRadius: BorderRadius.circular(15)),
                       padding: const EdgeInsets.all(15),
                       child: Column(
@@ -88,7 +88,7 @@ class AccountSettingsPage extends StatelessWidget {
                     ),
                     Container(
                       decoration: BoxDecoration(
-                          color: Colors.black,
+                          color: AppColors.black,
                           borderRadius: BorderRadius.circular(15)),
                       padding: const EdgeInsets.all(15),
                       child: Column(
