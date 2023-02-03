@@ -91,7 +91,7 @@ class _HomePageState extends State<HomePage>
                                 ),
                               ).then((value) => setState(() {})),
                               icon: const Icon(
-                                Icons.account_circle,
+                                Icons.settings,
                                 color: AppColors.black,
                               ),
                             ),

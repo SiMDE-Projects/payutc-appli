@@ -99,7 +99,7 @@ class _AccountPageState extends State<AccountPage> {
                                             const AccountSettingsPage()));
                               },
                               icon: const Icon(
-                                Icons.settings_rounded,
+                                Icons.account_circle,
                                 color: Colors.white,
                               ),
                             ),
