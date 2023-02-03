@@ -15,14 +15,14 @@ import 'package:payutc/src/ui/screen/splash.dart';
 import 'package:payutc/src/ui/screen/sub_account_screen/account_settings_screen.dart';
 import 'package:payutc/src/ui/style/color.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({Key? key}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
