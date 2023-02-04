@@ -116,8 +116,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "reveivedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Recibió"),
         "scan": MessageLookupByLibrary.simpleMessage("escanear"),
-        "scannPayutcCode":
-            MessageLookupByLibrary.simpleMessage("escanear codigo qr payutc"),
+        "scanPayutcCode": MessageLookupByLibrary.simpleMessage(
+            "Escanea un código QR de Pay'UTC para enviar dinero."),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("ver mi historial"),
         "select": MessageLookupByLibrary.simpleMessage("Seleccione"),

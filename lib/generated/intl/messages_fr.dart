@@ -100,7 +100,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "randomTransfertSentence":
             MessageLookupByLibrary.simpleMessage("Phrase aléatoire"),
         "receive": MessageLookupByLibrary.simpleMessage("Recevoir"),
-        "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
+        "receiveMoneySentence": MessageLookupByLibrary.simpleMessage(
             "Fait scanner le code avec l\'application Pay\'UTC pour partager ton profil."),
         "recentTransfert":
             MessageLookupByLibrary.simpleMessage("Transferts récents"),
@@ -115,8 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ressayer": MessageLookupByLibrary.simpleMessage("RESSAYER"),
         "reveivedTransfertPayutc": MessageLookupByLibrary.simpleMessage("Reçu"),
         "scan": MessageLookupByLibrary.simpleMessage("Scanner"),
-        "scannPayutcCode":
-            MessageLookupByLibrary.simpleMessage("Scanner un qr code payutc"),
+        "scanPayutcCode": MessageLookupByLibrary.simpleMessage(
+            "Scanne un code QR code Pay'UTC pour envoyer de l'argent."),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("Voir mon historique"),
         "select": MessageLookupByLibrary.simpleMessage("Sélectionner"),

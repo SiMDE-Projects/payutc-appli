@@ -703,16 +703,15 @@ class Translate {
     );
   }
 
-  /// `Scanner un qr code payutc`
-  String get scannPayutcCode {
+  /// `Scanne un code QR code Pay'UTC pour envoyer de l'argent.`
+  String get scanPayutcCode {
     return Intl.message(
-      'Scanner un qr code payutc',
+      'Scanne un code QR code Pay'UTC pour envoyer de l'argent.',
       name: 'scannPayutcCode',
       desc: '',
       args: [],
     );
   }
-
   /// `Informations`
   String get informations {
     return Intl.message(
