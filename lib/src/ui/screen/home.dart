@@ -104,15 +104,20 @@ class _HomePageState extends State<HomePage>
                         ),
                       );
                     }),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                Container(
+                  height: 82,
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
-                      Text(
-                        Translate.of(context).myBalance,
-                        style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
+                      Positioned(
+                        top: -4,
+                        child: Text(
+                          Translate.of(context).myBalance,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                       AnimatedBuilder(
                         animation: historyController,
@@ -142,13 +147,16 @@ class _HomePageState extends State<HomePage>
                           );
                         },
                       ),
-                      Text(
-                        AppService.instance.userWallet!.blocked
-                            ? Translate.of(context).card_blocked
-                            : "",
-                        style: const TextStyle(
-                          color: Colors.black26,
-                          fontSize: 12,
+                      Positioned(
+                        bottom: 2,
+                        child: Text(
+                          AppService.instance.userWallet!.blocked
+                              ? Translate.of(context).card_blocked
+                              : "",
+                          style: const TextStyle(
+                            color: Colors.black26,
+                            fontSize: 10,
+                          ),
                         ),
                       ),
                       const SizedBox(
@@ -157,6 +165,7 @@ class _HomePageState extends State<HomePage>
                     ],
                   ),
                 ),
+                const SizedBox(height: 8),
                 Column(
                   children: <Widget>[
                     Wrap(
