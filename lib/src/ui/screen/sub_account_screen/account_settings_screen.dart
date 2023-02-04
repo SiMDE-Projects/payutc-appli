@@ -169,58 +169,61 @@ class APropos extends StatelessWidget {
       appBar: AppBar(
         title: Text(Translate.of(context).aPropos),
       ),
-      body: ListView(
-        padding: const EdgeInsets.all(10),
-        children: [
-          btnAccount(
-            "Remercier le développer",
-            () {
-              showUserCard(
-                context,
-                User.fromJson(
-                  {
-                    "email": "tom.jumel@etu.utc.fr",
-                    "id": 27930,
-                    "name": "Tom JUMEL (jumeltom)"
-                  },
-                ),
-              );
-            },
-          ),
-          btnAccount(
-            Translate.of(context).mentionsLgales,
-            () {
-              showWebView(
-                context,
-                "assets/therms/cgu.html",
-                Translate.of(context).mentionsLgales,
-              );
-            },
-          ),
-          btnAccount(
-            Translate.of(context).licensesPayutc,
-            () {
-              showWebView(
-                context,
-                "assets/therms/gnu.html",
-                Translate.of(context).licensesPayutc,
-              );
-            },
-          ),
-          btnAccount(
-            Translate.of(context).licenseDeLapplication,
-            () {
-              showLicensePage(
-                context: context,
-                applicationName: "Pay'ut",
-                applicationIcon: Image.asset(
-                  "assets/img/logo.jpg",
-                  height: 100,
-                ),
-              );
-            },
-          )
-        ],
+      body: Padding(
+        padding: const EdgeInsets.all(10.0),
+        child: Wrap(
+          runSpacing: 6,
+          children: [
+            btnAccount(
+              "Remercier le développer",
+              () {
+                showUserCard(
+                  context,
+                  User.fromJson(
+                    {
+                      "email": "tom.jumel@etu.utc.fr",
+                      "id": 27930,
+                      "name": "Tom JUMEL (jumeltom)"
+                    },
+                  ),
+                );
+              },
+            ),
+            btnAccount(
+              Translate.of(context).mentionsLgales,
+              () {
+                showWebView(
+                  context,
+                  "assets/therms/cgu.html",
+                  Translate.of(context).mentionsLgales,
+                );
+              },
+            ),
+            btnAccount(
+              Translate.of(context).licensesPayutc,
+              () {
+                showWebView(
+                  context,
+                  "assets/therms/gnu.html",
+                  Translate.of(context).licensesPayutc,
+                );
+              },
+            ),
+            btnAccount(
+              Translate.of(context).licenseDeLapplication,
+              () {
+                showLicensePage(
+                  context: context,
+                  applicationName: "Pay'ut",
+                  applicationIcon: Image.asset(
+                    "assets/img/logo.jpg",
+                    height: 100,
+                  ),
+                );
+              },
+            )
+          ],
+        ),
       ),
     );
   }
