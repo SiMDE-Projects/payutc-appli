@@ -214,7 +214,7 @@ class APropos extends StatelessWidget {
               () {
                 showLicensePage(
                   context: context,
-                  applicationName: "Pay'ut",
+                  applicationName: "Pay'UTC",
                   applicationIcon: Image.asset(
                     "assets/img/logo.jpg",
                     height: 100,
