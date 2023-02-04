@@ -220,24 +220,17 @@ class _HomePageState extends State<HomePage>
                       height: 15,
                     ),
                     Wrap(
-                      spacing: 30,
+                      spacing: 6,
                       children: [
-                        transfertAction(
+                        openPageButton(
                           Translate.of(context).statistics,
                           const Icon(Icons.stacked_line_chart, size: 32),
-                          _statPage,
+                          const StatPage(),
                         ),
-                        transfertAction(
+                        openPageButton(
                           Translate.of(context).history,
                           const Icon(Icons.history, size: 32),
-                          () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (builder) => const HistoryPage(),
-                              ),
-                            );
-                          },
+                          const HistoryPage(),
                         ),
                       ],
                     )
@@ -268,7 +261,7 @@ class _HomePageState extends State<HomePage>
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(50.0)),
             child: InkWell(
-              borderRadius: BorderRadius.circular(100.0),
+              borderRadius: BorderRadius.circular(50.0),
               onTap: onTap,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -284,6 +277,38 @@ class _HomePageState extends State<HomePage>
             ),
           ),
         ],
+      );
+
+  Widget openPageButton(String text, Icon icon, Widget page) => InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (builder) => page,
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, style: BorderStyle.solid),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          width: 116.0,
+          padding: const EdgeInsets.all(6.0),
+          child: Column(
+            children: [
+              icon,
+              const SizedBox(height: 6.0),
+              Text(
+                text,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
       );
 
   _bottomSheet() => GestureDetector(
@@ -525,15 +550,6 @@ class _HomePageState extends State<HomePage>
         );
       }
     }
-  }
-
-  void _statPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (builder) => const StatPage(),
-      ),
-    );
   }
 
   void _receivePage() {
