@@ -6,6 +6,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/user.dart';
+import 'package:payutc/src/ui/component/user_badge.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
 
@@ -57,9 +58,8 @@ void showUserCard(BuildContext context, User user) {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 35,
-                    child: Text(user.maj),
+                  UserBadge(
+                    user: user,
                   ),
                   const SizedBox(
                     width: 10,
