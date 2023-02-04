@@ -80,11 +80,21 @@ class PayUtcItemWidget extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Text(
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3.0),
+                decoration: BoxDecoration(
+                  color: item.isInAmount ? Colors.green[700] : null,
+                  borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                ),
+                child: Text(
                   "${item.isInAmount ? "" : "-"}${AppService.instance.translateMoney(item.amountParse)}",
                   style: TextStyle(
-                      color: item.isInAmount ? Colors.white : AppColors.red,
-                      fontWeight: FontWeight.bold)),
+                    color: item.isInAmount ? Colors.green[50] : Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               const SizedBox(
                 width: 5,
               ),
