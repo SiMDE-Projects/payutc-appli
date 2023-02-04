@@ -41,10 +41,10 @@ void showUserCard(BuildContext context, User user) {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15), color: Colors.white),
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.fromLTRB(10, 8, 10, 2),
           margin: const EdgeInsets.all(20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
@@ -55,6 +55,7 @@ void showUserCard(BuildContext context, User user) {
                 height: 10,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   CircleAvatar(
                     radius: 35,
@@ -80,7 +81,7 @@ void showUserCard(BuildContext context, User user) {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
