@@ -162,11 +162,11 @@ class _HomePageState extends State<HomePage>
                     Wrap(
                       spacing: 30,
                       children: <Widget>[
-                        _buildCard(
+                        transfertAction(
                           Translate.of(context).reload,
                           const Icon(
                             Icons.add,
-                            size: 30,
+                            size: 32,
                           ),
                           () async {
                             bool res =
@@ -202,17 +202,16 @@ class _HomePageState extends State<HomePage>
                             }
                           },
                         ),
-                        _buildCard(
+                        transfertAction(
                             Translate.of(context).send,
                             const Icon(
-                              CupertinoIcons.arrow_up_right_circle_fill,
-                              size: 30,
+                              CupertinoIcons.arrow_up_right,
+                              size: 32,
                             ),
                             _sendMoneyPage),
-                        _buildCard(
+                        transfertAction(
                           Translate.of(context).receive,
-                          const Icon(CupertinoIcons.arrow_down_left_circle_fill,
-                              size: 30),
+                          const Icon(CupertinoIcons.arrow_down_left, size: 32),
                           _receivePage,
                         ),
                       ],
@@ -223,14 +222,14 @@ class _HomePageState extends State<HomePage>
                     Wrap(
                       spacing: 30,
                       children: [
-                        _buildCard(
+                        transfertAction(
                           Translate.of(context).statistics,
-                          const Icon(Icons.stacked_line_chart, size: 30),
+                          const Icon(Icons.stacked_line_chart, size: 32),
                           _statPage,
                         ),
-                        _buildCard(
+                        transfertAction(
                           Translate.of(context).history,
-                          const Icon(Icons.history, size: 30),
+                          const Icon(Icons.history, size: 32),
                           () {
                             Navigator.push(
                               context,
@@ -260,22 +259,20 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _buildCard(String text, Icon icon, GestureTapCallback onTap) => Column(
+  Widget transfertAction(String text, Icon icon, GestureTapCallback onTap) =>
+      Column(
         children: [
-          Material(
-            type: MaterialType.transparency,
-            child: Ink(
-              decoration: BoxDecoration(
-                  border: Border.all(color: AppColors.black, width: 1),
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(50.0)),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(100.0),
-                onTap: onTap,
-                child: Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: icon,
-                ),
+          Ink(
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.black, width: 1),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50.0)),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(100.0),
+              onTap: onTap,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: icon,
               ),
             ),
           ),
