@@ -388,8 +388,23 @@ class _HomePageState extends State<HomePage>
                     builder: (context, snapshot) {
                       return Skeleton(
                         isLoading: historyController.loading,
-                        skeleton: SkeletonListView(
-                          item: skeletonItem(),
+                        // isLoading: true,
+                        skeleton: Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: Column(
+                            children: [
+                              dateSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              const SizedBox(height: 23),
+                              dateSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                            ],
+                          ),
                         ),
                         child: ListView(
                           controller: _scrollController,
@@ -467,7 +482,17 @@ class _HomePageState extends State<HomePage>
     }
   }
 
-  Widget skeletonItem() => Padding(
+  Widget dateSkeleton() => Column(
+        children: [
+          SkeletonLine(
+            style: SkeletonLineStyle(
+                borderRadius: BorderRadius.circular(15), width: 100),
+          ),
+          const SizedBox(height: 5)
+        ],
+      );
+
+  Widget itemSkeleton() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 7.0),
         child: SizedBox(
           height: 60,
@@ -504,9 +529,6 @@ class _HomePageState extends State<HomePage>
                     )
                   ],
                 ),
-              ),
-              const SizedBox(
-                width: 10,
               ),
             ],
           ),
