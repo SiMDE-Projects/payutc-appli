@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -10,6 +11,7 @@ import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/search_user_manager.dart';
 import 'package:payutc/src/services/unilinks.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 typedef SelectUserCallBack = void Function(BuildContext context, User user);
 
@@ -431,15 +433,17 @@ class _ScanPageState extends State<ScanPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          '',
-          style: TextStyle(color: Colors.white),
-        ),
-        centerTitle: true,
-        backgroundColor: Colors.black,
+        systemOverlayStyle: SystemUiOverlayStyle.light,
         iconTheme: const IconThemeData(color: Colors.white),
+        elevation: 0,
+        backgroundColor: Colors.transparent,
+        centerTitle: true,
+        title: Text(
+          Translate.of(context).scan,
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
-      backgroundColor: Colors.black,
+      backgroundColor: AppColors.scaffoldDark,
       body: FutureBuilder<PermissionStatus>(
         future: _checkPerm(),
         builder: (context, snapshot) {
@@ -472,66 +476,60 @@ class _ScanPageState extends State<ScanPage> {
     return Permission.camera.request();
   }
 
-  Widget _mobileScannerContent() => Stack(
-        children: [
-          MobileScanner(
-            allowDuplicates: false,
-            controller:
-                MobileScannerController(formats: [BarcodeFormat.qrCode]),
-            onDetect: (barcode, args) {
-              if (barcode.rawValue == null) {
-              } else {
-                final String code = barcode.rawValue!;
-                Navigator.pop(context, code);
-              }
-            },
-          ),
-          ColorFiltered(
-            colorFilter:
-                const ColorFilter.mode(Colors.black54, BlendMode.srcOut),
-            child: Stack(
-              children: [
-                Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * 0.8,
-                      height: MediaQuery.of(context).size.width * 0.8,
-                      decoration: BoxDecoration(
-                        color: Colors.black,
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      alignment: Alignment.center,
+  Widget _mobileScannerContent() => Center(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            MobileScanner(
+              allowDuplicates: false,
+              controller:
+                  MobileScannerController(formats: [BarcodeFormat.qrCode]),
+              onDetect: (barcode, args) {
+                if (barcode.rawValue == null) {
+                } else {
+                  final String code = barcode.rawValue!;
+                  Navigator.pop(context, code);
+                }
+              },
+            ),
+            ColorFiltered(
+              colorFilter:
+                  const ColorFilter.mode(Colors.black54, BlendMode.srcOut),
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    constraints: const BoxConstraints(
+                      maxWidth: 260.0,
+                      maxHeight: 260.0,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.circular(15),
                     ),
                   ),
                 ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.topCenter.add(const Alignment(0, 0.3)),
-            child: Text(
-              Translate.of(context).scannPayutcCode,
-              style: const TextStyle(color: Colors.white, fontSize: 18),
-            ),
-          ),
-          Align(
-            alignment: Alignment.center,
-            child: Opacity(
-              opacity: 0.5,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(15),
-                child: Image.asset(
-                  "assets/img/logo.jpg",
-                  width: 50,
-                ),
               ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    Translate.of(context).scannPayutcCode,
+                    style: const TextStyle(color: Colors.white),
+                    textAlign: TextAlign.center,
+                  ),
+                  const SizedBox(height: 200.0)
+                ],
+              ),
+            ),
+          ],
+        ),
       );
 }
 
