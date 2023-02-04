@@ -24,7 +24,7 @@ class SelectAmount extends StatefulWidget {
 }
 
 class _SelectAmountState extends State<SelectAmount> {
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController controller = TextEditingController(text: "0");
 
   @override
   void initState() {
@@ -209,19 +209,30 @@ class _SelectAmountState extends State<SelectAmount> {
         controller.text =
             controller.text.substring(0, controller.text.length - 1);
       }
+      if (controller.text.isEmpty) {
+        controller.text = "0";
+      }
     } else if (num == -2) {
+      if (controller.text.contains(".")) {
+        return;
+      }
       if (controller.text.length < 3) {
-        controller.text = "${controller.text}.".padLeft(3, '0');
+        controller.text =
+            "${controller.text}.".padLeft(controller.text.length, '0');
       }
       if (!controller.text.contains(".") && controller.text.length < 3) {
         controller.text += ".";
       }
     } else {
-      if (controller.text.length == 5) {
+      if (controller.text.contains(".") &&
+          controller.text.length - controller.text.indexOf(".") >= 3) {
         return;
       }
       if (controller.text.length == 2 && !controller.text.contains(".")) {
-        controller.text += '.';
+        controller.text += ".";
+      }
+      if (controller.text.length == 1 && controller.text[0] == "0") {
+        controller.text = "";
       }
       controller.text += num.toString();
     }
