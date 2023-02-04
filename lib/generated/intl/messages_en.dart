@@ -126,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "statistics": MessageLookupByLibrary.simpleMessage("Stats"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
         "transfertPayutc": MessageLookupByLibrary.simpleMessage("Payment"),
+        "transfertFromConnector": MessageLookupByLibrary.simpleMessage("from"),
+        "transfertToConnector": MessageLookupByLibrary.simpleMessage("to"),
         "transfert_error": MessageLookupByLibrary.simpleMessage(
             "Unable to perform this transfer"),
         "transfert_montant_select_amount":

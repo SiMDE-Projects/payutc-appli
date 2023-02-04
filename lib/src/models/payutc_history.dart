@@ -156,7 +156,12 @@ class PayUtcItem {
 
   String nameExtracted(BuildContext context) {
     if (isVirement) {
-      return "${Translate.of(context).transfertPayutc}${"(${"$firstname ${(lastname?.isNotEmpty ?? false) ? lastname?.substring(0, 1) : ""}."})"}";
+      String formattedName =
+          "$firstname ${(lastname?.isNotEmpty ?? false) ? lastname?.substring(0, 1) : ""}.";
+      String connector = (type == "VIRIN")
+          ? Translate.of(context).transfertFromConnector
+          : Translate.of(context).transfertToConnector;
+      return "${Translate.of(context).transfertPayutc} $connector $formattedName";
     }
     if (type == "RECHARGE") return Translate.of(context).reloading;
     return "${quantity.abs().toInt()} $name";

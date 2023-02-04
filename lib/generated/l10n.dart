@@ -403,6 +403,26 @@ class Translate {
     );
   }
 
+  /// `de`
+  String get transfertFromConnector {
+    return Intl.message(
+      'de',
+      name: 'transfertFromConnector',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `de`
+  String get transfertToConnector {
+    return Intl.message(
+      'à',
+      name: 'transfertToConnector',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Envoyé`
   String get sendedTransfertPayutc {
     return Intl.message(
