@@ -68,7 +68,7 @@ class _SelectAmountState extends State<SelectAmount> {
                   return Center(
                       child: Text(
                     "${controller.text} €",
-                    style: const TextStyle(fontSize: 35),
+                    style: const TextStyle(fontSize: 45),
                   ));
                 }),
           ),
@@ -125,7 +125,9 @@ class _SelectAmountState extends State<SelectAmount> {
                         child: Text(
                           "$i",
                           style: const TextStyle(
-                              color: Colors.white, fontSize: 18),
+                            color: Colors.white,
+                            fontSize: 24,
+                          ),
                         ),
                       ),
                     ),
@@ -146,7 +148,7 @@ class _SelectAmountState extends State<SelectAmount> {
                     child: Center(
                       child: Text(
                         ".",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
                     ),
                   ),
@@ -167,7 +169,7 @@ class _SelectAmountState extends State<SelectAmount> {
                     child: Center(
                       child: Text(
                         "0",
-                        style: TextStyle(color: Colors.white, fontSize: 18),
+                        style: TextStyle(color: Colors.white, fontSize: 24),
                       ),
                     ),
                   ),
