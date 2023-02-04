@@ -1,4 +1,8 @@
+import 'dart:ffi';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:intl/intl.dart';
 
@@ -39,13 +43,7 @@ class PayUtcItemWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: Icon(
-                  item.isInAmount
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                  size: 40,
-                  color: Colors.white70,
-                ),
+                child: !item.isPurchase ? _getIcon(item) : null,
               ),
               const SizedBox(
                 width: 20,
@@ -102,6 +100,24 @@ class PayUtcItemWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Icon _getIcon(PayUtcItem item) {
+    IconData iconData = Icons.abc;
+    if (item.isReload) {
+      iconData = Icons.add;
+    } else if (item.isVirement) {
+      if (item.type == 'VIROUT') {
+        iconData = CupertinoIcons.arrow_up_right;
+      } else {
+        iconData = CupertinoIcons.arrow_down_left;
+      }
+    }
+    return Icon(
+      iconData,
+      size: 40,
+      color: Colors.white70,
     );
   }
 
