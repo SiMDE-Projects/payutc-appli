@@ -706,12 +706,13 @@ class Translate {
   /// `Scanne un code QR code Pay'UTC pour envoyer de l'argent.`
   String get scanPayutcCode {
     return Intl.message(
-      'Scanne un code QR code Pay'UTC pour envoyer de l'argent.',
+      'Scanne un code QR code Pay\'UTC pour envoyer de l\'argent.',
       name: 'scannPayutcCode',
       desc: '',
       args: [],
     );
   }
+
   /// `Informations`
   String get informations {
     return Intl.message(

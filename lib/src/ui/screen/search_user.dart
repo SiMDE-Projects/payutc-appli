@@ -520,7 +520,7 @@ class _ScanPageState extends State<ScanPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Text(
-                    Translate.of(context).scannPayutcCode,
+                    Translate.of(context).scanPayutcCode,
                     style: const TextStyle(color: Colors.white),
                     textAlign: TextAlign.center,
                   ),
