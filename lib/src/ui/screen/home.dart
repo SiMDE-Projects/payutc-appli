@@ -121,37 +121,35 @@ class _HomePageState extends State<HomePage>
                             isLoading: historyController.loading,
                             skeleton: SkeletonLine(
                               style: SkeletonLineStyle(
-                                width: 100,
-                                height: 35,
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 15.0),
+                                alignment: Alignment.center,
+                                width: 160,
+                                height: 45,
                                 borderRadius: BorderRadius.circular(15),
                               ),
                             ),
-                            child: Column(
-                              children: [
-                                Text(
-                                  AppService.instance.translateMoney(
-                                      (historyController.history?.credit ??
-                                              00) /
-                                          100),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 50,
-                                    color: AppColors.orange,
-                                  ),
-                                ),
-                                Text(
-                                  AppService.instance.userWallet!.blocked
-                                      ? Translate.of(context).card_blocked
-                                      : "",
-                                  style: const TextStyle(
-                                    color: Colors.black26,
-                                    fontSize: 12,
-                                  ),
-                                )
-                              ],
+                            child: Text(
+                              AppService.instance.translateMoney(
+                                  (historyController.history?.credit ?? 0) /
+                                      100),
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 50,
+                                color: AppColors.orange,
+                              ),
                             ),
                           );
                         },
+                      ),
+                      Text(
+                        AppService.instance.userWallet!.blocked
+                            ? Translate.of(context).card_blocked
+                            : "",
+                        style: const TextStyle(
+                          color: Colors.black26,
+                          fontSize: 12,
+                        ),
                       ),
                       const SizedBox(
                         height: 15,
