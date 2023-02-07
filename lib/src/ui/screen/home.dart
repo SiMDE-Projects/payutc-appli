@@ -7,6 +7,7 @@ import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/unilinks.dart';
 import 'package:payutc/src/ui/component/payutc_item.dart';
+import 'package:payutc/src/ui/component/bottom_drawer.dart';
 import 'package:payutc/src/ui/screen/history.dart';
 import 'package:payutc/src/ui/screen/reload.dart';
 import 'package:payutc/src/ui/screen/stats.dart';
@@ -104,65 +105,75 @@ class _HomePageState extends State<HomePage>
                         ),
                       );
                     }),
-                Container(
+                SizedBox(
                   height: 82,
                   child: Stack(
                     alignment: Alignment.topCenter,
                     children: [
-                      Positioned(
-                        top: -4,
-                        child: Text(
-                          Translate.of(context).myBalance,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 14,
-                          ),
+                      Text(
+                        Translate.of(context).myBalance +
+                            (AppService.instance.userWallet!.blocked
+                                ? " ${Translate.of(context).card_blocked}"
+                                : ""),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
                         ),
                       ),
-                      AnimatedBuilder(
-                        animation: historyController,
-                        builder: (context, snapshot) {
-                          return Skeleton(
-                            isLoading: historyController.loading,
-                            skeleton: SkeletonLine(
-                              style: SkeletonLineStyle(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15.0),
-                                alignment: Alignment.center,
-                                width: 160,
-                                height: 45,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            child: Text(
-                              AppService.instance.translateMoney(
-                                  (historyController.history?.credit ?? 0) /
-                                      100),
-                              style: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 50,
-                                color: AppColors.orange,
-                              ),
-                            ),
-                          );
-                        },
-                      ),
                       Positioned(
-                        bottom: 2,
-                        child: Text(
-                          AppService.instance.userWallet!.blocked
-                              ? Translate.of(context).card_blocked
-                              : "",
-                          style: const TextStyle(
-                            color: Colors.black26,
-                            fontSize: 10,
-                          ),
+                        top: 12,
+                        child: AnimatedBuilder(
+                          animation: historyController,
+                          builder: (context, snapshot) {
+                            return Skeleton(
+                              isLoading: historyController.loading,
+                              skeleton: SkeletonLine(
+                                style: SkeletonLineStyle(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15.0),
+                                  alignment: Alignment.center,
+                                  width: 160,
+                                  height: 45,
+                                  borderRadius: BorderRadius.circular(15),
+                                ),
+                              ),
+                              child: Text(
+                                AppService.instance.translateMoney(
+                                    (historyController.history?.credit ?? 0) /
+                                        100),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 50,
+                                  color: AppService.instance.userWallet!.blocked
+                                      ? AppColors.red
+                                      : AppColors.orange,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ],
                   ),
                 ),
                 const SizedBox(height: 8),
+                // ElevatedButton(
+                //   onPressed: () => showModalBottomSheet(
+                //     shape: const RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.vertical(
+                //         top: Radius.circular(20),
+                //       ),
+                //     ),
+                //     context: context,
+                //     builder: (BuildContext context) {
+                //       return const BottomDrawer(
+                //         title: Text('Titre du menu'),
+                //         body: Text('Contenu du menu'),
+                //       );
+                //     },
+                //   ),
+                //   child: const Text('test'),
+                // ),
                 Column(
                   children: <Widget>[
                     Wrap(
@@ -209,12 +220,13 @@ class _HomePageState extends State<HomePage>
                           },
                         ),
                         transfertAction(
-                            Translate.of(context).send,
-                            const Icon(
-                              CupertinoIcons.arrow_up_right,
-                              size: 32,
-                            ),
-                            _sendMoneyPage),
+                          Translate.of(context).send,
+                          const Icon(
+                            CupertinoIcons.arrow_up_right,
+                            size: 32,
+                          ),
+                          _sendMoneyPage,
+                        ),
                         transfertAction(
                           Translate.of(context).receive,
                           const Icon(CupertinoIcons.arrow_down_left, size: 32),
