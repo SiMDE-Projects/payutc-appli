@@ -59,6 +59,7 @@ class _StatPageState extends State<StatPage> {
             TabBar(
               padding: const EdgeInsets.all(5),
               isScrollable: true,
+              splashBorderRadius: BorderRadius.circular(15),
               indicator: BoxDecoration(
                 color: Colors.black12,
                 borderRadius: BorderRadius.circular(15),
