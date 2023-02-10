@@ -73,65 +73,69 @@ class _SelectUserPageState extends State<SelectUserPage> {
             SliverPersistentHeader(
               pinned: true,
               delegate: PersistantHeader(
-                builder: (overlap) {
-                  return Container(
+                builder: (shrinkOffset, overlapsContent) {
+                  return Material(
                     color: Colors.white,
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Column(
-                      children: [
-                        TextField(
-                          focusNode: focusNode,
-                          controller: searchController,
-                          decoration: InputDecoration(
-                            isDense: true,
-                            prefixIcon: IconButton(
-                              padding: const EdgeInsets.only(left: 6),
-                              icon: const Icon(Icons.search),
-                              iconSize: 26,
-                              onPressed: () {
-                                FocusScope.of(context).requestFocus(focusNode);
-                              },
-                            ),
-                            suffixIcon: Visibility(
-                              visible: showSearchContent,
-                              child: IconButton(
-                                icon: const Icon(Icons.close),
-                                iconSize: 24,
+                    elevation: (shrinkOffset != 0) ? 4 : 0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Column(
+                        children: [
+                          TextField(
+                            focusNode: focusNode,
+                            controller: searchController,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              prefixIcon: IconButton(
+                                padding: const EdgeInsets.only(left: 6),
+                                icon: const Icon(Icons.search),
+                                iconSize: 26,
                                 onPressed: () {
-                                  searchController.clear();
+                                  FocusScope.of(context)
+                                      .requestFocus(focusNode);
                                 },
                               ),
+                              suffixIcon: Visibility(
+                                visible: showSearchContent,
+                                child: IconButton(
+                                  icon: const Icon(Icons.close),
+                                  iconSize: 24,
+                                  onPressed: () {
+                                    searchController.clear();
+                                  },
+                                ),
+                              ),
+                              hintText: "Jean Dupont, ...",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
                             ),
-                            hintText: "Jean Dupont, ...",
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(15),
+                          ),
+                          const SizedBox(
+                            height: 4,
+                          ),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              shape: const StadiumBorder(),
+                              backgroundColor: Colors.black,
+                              elevation: 0,
                             ),
+                            label: Text(
+                              Translate.of(context).scan,
+                              style: const TextStyle(color: Colors.white),
+                            ),
+                            onPressed: () async {
+                              String? data = await Navigator.push(
+                                  context,
+                                  CupertinoPageRoute(
+                                      builder: (builder) => const ScanPage()));
+                              if (data == null) return;
+                              _handleUrl(data);
+                            },
+                            icon: const Icon(Icons.qr_code),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 4,
-                        ),
-                        ElevatedButton.icon(
-                          style: ElevatedButton.styleFrom(
-                            shape: const StadiumBorder(),
-                            backgroundColor: Colors.black,
-                            elevation: 0,
-                          ),
-                          label: Text(
-                            Translate.of(context).scan,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                          onPressed: () async {
-                            String? data = await Navigator.push(
-                                context,
-                                CupertinoPageRoute(
-                                    builder: (builder) => const ScanPage()));
-                            if (data == null) return;
-                            _handleUrl(data);
-                          },
-                          icon: const Icon(Icons.qr_code),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   );
                 },
@@ -534,7 +538,7 @@ class _ScanPageState extends State<ScanPage> {
 }
 
 class PersistantHeader extends SliverPersistentHeaderDelegate {
-  final Widget Function(bool overlap) builder;
+  final Widget Function(double shrinkOffset, bool overlapsContent) builder;
 
   final double height;
 
@@ -543,7 +547,7 @@ class PersistantHeader extends SliverPersistentHeaderDelegate {
   @override
   Widget build(
       BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return builder(overlapsContent);
+    return builder(shrinkOffset, overlapsContent);
   }
 
   @override
