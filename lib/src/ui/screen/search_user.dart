@@ -11,7 +11,6 @@ import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/search_user_manager.dart';
 import 'package:payutc/src/services/unilinks.dart';
 import 'package:payutc/src/ui/style/color.dart';
-import 'package:qr_flutter/qr_flutter.dart';
 
 typedef SelectUserCallBack = void Function(BuildContext context, User user);
 
@@ -151,8 +150,11 @@ class _SelectUserPageState extends State<SelectUserPage> {
               if (users.isNotEmpty)
                 for (final item in users) _buildUserCase(item)
               else if (showLoading)
-                const Center(
-                  child: CircularProgressIndicator(),
+                Column(
+                  children: [
+                    const SizedBox(height: 10),
+                    CircularProgressIndicator(),
+                  ],
                 )
               else if (users.isEmpty)
                 const Center(
@@ -188,8 +190,6 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   }
                 },
               ),
-
-              // for (int i = 0; i < 10; i++) _buildUserCase(),
               const SizedBox(
                 height: 16,
               ),
@@ -216,7 +216,6 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   }
                 },
               ),
-              // for (int i = 0; i < 10; i++) _buildUserCase(),
             ]
           ],
         ),
