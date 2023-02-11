@@ -104,6 +104,7 @@ class _SelectTransfertAmountScreenState
                         height: 20,
                       ),
                       SleekCircularSlider(
+                        max: AppService.instance.userAmount,
                         initialValue: amount,
                         appearance: CircularSliderAppearance(
                           size: 200,
@@ -117,7 +118,9 @@ class _SelectTransfertAmountScreenState
                           ),
                         ),
                         onChange: (double value) {
-                          amount = _compilValue(value);
+                          setState(() {
+                            amount = value;
+                          });
                         },
                         innerWidget: (value) => GestureDetector(
                           onTap: () {
@@ -235,86 +238,10 @@ class _SelectTransfertAmountScreenState
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black),
-                        onPressed: () async {
-                          double amountDb =
-                              double.parse(amount.toStringAsFixed(2)) * 100;
-                          if (amountDb == 0) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    Translate.of(context).nothingToTransfert)));
-                            return;
-                          }
-                          bool didAuth = true;
-                          try {
-                            final LocalAuthentication auth =
-                                LocalAuthentication();
-                            if (!await auth.isDeviceSupported()) {
-                              throw 'no-check-possible';
-                            }
-                            if (!await auth.canCheckBiometrics) {
-                              throw 'no-check-possible';
-                            }
-                            if (mounted) {
-                              didAuth = await auth.authenticate(
-                                localizedReason:
-                                    Translate.of(context).authReasonTransfert,
-                                authMessages: [
-                                  const AndroidAuthMessages(
-                                    signInTitle: "Transfert payUTC",
-                                  ),
-                                  const IOSAuthMessages(
-                                    cancelButton: "Annuler",
-                                    goToSettingsButton: "Paramètres",
-                                    goToSettingsDescription:
-                                        "Veuillez vous authentifier pour continuer",
-                                    lockOut: "Veuillez vous authentifier",
-                                  ),
-                                ],
-                              );
-                            }
-                          } catch (e, st) {
-                            logger.e('error Auth transfert', e, st);
-                          }
-                          if (!didAuth) {
-                            return;
-                          }
-                          try {
-                            setState(() {
-                              loading = true;
-                            });
-                            SearchUserManagerService.historyManager
-                                .add(widget.target);
-                            final t = Transfert.makeTransfert(
-                                widget.target, amountDb / 100, message.text);
-                            bool res =
-                                await AppService.instance.makeTransfert(t);
-                            if (!res) {
-                              if (mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        Translate.of(context).transfert_error),
-                                  ),
-                                );
-                                setState(() {
-                                  loading = false;
-                                });
-                              }
-                              return;
-                            }
-                          } catch (e, st) {
-                            logger.e("Transfert error", e, st);
-                            Sentry.captureException(e, stackTrace: st);
-                          }
-                          if (mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Envoyé !"),
-                              ),
-                            );
-                            Navigator.pop(context, true);
-                          }
-                        },
+                        onPressed:
+                            double.parse(amount.toStringAsFixed(2)) * 100 > 0
+                                ? () => _sendMoney(context)
+                                : null,
                         child: Text(_randomPay),
                       ),
                       const Text(
@@ -330,8 +257,79 @@ class _SelectTransfertAmountScreenState
     );
   }
 
-  _compilValue(double value) =>
-      ((value / 100) * (AppService.instance.userAmount));
+  Future<void> _sendMoney(BuildContext context) async {
+    double amountDb = double.parse(amount.toStringAsFixed(2)) * 100;
+    if (amountDb == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(Translate.of(context).nothingToTransfert)));
+      return;
+    }
+    bool didAuth = true;
+    try {
+      final LocalAuthentication auth = LocalAuthentication();
+      if (!await auth.isDeviceSupported()) {
+        throw 'no-check-possible';
+      }
+      if (!await auth.canCheckBiometrics) {
+        throw 'no-check-possible';
+      }
+      if (mounted) {
+        didAuth = await auth.authenticate(
+          localizedReason: Translate.of(context).authReasonTransfert,
+          authMessages: [
+            const AndroidAuthMessages(
+              signInTitle: "Transfert payUTC",
+            ),
+            const IOSAuthMessages(
+              cancelButton: "Annuler",
+              goToSettingsButton: "Paramètres",
+              goToSettingsDescription:
+                  "Veuillez vous authentifier pour continuer",
+              lockOut: "Veuillez vous authentifier",
+            ),
+          ],
+        );
+      }
+    } catch (e, st) {
+      logger.e('error Auth transfert', e, st);
+    }
+    if (!didAuth) {
+      return;
+    }
+    try {
+      setState(() {
+        loading = true;
+      });
+      SearchUserManagerService.historyManager.add(widget.target);
+      final t =
+          Transfert.makeTransfert(widget.target, amountDb / 100, message.text);
+      bool res = await AppService.instance.makeTransfert(t);
+      if (!res) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(Translate.of(context).transfert_error),
+            ),
+          );
+          setState(() {
+            loading = false;
+          });
+        }
+        return;
+      }
+    } catch (e, st) {
+      logger.e("Transfert error", e, st);
+      Sentry.captureException(e, stackTrace: st);
+    }
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Envoyé !"),
+        ),
+      );
+      Navigator.pop(context, true);
+    }
+  }
 
   Future<String?> _showSelector() async {
     return showModalBottomSheet<String>(
