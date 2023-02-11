@@ -158,58 +158,72 @@ class _SelectTransfertAmountScreenState
                       ),
                       Column(
                         children: [
-                          TextFormField(
-                            controller: message,
-                            maxLines: 5,
-                            maxLength: 250,
-                            decoration: InputDecoration(
-                              hintText:
-                                  Translate.of(context).helpMessageTransfert,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                          ),
-                          Wrap(
-                            spacing: 10,
+                          Stack(
                             children: [
-                              ActionChip(
-                                onPressed: () {
-                                  message.text += '😂';
-                                },
-                                label: const Text("😂"),
-                                backgroundColor: Colors.black,
-                              ),
-                              ActionChip(
-                                onPressed: () {
-                                  message.text += '😘';
-                                },
-                                label: const Text("😘"),
-                                backgroundColor: Colors.black,
-                              ),
-                              ActionChip(
-                                onPressed: () {
-                                  message.text = randomSentences.item;
-                                },
-                                label: Text(
-                                  Translate.of(context).randomTransfertSentence,
-                                  style: const TextStyle(color: Colors.white),
+                              TextFormField(
+                                controller: message,
+                                maxLines: 5,
+                                maxLength: 250,
+                                decoration: InputDecoration(
+                                  hintText: Translate.of(context)
+                                      .helpMessageTransfert,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  contentPadding: const EdgeInsets.all(15),
                                 ),
-                                backgroundColor: Colors.black,
                               ),
-                              ActionChip(
-                                onPressed: () async {
-                                  String? selectSentence =
-                                      await _showSelector();
-                                  if (selectSentence != null) {
-                                    message.text = selectSentence;
-                                  }
-                                },
-                                label: Text(
-                                  Translate.of(context).other,
-                                  style: const TextStyle(color: Colors.white),
+                              Positioned(
+                                right: 9.5,
+                                bottom: 25,
+                                child: Center(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 35,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.casino,
+                                            color: Colors.grey,
+                                            size: 28,
+                                          ),
+                                          onPressed: () {
+                                            message.text = randomSentences.item;
+                                            message.selection =
+                                                TextSelection.fromPosition(
+                                                    TextPosition(
+                                                        offset: message
+                                                            .text.length));
+                                          },
+                                        ),
+                                      ),
+                                      // SizedBox(
+                                      //   width: 35,
+                                      //   child: IconButton(
+                                      //     icon: const Icon(
+                                      //       Icons.chat,
+                                      //       color: Colors.grey,
+                                      //       size: 28,
+                                      //     ),
+                                      //     onPressed: () async {
+                                      //       String? selectSentence =
+                                      //           await _showSelector();
+                                      //       if (selectSentence != null) {
+                                      //         message.text = selectSentence;
+                                      //         message.selection =
+                                      //             TextSelection.fromPosition(
+                                      //                 TextPosition(
+                                      //                     offset: message
+                                      //                         .text.length));
+                                      //       }
+                                      //     },
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
-                                backgroundColor: Colors.black,
                               ),
                             ],
                           ),
