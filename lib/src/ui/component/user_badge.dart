@@ -29,7 +29,7 @@ class UserBadge extends StatelessWidget {
       foregroundColor: foregroundColor ??
           ((darkMode ?? false) ? Colors.white : AppColors.black),
       child: Text(
-        user.maj,
+        user.initials,
         style: TextStyle(
           fontSize: textSize ?? 18.0,
         ),

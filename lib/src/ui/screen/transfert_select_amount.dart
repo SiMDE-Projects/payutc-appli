@@ -87,7 +87,7 @@ class _SelectTransfertAmountScreenState
                       CircleAvatar(
                         radius: 60,
                         child: Text(
-                          widget.target.maj,
+                          widget.target.initials,
                           style: const TextStyle(
                               fontSize: 40, color: Colors.white),
                         ),

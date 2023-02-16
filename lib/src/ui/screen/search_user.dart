@@ -249,7 +249,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
         },
         leading: CircleAvatar(
           child: Center(
-            child: Text(item.maj),
+            child: Text(item.initials),
           ),
         ),
         title: Text(item.name),
@@ -377,7 +377,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   children: [
                     CircleAvatar(
                       radius: 35,
-                      child: Text(user.maj),
+                      child: Text(user.initials),
                     ),
                     const SizedBox(
                       width: 10,
