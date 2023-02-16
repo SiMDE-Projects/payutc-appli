@@ -26,8 +26,9 @@ class SelectUserPage extends StatefulWidget {
 class _SelectUserPageState extends State<SelectUserPage> {
   TextEditingController searchController = TextEditingController();
   FocusNode focusNode = FocusNode();
-  SearchUserManagerService favManager = SearchUserManagerService.favManager,
-      histManager = SearchUserManagerService.historyManager;
+  SearchUserManagerService favManager = SearchUserManagerService.favManager;
+  SearchUserManagerService histManager =
+      SearchUserManagerService.historyManager;
   final ScrollController scrollController = ScrollController();
 
   @override
@@ -44,183 +45,199 @@ class _SelectUserPageState extends State<SelectUserPage> {
     super.dispose();
   }
 
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: _buildAppBar(context),
+  //     body: CustomScrollView(
+  //       controller: scrollController,
+  //       slivers: [
+  //         SliverAppBar(
+  //           title: _buildHeader(context),
+  //           pinned: true,
+  //           floating: true,
+  //           snap: true,
+  //           shadowColor: Colors.black26,
+  //           elevation: 4.0,
+  //           automaticallyImplyLeading: false,
+  //         ),
+  //         SliverList(
+  //           delegate: SliverChildListDelegate([
+  //             if (showSearchContent)
+  //               ..._buildSearchBody(context)
+  //             else
+  //               ..._buildDefaultBody(context),
+  //           ]),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        title: Text(Translate.of(context).select_user),
-        leading: IconButton(
-          onPressed: () {
-            if (showSearchContent) {
-              searchController.clear();
-              return;
-            }
-            Navigator.pop(context);
-          },
-          icon: const Icon(
-            Icons.close,
-            color: AppColors.black,
+      appBar: _buildAppBar(context),
+      body: Column(
+        children: [
+          Material(
+            elevation: 4,
+            child: _buildHeader(context),
           ),
-        ),
+          Expanded(
+            child: ListView(
+              controller: scrollController,
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              children: [
+                if (showSearchContent)
+                  ..._buildSearchBody(context)
+                else
+                  ..._buildDefaultBody(context),
+              ],
+            ),
+          ),
+        ],
       ),
-      body: NestedScrollView(
-        controller: scrollController,
-        headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-          return [
-            SliverPersistentHeader(
-              pinned: true,
-              delegate: PersistantHeader(
-                builder: (shrinkOffset, overlapsContent) {
-                  return Material(
-                    color: Colors.white,
-                    elevation: (shrinkOffset != 0) ? 4 : 0,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Column(
-                        children: [
-                          TextField(
-                            focusNode: focusNode,
-                            controller: searchController,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              prefixIcon: IconButton(
-                                padding: const EdgeInsets.only(left: 6),
-                                icon: const Icon(Icons.search),
-                                iconSize: 26,
-                                onPressed: () {
-                                  FocusScope.of(context)
-                                      .requestFocus(focusNode);
-                                },
-                              ),
-                              suffixIcon: Visibility(
-                                visible: showSearchContent,
-                                child: IconButton(
-                                  icon: const Icon(Icons.close),
-                                  iconSize: 24,
-                                  onPressed: () {
-                                    searchController.clear();
-                                  },
-                                ),
-                              ),
-                              hintText: "Jean Dupont, ...",
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 4,
-                          ),
-                          ElevatedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              shape: const StadiumBorder(),
-                              backgroundColor: Colors.black,
-                              elevation: 0,
-                            ),
-                            label: Text(
-                              Translate.of(context).scan,
-                              style: const TextStyle(color: Colors.white),
-                            ),
-                            onPressed: () async {
-                              String? data = await Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (builder) => const ScanPage()));
-                              if (data == null) return;
-                              _handleUrl(data);
-                            },
-                            icon: const Icon(Icons.qr_code),
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
+    );
+  }
+
+  Container _buildHeader(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20.0),
+      child: Column(
+        children: [
+          TextField(
+            focusNode: focusNode,
+            controller: searchController,
+            decoration: InputDecoration(
+              isDense: true,
+              prefixIcon: IconButton(
+                padding: const EdgeInsets.only(left: 6),
+                icon: const Icon(Icons.search),
+                iconSize: 26,
+                onPressed: () {
+                  FocusScope.of(context).requestFocus(focusNode);
                 },
-                height: 116,
               ),
-            )
-          ];
-        },
-        body: ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          children: [
-            if (showSearchContent) ...[
-              if (users.isNotEmpty)
-                for (final item in users) _buildUserCase(item)
-              else if (showLoading)
-                Column(
-                  children: [
-                    const SizedBox(height: 10),
-                    CircularProgressIndicator(),
-                  ],
-                )
-              else if (users.isEmpty)
-                const Center(
-                  child: Padding(
-                    padding: EdgeInsets.all(15.0),
-                    child: Text("Aucun utilisateur trouvé"),
-                  ),
+              suffixIcon: Visibility(
+                visible: showSearchContent,
+                child: IconButton(
+                  icon: const Icon(Icons.close),
+                  iconSize: 24,
+                  onPressed: () {
+                    searchController.clear();
+                  },
                 ),
-            ] else ...[
-              const SizedBox(
-                height: 16,
               ),
-              Text(
-                Translate.of(context).favoris,
-                style: const TextStyle(fontSize: 18),
+              hintText: "Jean Dupont, ...",
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(15),
               ),
-              AnimatedBuilder(
-                animation: favManager,
-                builder: (context, child) {
-                  if (favManager.users.isEmpty) {
-                    return Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Center(
-                        child: Text(Translate.of(context).noFavorisFound),
-                      ),
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        for (final e in favManager.users) _buildUserCase(e),
-                      ],
-                    );
-                  }
-                },
-              ),
-              const SizedBox(
-                height: 16,
-              ),
-              Text(
-                Translate.of(context).recentTransfert,
-                style: const TextStyle(fontSize: 18),
-              ),
-              AnimatedBuilder(
-                animation: histManager,
-                builder: (context, child) {
-                  if (histManager.users.isEmpty) {
-                    return Padding(
-                      padding: const EdgeInsets.all(20.0),
-                      child: Center(
-                        child: Text(Translate.of(context).noTransfertFound),
-                      ),
-                    );
-                  } else {
-                    return Column(
-                      children: [
-                        for (final e in histManager.users) _buildUserCase(e),
-                      ],
-                    );
-                  }
-                },
-              ),
-            ]
-          ],
+            ),
+          ),
+          const SizedBox(
+            height: 4,
+          ),
+          ElevatedButton.icon(
+            style: ElevatedButton.styleFrom(
+              shape: const StadiumBorder(),
+              backgroundColor: Colors.black,
+              elevation: 0,
+            ),
+            label: Text(
+              Translate.of(context).scan,
+              style: const TextStyle(color: Colors.white),
+            ),
+            onPressed: () async {
+              String? data = await Navigator.push(context,
+                  CupertinoPageRoute(builder: (builder) => const ScanPage()));
+              if (data == null) return;
+              _handleUrl(data);
+            },
+            icon: const Icon(Icons.qr_code),
+          ),
+        ],
+      ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      elevation: 0,
+      title: Text(Translate.of(context).select_user),
+      leading: IconButton(
+        onPressed: () {
+          if (showSearchContent) {
+            searchController.clear();
+            return;
+          }
+          Navigator.pop(context);
+        },
+        icon: const Icon(
+          Icons.close,
+          color: AppColors.black,
         ),
       ),
     );
+  }
+
+  List<Widget> _buildSearchBody(BuildContext context) {
+    if (users.isNotEmpty) {
+      return users.map((item) => _buildUserCase(item)).toList();
+    } else if (showLoading) {
+      return [
+        const SizedBox(height: 10),
+        CircularProgressIndicator(),
+      ];
+    } else {
+      return [
+        const Center(
+          child: Padding(
+            padding: EdgeInsets.all(15.0),
+            child: Text("Aucun utilisateur trouvé"),
+          ),
+        ),
+      ];
+    }
+  }
+
+  List<Widget> _buildDefaultBody(BuildContext context) {
+    return [
+      const SizedBox(
+        height: 16,
+      ),
+      Text(
+        Translate.of(context).favoris,
+        style: const TextStyle(fontSize: 18),
+      ),
+      AnimatedBuilder(
+        animation: favManager,
+        builder: (context, child) {
+          if (favManager.users.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                child: Text(Translate.of(context).noFavorisFound),
+              ),
+            );
+          } else {
+            return Column(
+              children: [
+                for (final e in favManager.users) _buildUserCase(e),
+              ],
+            );
+          }
+        },
+      ),
+      const SizedBox(
+        height: 16,
+      ),
+      Text(
+        Translate.of(context).recentTransfert,
+        style: const TextStyle(fontSize: 18),
+      )
+    ];
   }
 
   Widget _buildUserCase(User item) {
@@ -534,29 +551,4 @@ class _ScanPageState extends State<ScanPage> {
           ],
         ),
       );
-}
-
-class PersistantHeader extends SliverPersistentHeaderDelegate {
-  final Widget Function(double shrinkOffset, bool overlapsContent) builder;
-
-  final double height;
-
-  PersistantHeader({required this.builder, required this.height});
-
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return builder(shrinkOffset, overlapsContent);
-  }
-
-  @override
-  double get maxExtent => height;
-
-  @override
-  double get minExtent => height;
-
-  @override
-  bool shouldRebuild(covariant SliverPersistentHeaderDelegate oldDelegate) {
-    return true;
-  }
 }
