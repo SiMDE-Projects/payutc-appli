@@ -1,14 +1,10 @@
-import 'dart:ffi';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 import 'package:intl/intl.dart';
 
 import 'package:payutc/src/models/payutc_history.dart';
 import '../../services/app.dart';
-import '../style/color.dart';
 
 class PayUtcItemWidget extends StatelessWidget {
   final PayUtcItem item;
