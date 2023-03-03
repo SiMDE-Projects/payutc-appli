@@ -2,6 +2,7 @@ import 'package:logger/logger.dart';
 import 'package:logger_flutter_viewer/logger_flutter_viewer.dart';
 
 const bool showLogConsole = false;
+const bool dioFineLogs = true;
 
 //logger
 class ScreenOutput extends LogOutput {
@@ -11,4 +12,5 @@ class ScreenOutput extends LogOutput {
   }
 }
 
-final Logger logger = Logger(printer: PrettyPrinter(), output: ScreenOutput());
+final Logger logger =
+    showLogConsole ? Logger(printer: PrettyPrinter()) : Logger();

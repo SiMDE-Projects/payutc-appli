@@ -1,13 +1,14 @@
 import 'package:cookie_jar/cookie_jar.dart';
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:sentry_dio/sentry_dio.dart';
-
+import 'package:payutc/compil.dart';
 import 'package:payutc/src/env.dart' as env;
 import 'package:payutc/src/models/nemopay_app_properties.dart';
 import 'package:payutc/src/models/payutc_history.dart';
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/models/wallet.dart';
+import 'package:sentry_dio/sentry_dio.dart';
+
 import '../env.dart';
 import '../models/transfert.dart';
 
@@ -23,6 +24,9 @@ class NemoPayApi {
     jar = CookieJar();
     client.interceptors.add(CookieManager(jar));
     client.addSentry(captureFailedRequests: true);
+    if (dioFineLogs) {
+      client.interceptors.add(LogInterceptor(responseBody: true));
+    }
   }
 
   /// services/MYACCOUNT/
@@ -38,6 +42,19 @@ class NemoPayApi {
         data: {"service": env.nemoPayUrl, "ticket": casTicket},
         options: Options(contentType: Headers.jsonContentType));
     return resp.data["username"];
+  }
+
+  // services/MYACCOUNT/getUserDetails
+  Future<Map> getUserDetails() async {
+    try {
+      final resp = await client.get(
+          "services/MYACCOUNT/getUserDetails",
+          options: Options(contentType: Headers.jsonContentType));
+      logger.i(resp.data);
+      return resp.data;
+    } on DioError {
+      rethrow;
+    }
   }
 
   /// resources/wallets?user__username=''

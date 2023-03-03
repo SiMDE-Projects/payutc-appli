@@ -1,20 +1,19 @@
 import 'dart:io';
 
+import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:sentry_flutter/sentry_flutter.dart';
-
 import 'package:payutc/compil.dart';
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/home.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -246,6 +245,17 @@ class _LoginPageState extends State<LoginPage> {
                             if (!isCas) AutofillHints.email,
                             AutofillHints.username
                           ],
+                          onChanged: (value) {
+                            if (value.contains("@")) {
+                              setState(() {
+                                isCas = false;
+                              });
+                            } else if (isCas == false) {
+                              setState(() {
+                                isCas = true;
+                              });
+                            }
+                          },
                           decoration: InputDecoration(
                             hintText: isCas
                                 ? Translate.of(context).userName
@@ -327,7 +337,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _connect(BuildContext context) async {
-    if (!Form.of(context)!.validate()) return;
+    if (!Form.of(context).validate()) return;
     setState(() {
       loading = true;
     });
@@ -356,9 +366,15 @@ class _LoginPageState extends State<LoginPage> {
                 SnackBar(content: Text(Translate.of(context).badPassword)));
             return;
         }
-      } else {
-        Sentry.captureException(e, stackTrace: st);
       }
+      if (e is DioError) {
+        if (e.response?.statusCode == 400) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text(Translate.of(context).badPassword)));
+          return;
+        }
+      }
+      logger.i("Error while connecting", e, st);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(Translate.of(context).splashError),
