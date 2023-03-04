@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
 class UserBadge extends StatelessWidget {
   final User user;
@@ -29,7 +30,7 @@ class UserBadge extends StatelessWidget {
       foregroundColor: foregroundColor ??
           ((darkMode ?? false) ? Colors.white : AppColors.black),
       child: Text(
-        user.initials,
+        initials(user.firstName, user.lastName),
         style: TextStyle(
           fontSize: textSize ?? 18.0,
         ),

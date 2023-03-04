@@ -20,6 +20,7 @@ import 'package:payutc/src/services/random_sentence.dart';
 import 'package:payutc/src/services/search_user_manager.dart';
 import 'package:payutc/src/ui/screen/select_amount.dart';
 import '../style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
 class SelectTransfertAmountScreen extends StatefulWidget {
   final User target;
@@ -87,7 +88,8 @@ class _SelectTransfertAmountScreenState
                       CircleAvatar(
                         radius: 60,
                         child: Text(
-                          widget.target.initials,
+                          initials(
+                              widget.target.firstName, widget.target.lastName),
                           style: const TextStyle(
                               fontSize: 40, color: Colors.white),
                         ),
@@ -96,7 +98,7 @@ class _SelectTransfertAmountScreenState
                         height: 10,
                       ),
                       Text(
-                        widget.target.name,
+                        '${formatFirstName(widget.target.firstName)} ${widget.target.lastName.toUpperCase()}',
                         style: const TextStyle(fontSize: 20),
                         textAlign: TextAlign.center,
                       ),

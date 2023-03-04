@@ -14,6 +14,7 @@ import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
 import 'package:payutc/src/ui/screen/sub_account_screen/account_settings_screen.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
@@ -23,6 +24,9 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  final String firstName = AppService.instance.user.firstName!;
+  final String lastName = AppService.instance.user.lastName!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -64,9 +68,7 @@ class _SettingsPageState extends State<SettingsPage> {
                               radius: 30,
                               backgroundColor: AppColors.scaffoldDark,
                               foregroundColor: Colors.white,
-                              child: Text(
-                                  "${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName ?? "U")}"
-                                      .toUpperCase()),
+                              child: Text(initials(firstName, lastName)),
                             ),
                             const SizedBox(
                               width: 10,
@@ -76,13 +78,14 @@ class _SettingsPageState extends State<SettingsPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${AppService.instance.userWallet!.user.firstName!} ${AppService.instance.userWallet!.user.lastName!}",
+                                    "${formatFirstName(AppService.instance.userWallet!.user.firstName!)} ${AppService.instance.userWallet!.user.lastName!.toUpperCase()}",
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    "${AppService.instance.userWallet!.user.username}",
+                                    formatUserName(AppService
+                                        .instance.userWallet!.user.username!),
                                     style: const TextStyle(
                                       color: Colors.white70,
                                       fontSize: 12,
@@ -94,10 +97,11 @@ class _SettingsPageState extends State<SettingsPage> {
                             IconButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (_) =>
-                                            const AccountSettingsPage()));
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (_) => const AccountSettingsPage(),
+                                  ),
+                                );
                               },
                               icon: const Icon(
                                 Icons.account_circle,
@@ -135,15 +139,20 @@ class _SettingsPageState extends State<SettingsPage> {
                         },
                       ),
                       if (showLogConsole)
-                        btnAccount("Console", () {
-                          Navigator.push(
+                        btnAccount(
+                          "Console",
+                          () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (builder) => const LogConsole(
-                                        dark: false,
-                                        showCloseButton: true,
-                                      )));
-                        }),
+                                builder: (builder) => const LogConsole(
+                                  dark: false,
+                                  showCloseButton: true,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                     ],
                   ),
                 ),
@@ -180,16 +189,6 @@ class _SettingsPageState extends State<SettingsPage> {
   void _aproposScreen() {
     Navigator.push(
         context, CupertinoPageRoute(builder: (builder) => const APropos()));
-  }
-
-  _getFirst(String? firstName) {
-    if (firstName == null) {
-      return "U";
-    }
-    if (firstName.length == 1) {
-      return firstName;
-    }
-    return firstName.substring(0, 1);
   }
 }
 

@@ -11,6 +11,7 @@ import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/search_user_manager.dart';
 import 'package:payutc/src/services/unilinks.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
 typedef SelectUserCallBack = void Function(BuildContext context, User user);
 
@@ -188,7 +189,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
     } else if (showLoading) {
       return [
         const SizedBox(height: 10),
-        CircularProgressIndicator(),
+        const Center(child: CircularProgressIndicator()),
       ];
     } else {
       return [
@@ -249,11 +250,12 @@ class _SelectUserPageState extends State<SelectUserPage> {
         },
         leading: CircleAvatar(
           child: Center(
-            child: Text(item.initials),
+            child: Text(initials(item.firstName, item.lastName)),
           ),
         ),
-        title: Text(item.name),
-        subtitle: Text("@${item.subName}"),
+        title: Text(
+            '${formatFirstName(item.firstName)} ${item.lastName.toUpperCase()}'),
+        subtitle: Text(formatUserName(item.userName)),
         trailing: IconButton(
             onPressed: () {
               _showBottomUserSheet(item);
@@ -377,7 +379,7 @@ class _SelectUserPageState extends State<SelectUserPage> {
                   children: [
                     CircleAvatar(
                       radius: 35,
-                      child: Text(user.initials),
+                      child: Text(initials(user.firstName, user.lastName)),
                     ),
                     const SizedBox(
                       width: 10,
@@ -386,11 +388,11 @@ class _SelectUserPageState extends State<SelectUserPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          user.name,
+                          '${formatFirstName(user.firstName)} ${user.lastName.toUpperCase()}',
                           style: const TextStyle(fontSize: 16),
                         ),
                         Text(
-                          "@${user.subName}",
+                          "@${user.userName}",
                           style: const TextStyle(
                               fontSize: 13, color: Colors.black54),
                         ),

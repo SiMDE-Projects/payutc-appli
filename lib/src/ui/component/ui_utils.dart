@@ -9,6 +9,7 @@ import 'package:payutc/src/models/user.dart';
 import 'package:payutc/src/ui/component/user_badge.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
 void showWebView(BuildContext context, String fileUrl, String name) {
   Navigator.push(
@@ -68,11 +69,11 @@ void showUserCard(BuildContext context, User user) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user.name,
+                        '${formatFirstName(user.firstName)} ${user.lastName.toUpperCase()}',
                         style: const TextStyle(fontSize: 16),
                       ),
                       Text(
-                        "@${user.subName}",
+                        formatUserName(user.userName),
                         style: const TextStyle(
                             fontSize: 13, color: Colors.black54),
                       ),
