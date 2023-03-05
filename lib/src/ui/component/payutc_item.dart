@@ -156,13 +156,17 @@ class PayUtcItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      "Details",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      "Détails",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
-                    _row("Montant", item.amountParse.toStringAsFixed(2)),
+                    _row("Montant",
+                        AppService.instance.translateMoney(item.amountParse)),
                     _row("Dénomination", item.nameExtracted(context)),
                     if (!item.isVirement)
                       _row("Service", item.service(context)),
@@ -171,9 +175,9 @@ class PayUtcItemWidget extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    if (item.isVirement) ...[
+                    if (item.isVirement && item.name!.isNotEmpty) ...[
                       Text(
-                        "${item.userVirName} a écrit :",
+                        "${item.isInAmount ? '${item.userVirName} a' : 'Vous avez'}  écrit :",
                         style:
                             const TextStyle(color: Colors.white, fontSize: 18),
                       ),

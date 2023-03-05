@@ -157,23 +157,6 @@ class _HomePageState extends State<HomePage>
                   ),
                 ),
                 const SizedBox(height: 8),
-                // ElevatedButton(
-                //   onPressed: () => showModalBottomSheet(
-                //     shape: const RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.vertical(
-                //         top: Radius.circular(20),
-                //       ),
-                //     ),
-                //     context: context,
-                //     builder: (BuildContext context) {
-                //       return const BottomDrawer(
-                //         title: Text('Titre du menu'),
-                //         body: Text('Contenu du menu'),
-                //       );
-                //     },
-                //   ),
-                //   child: const Text('test'),
-                // ),
                 Column(
                   children: <Widget>[
                     Wrap(
