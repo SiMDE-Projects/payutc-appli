@@ -22,7 +22,7 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
-        "aPropos": MessageLookupByLibrary.simpleMessage("A propos"),
+        "aPropos": MessageLookupByLibrary.simpleMessage("À propos"),
         "activity": MessageLookupByLibrary.simpleMessage("Activité"),
         "addToFav": MessageLookupByLibrary.simpleMessage("Ajouter aux favoris"),
         "addtofav": MessageLookupByLibrary.simpleMessage("Ajouter aux favoris"),
@@ -81,11 +81,11 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Mentions légales"),
         "myAccount": MessageLookupByLibrary.simpleMessage("Mon compte"),
         "myCard": MessageLookupByLibrary.simpleMessage("Mon Badge"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("Mon Pay\'UTC"),
+        "myBalance": MessageLookupByLibrary.simpleMessage("Mon solde actuel"),
         "name": MessageLookupByLibrary.simpleMessage("Nom"),
         "no": MessageLookupByLibrary.simpleMessage("Non"),
         "noFavorisFound":
-            MessageLookupByLibrary.simpleMessage("Aucun favoris enregistré"),
+            MessageLookupByLibrary.simpleMessage("Aucun favori enregistré"),
         "noTransfertFound":
             MessageLookupByLibrary.simpleMessage("Aucun transfert récent"),
         "nothingToTransfert":
@@ -100,10 +100,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "randomTransfertSentence":
             MessageLookupByLibrary.simpleMessage("Phrase aléatoire"),
         "receive": MessageLookupByLibrary.simpleMessage("Recevoir"),
-        "receiveMoneyScanSentence": MessageLookupByLibrary.simpleMessage(
+        "receiveMoneySentence": MessageLookupByLibrary.simpleMessage(
             "Fait scanner le code avec l\'application Pay\'UTC pour partager ton profil."),
         "recentTransfert":
-            MessageLookupByLibrary.simpleMessage("Transfert récents"),
+            MessageLookupByLibrary.simpleMessage("Transferts récents"),
         "refreshContentError": MessageLookupByLibrary.simpleMessage(
             "Impossible de rafraichir, une erreur est survenue"),
         "reload": MessageLookupByLibrary.simpleMessage("Recharger"),
@@ -115,8 +115,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "ressayer": MessageLookupByLibrary.simpleMessage("RESSAYER"),
         "reveivedTransfertPayutc": MessageLookupByLibrary.simpleMessage("Reçu"),
         "scan": MessageLookupByLibrary.simpleMessage("Scanner"),
-        "scannPayutcCode":
-            MessageLookupByLibrary.simpleMessage("Scanner un qr code payutc"),
+        "scanPayutcCode": MessageLookupByLibrary.simpleMessage(
+            "Scanne un code QR code Pay'UTC pour envoyer de l'argent."),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("Voir mon historique"),
         "select": MessageLookupByLibrary.simpleMessage("Sélectionner"),
@@ -132,6 +132,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "statistics": MessageLookupByLibrary.simpleMessage("Stats"),
         "today": MessageLookupByLibrary.simpleMessage("Aujourd\'hui"),
         "transfertPayutc": MessageLookupByLibrary.simpleMessage("Virement"),
+        "transfertFromConnector": MessageLookupByLibrary.simpleMessage("de"),
+        "transfertToConnector": MessageLookupByLibrary.simpleMessage("à"),
         "transfert_error": MessageLookupByLibrary.simpleMessage(
             "Impossible d\'exécuter ce transfert"),
         "transfert_montant_select_amount":

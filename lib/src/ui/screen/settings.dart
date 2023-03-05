@@ -14,15 +14,19 @@ import 'package:payutc/src/ui/component/ui_utils.dart';
 import 'package:payutc/src/ui/screen/splash.dart';
 import 'package:payutc/src/ui/screen/sub_account_screen/account_settings_screen.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
-class AccountPage extends StatefulWidget {
-  const AccountPage({Key? key}) : super(key: key);
+class SettingsPage extends StatefulWidget {
+  const SettingsPage({Key? key}) : super(key: key);
 
   @override
-  State<AccountPage> createState() => _AccountPageState();
+  State<SettingsPage> createState() => _SettingsPageState();
 }
 
-class _AccountPageState extends State<AccountPage> {
+class _SettingsPageState extends State<SettingsPage> {
+  final String firstName = AppService.instance.user.firstName!;
+  final String lastName = AppService.instance.user.lastName!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,8 +53,9 @@ class _AccountPageState extends State<AccountPage> {
             Expanded(
               child: SingleChildScrollView(
                 child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
+                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  child: Wrap(
+                    runSpacing: 6,
                     children: [
                       Container(
                         decoration: BoxDecoration(
@@ -63,9 +68,7 @@ class _AccountPageState extends State<AccountPage> {
                               radius: 30,
                               backgroundColor: AppColors.scaffoldDark,
                               foregroundColor: Colors.white,
-                              child: Text(
-                                  "${_getFirst(AppService.instance.user.firstName)}${_getFirst(AppService.instance.user.lastName ?? "U")}"
-                                      .toUpperCase()),
+                              child: Text(initials(firstName, lastName)),
                             ),
                             const SizedBox(
                               width: 10,
@@ -75,13 +78,14 @@ class _AccountPageState extends State<AccountPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    "${AppService.instance.userWallet!.user.firstName!} ${AppService.instance.userWallet!.user.lastName!}",
+                                    "${formatFirstName(AppService.instance.userWallet!.user.firstName!)} ${AppService.instance.userWallet!.user.lastName!.toUpperCase()}",
                                     style: const TextStyle(
                                         color: Colors.white,
                                         fontWeight: FontWeight.bold),
                                   ),
                                   Text(
-                                    "${AppService.instance.userWallet!.user.username}",
+                                    formatUserName(AppService
+                                        .instance.userWallet!.user.username!),
                                     style: const TextStyle(
                                       color: Colors.white70,
                                       fontSize: 12,
@@ -93,24 +97,19 @@ class _AccountPageState extends State<AccountPage> {
                             IconButton(
                               onPressed: () {
                                 Navigator.push(
-                                    context,
-                                    CupertinoPageRoute(
-                                        builder: (_) =>
-                                            const AccountSettingsPage()));
+                                  context,
+                                  CupertinoPageRoute(
+                                    builder: (_) => const AccountSettingsPage(),
+                                  ),
+                                );
                               },
                               icon: const Icon(
-                                Icons.settings_rounded,
+                                Icons.account_circle,
                                 color: Colors.white,
                               ),
                             ),
                           ],
                         ),
-                      ),
-                      const SizedBox(
-                        width: 20,
-                      ),
-                      const SizedBox(
-                        height: 10,
                       ),
                       Container(
                         decoration: BoxDecoration(
@@ -140,61 +139,47 @@ class _AccountPageState extends State<AccountPage> {
                         },
                       ),
                       if (showLogConsole)
-                        btnAccount("Console", () {
-                          Navigator.push(
+                        btnAccount(
+                          "Console",
+                          () {
+                            Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (builder) => const LogConsole(
-                                        dark: false,
-                                        showCloseButton: true,
-                                      )));
-                        }),
+                                builder: (builder) => const LogConsole(
+                                  dark: false,
+                                  showCloseButton: true,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                     ],
                   ),
                 ),
               ),
             ),
-            Container(
-              clipBehavior: Clip.hardEdge,
-              decoration: BoxDecoration(
+            GestureDetector(
+              onTap: () async {
+                await AppService.instance.storageService.clear();
+                if (mounted) {
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (builder) => const SplashPage()),
+                      (route) => false);
+                }
+              },
+              child: Text(
+                Translate.of(context).logOut,
+                style: const TextStyle(
                   color: AppColors.red,
-                  borderRadius: BorderRadius.circular(15)),
-              margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () async {
-                    await AppService.instance.storageService.clear();
-                    if (mounted) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (builder) => const SplashPage()),
-                          (route) => false);
-                    }
-                  },
-                  child: Padding(
-                    padding: const EdgeInsets.all(15),
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: Text(
-                            Translate.of(context).logOut,
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.arrow_forward_ios,
-                          color: Colors.white,
-                        ),
-                      ],
-                    ),
-                  ),
+                  fontWeight: FontWeight.bold,
                 ),
               ),
             ),
+            const SizedBox(
+              height: 10,
+            )
           ],
         ),
       ),
@@ -204,16 +189,6 @@ class _AccountPageState extends State<AccountPage> {
   void _aproposScreen() {
     Navigator.push(
         context, CupertinoPageRoute(builder: (builder) => const APropos()));
-  }
-
-  _getFirst(String? firstName) {
-    if (firstName == null) {
-      return "U";
-    }
-    if (firstName.length == 1) {
-      return firstName;
-    }
-    return firstName.substring(0, 1);
   }
 }
 

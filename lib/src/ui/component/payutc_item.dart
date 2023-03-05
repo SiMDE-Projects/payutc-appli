@@ -1,10 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:intl/intl.dart';
 
 import 'package:payutc/src/models/payutc_history.dart';
 import '../../services/app.dart';
-import '../style/color.dart';
 
 class PayUtcItemWidget extends StatelessWidget {
   final PayUtcItem item;
@@ -39,13 +39,7 @@ class PayUtcItemWidget extends StatelessWidget {
                     fit: BoxFit.cover,
                   ),
                 ),
-                child: Icon(
-                  item.isInAmount
-                      ? Icons.keyboard_arrow_up
-                      : Icons.keyboard_arrow_down,
-                  size: 40,
-                  color: Colors.white70,
-                ),
+                child: !item.isPurchase ? _getIcon(item) : null,
               ),
               const SizedBox(
                 width: 20,
@@ -80,11 +74,21 @@ class PayUtcItemWidget extends StatelessWidget {
               const SizedBox(
                 width: 10,
               ),
-              Text(
+              Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 6.0, vertical: 3.0),
+                decoration: BoxDecoration(
+                  color: item.isInAmount ? Colors.green[700] : null,
+                  borderRadius: const BorderRadius.all(Radius.circular(6.0)),
+                ),
+                child: Text(
                   "${item.isInAmount ? "" : "-"}${AppService.instance.translateMoney(item.amountParse)}",
                   style: TextStyle(
-                      color: item.isInAmount ? Colors.white : AppColors.red,
-                      fontWeight: FontWeight.bold)),
+                    color: item.isInAmount ? Colors.green[50] : Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
               const SizedBox(
                 width: 5,
               ),
@@ -92,6 +96,24 @@ class PayUtcItemWidget extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  Icon _getIcon(PayUtcItem item) {
+    IconData iconData = Icons.abc;
+    if (item.isReload) {
+      iconData = Icons.add;
+    } else if (item.isVirement) {
+      if (item.type == 'VIROUT') {
+        iconData = CupertinoIcons.arrow_up_right;
+      } else {
+        iconData = CupertinoIcons.arrow_down_left;
+      }
+    }
+    return Icon(
+      iconData,
+      size: 40,
+      color: Colors.white70,
     );
   }
 
@@ -134,13 +156,17 @@ class PayUtcItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Text(
-                      "Details",
-                      style: TextStyle(color: Colors.white, fontSize: 18),
+                      "Détails",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                      ),
                     ),
                     const SizedBox(
                       height: 5,
                     ),
-                    _row("Montant", item.amountParse.toStringAsFixed(2)),
+                    _row("Montant",
+                        AppService.instance.translateMoney(item.amountParse)),
                     _row("Dénomination", item.nameExtracted(context)),
                     if (!item.isVirement)
                       _row("Service", item.service(context)),
@@ -149,9 +175,9 @@ class PayUtcItemWidget extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    if (item.isVirement) ...[
+                    if (item.isVirement && item.name!.isNotEmpty) ...[
                       Text(
-                        "${item.userVirName} a écrit :",
+                        "${item.isInAmount ? '${item.userVirName} a' : 'Vous avez'}  écrit :",
                         style:
                             const TextStyle(color: Colors.white, fontSize: 18),
                       ),

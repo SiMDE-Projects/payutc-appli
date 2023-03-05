@@ -76,7 +76,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mentionsLgales": MessageLookupByLibrary.simpleMessage("Legal Notice"),
         "myAccount": MessageLookupByLibrary.simpleMessage("My account"),
         "myCard": MessageLookupByLibrary.simpleMessage("My Badge"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("My Pay’UTC"),
+        "myBalance": MessageLookupByLibrary.simpleMessage("My current balance"),
         "name": MessageLookupByLibrary.simpleMessage("Last name"),
         "no": MessageLookupByLibrary.simpleMessage("Nope"),
         "noFavorisFound":
@@ -110,8 +110,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "reveivedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Received"),
         "scan": MessageLookupByLibrary.simpleMessage("To scan"),
-        "scannPayutcCode":
-            MessageLookupByLibrary.simpleMessage("scan payutc qr code"),
+        "scanPayutcCode": MessageLookupByLibrary.simpleMessage(
+            "Scan a Pay'UTC QR code to send money."),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("See my history"),
         "select": MessageLookupByLibrary.simpleMessage("Select"),
@@ -126,6 +126,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "statistics": MessageLookupByLibrary.simpleMessage("Stats"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
         "transfertPayutc": MessageLookupByLibrary.simpleMessage("Payment"),
+        "transfertFromConnector": MessageLookupByLibrary.simpleMessage("from"),
+        "transfertToConnector": MessageLookupByLibrary.simpleMessage("to"),
         "transfert_error": MessageLookupByLibrary.simpleMessage(
             "Unable to perform this transfer"),
         "transfert_montant_select_amount":

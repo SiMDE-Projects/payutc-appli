@@ -83,7 +83,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "mentionsLgales": MessageLookupByLibrary.simpleMessage("Avviso legale"),
         "myAccount": MessageLookupByLibrary.simpleMessage("Il mio account"),
         "myCard": MessageLookupByLibrary.simpleMessage("Il mio distintivo"),
-        "myPayutc": MessageLookupByLibrary.simpleMessage("My Pay\'UTC"),
+        "myBalance": MessageLookupByLibrary.simpleMessage("Mio attuale conto"),
         "name": MessageLookupByLibrary.simpleMessage("Nome"),
         "no": MessageLookupByLibrary.simpleMessage("No"),
         "noFavorisFound":
@@ -118,8 +118,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "reveivedTransfertPayutc":
             MessageLookupByLibrary.simpleMessage("Ricevuto"),
         "scan": MessageLookupByLibrary.simpleMessage("Scannerizzare"),
-        "scannPayutcCode": MessageLookupByLibrary.simpleMessage(
-            "scansiona il codice qr payutc"),
+        "scanPayutcCode": MessageLookupByLibrary.simpleMessage(
+            "Esegue la scansione di un codice QR Pay'UTC per inviare denaro."),
         "see_history_sentence":
             MessageLookupByLibrary.simpleMessage("Vedi la mia storia"),
         "select": MessageLookupByLibrary.simpleMessage("Selezionare"),

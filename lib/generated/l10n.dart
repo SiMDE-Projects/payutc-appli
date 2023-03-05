@@ -53,11 +53,11 @@ class Translate {
     return Localizations.of<Translate>(context, Translate);
   }
 
-  /// `Mon Pay'UTC`
-  String get myPayutc {
+  /// `Mon solde actuel`
+  String get myBalance {
     return Intl.message(
-      'Mon Pay\'UTC',
-      name: 'myPayutc',
+      'Mon solde actuel',
+      name: 'myBalance',
       desc: '',
       args: [],
     );
@@ -403,6 +403,26 @@ class Translate {
     );
   }
 
+  /// `de`
+  String get transfertFromConnector {
+    return Intl.message(
+      'de',
+      name: 'transfertFromConnector',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `de`
+  String get transfertToConnector {
+    return Intl.message(
+      'à',
+      name: 'transfertToConnector',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Envoyé`
   String get sendedTransfertPayutc {
     return Intl.message(
@@ -683,10 +703,10 @@ class Translate {
     );
   }
 
-  /// `Scanner un qr code payutc`
-  String get scannPayutcCode {
+  /// `Scanne un code QR code Pay'UTC pour envoyer de l'argent.`
+  String get scanPayutcCode {
     return Intl.message(
-      'Scanner un qr code payutc',
+      'Scanne un code QR code Pay\'UTC pour envoyer de l\'argent.',
       name: 'scannPayutcCode',
       desc: '',
       args: [],

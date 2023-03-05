@@ -47,8 +47,9 @@ class _HistoryPageState extends State<HistoryPage> {
           children: [
             TabBar(
               isScrollable: true,
+              splashBorderRadius: BorderRadius.circular(15),
               indicator: BoxDecoration(
-                  borderRadius: BorderRadius.circular(50), color: Colors.white),
+                  borderRadius: BorderRadius.circular(15), color: Colors.white),
               unselectedLabelColor: Colors.white70,
               tabs: [
                 Tab(

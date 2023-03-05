@@ -52,18 +52,22 @@ class _ReceivePageState extends State<ReceivePage> {
             mainAxisSize: MainAxisSize.min,
             children: [
               Container(
-                margin: const EdgeInsets.all(5),
+                constraints: const BoxConstraints(
+                  maxWidth: 260.0,
+                  maxHeight: 260.0,
+                ),
                 decoration: BoxDecoration(
-                    color: Colors.white12,
-                    borderRadius: BorderRadius.circular(15),
-                    border: Border.all(color: Colors.white)),
-                padding: const EdgeInsets.all(15),
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                padding: const EdgeInsets.all(8.0),
                 child: QrImage(
                   data: AppService.instance.generateShareLink(),
                   embeddedImage: const AssetImage("assets/img/logo.jpg"),
-                  foregroundColor: Colors.white,
+                  foregroundColor: AppColors.black,
                 ),
               ),
+              const SizedBox(height: 5),
               Padding(
                 padding: const EdgeInsets.all(15.0),
                 child: Text(
@@ -96,5 +100,16 @@ class _ReceivePageState extends State<ReceivePage> {
         ),
       ),
     );
+  }
+
+  List<double> computeMaxQRSize(context) {
+    final devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
+    final screenWidthInPixels =
+        MediaQuery.of(context).size.width * devicePixelRatio;
+    final screenHeightInPixels =
+        MediaQuery.of(context).size.height * devicePixelRatio;
+    final maxQRWidth = 2 * devicePixelRatio;
+    final maxQRHeight = 2 * devicePixelRatio;
+    return [maxQRWidth, maxQRHeight];
   }
 }

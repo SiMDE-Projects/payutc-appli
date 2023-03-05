@@ -20,6 +20,7 @@ import 'package:payutc/src/services/random_sentence.dart';
 import 'package:payutc/src/services/search_user_manager.dart';
 import 'package:payutc/src/ui/screen/select_amount.dart';
 import '../style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
 class SelectTransfertAmountScreen extends StatefulWidget {
   final User target;
@@ -87,7 +88,8 @@ class _SelectTransfertAmountScreenState
                       CircleAvatar(
                         radius: 60,
                         child: Text(
-                          widget.target.maj,
+                          initials(
+                              widget.target.firstName, widget.target.lastName),
                           style: const TextStyle(
                               fontSize: 40, color: Colors.white),
                         ),
@@ -96,7 +98,7 @@ class _SelectTransfertAmountScreenState
                         height: 10,
                       ),
                       Text(
-                        widget.target.name,
+                        '${formatFirstName(widget.target.firstName)} ${widget.target.lastName.toUpperCase()}',
                         style: const TextStyle(fontSize: 20),
                         textAlign: TextAlign.center,
                       ),
@@ -104,6 +106,7 @@ class _SelectTransfertAmountScreenState
                         height: 20,
                       ),
                       SleekCircularSlider(
+                        max: AppService.instance.userAmount,
                         initialValue: amount,
                         appearance: CircularSliderAppearance(
                           size: 200,
@@ -117,7 +120,9 @@ class _SelectTransfertAmountScreenState
                           ),
                         ),
                         onChange: (double value) {
-                          amount = _compilValue(value);
+                          setState(() {
+                            amount = value;
+                          });
                         },
                         innerWidget: (value) => GestureDetector(
                           onTap: () {
@@ -158,58 +163,72 @@ class _SelectTransfertAmountScreenState
                       ),
                       Column(
                         children: [
-                          TextFormField(
-                            controller: message,
-                            maxLines: 5,
-                            maxLength: 250,
-                            decoration: InputDecoration(
-                              hintText:
-                                  Translate.of(context).helpMessageTransfert,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                          ),
-                          Wrap(
-                            spacing: 10,
+                          Stack(
                             children: [
-                              ActionChip(
-                                onPressed: () {
-                                  message.text += '😂';
-                                },
-                                label: const Text("😂"),
-                                backgroundColor: Colors.black,
-                              ),
-                              ActionChip(
-                                onPressed: () {
-                                  message.text += '😘';
-                                },
-                                label: const Text("😘"),
-                                backgroundColor: Colors.black,
-                              ),
-                              ActionChip(
-                                onPressed: () {
-                                  message.text = randomSentences.item;
-                                },
-                                label: Text(
-                                  Translate.of(context).randomTransfertSentence,
-                                  style: const TextStyle(color: Colors.white),
+                              TextFormField(
+                                controller: message,
+                                maxLines: 5,
+                                maxLength: 250,
+                                decoration: InputDecoration(
+                                  hintText: Translate.of(context)
+                                      .helpMessageTransfert,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                  ),
+                                  contentPadding: const EdgeInsets.all(15),
                                 ),
-                                backgroundColor: Colors.black,
                               ),
-                              ActionChip(
-                                onPressed: () async {
-                                  String? selectSentence =
-                                      await _showSelector();
-                                  if (selectSentence != null) {
-                                    message.text = selectSentence;
-                                  }
-                                },
-                                label: Text(
-                                  Translate.of(context).other,
-                                  style: const TextStyle(color: Colors.white),
+                              Positioned(
+                                right: 9.5,
+                                bottom: 25,
+                                child: Center(
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      SizedBox(
+                                        width: 35,
+                                        child: IconButton(
+                                          icon: const Icon(
+                                            Icons.casino,
+                                            color: Colors.grey,
+                                            size: 28,
+                                          ),
+                                          onPressed: () {
+                                            message.text = randomSentences.item;
+                                            message.selection =
+                                                TextSelection.fromPosition(
+                                                    TextPosition(
+                                                        offset: message
+                                                            .text.length));
+                                          },
+                                        ),
+                                      ),
+                                      // SizedBox(
+                                      //   width: 35,
+                                      //   child: IconButton(
+                                      //     icon: const Icon(
+                                      //       Icons.chat,
+                                      //       color: Colors.grey,
+                                      //       size: 28,
+                                      //     ),
+                                      //     onPressed: () async {
+                                      //       String? selectSentence =
+                                      //           await _showSelector();
+                                      //       if (selectSentence != null) {
+                                      //         message.text = selectSentence;
+                                      //         message.selection =
+                                      //             TextSelection.fromPosition(
+                                      //                 TextPosition(
+                                      //                     offset: message
+                                      //                         .text.length));
+                                      //       }
+                                      //     },
+                                      //   ),
+                                      // ),
+                                    ],
+                                  ),
                                 ),
-                                backgroundColor: Colors.black,
                               ),
                             ],
                           ),
@@ -221,86 +240,10 @@ class _SelectTransfertAmountScreenState
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black),
-                        onPressed: () async {
-                          double amountDb =
-                              double.parse(amount.toStringAsFixed(2)) * 100;
-                          if (amountDb == 0) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text(
-                                    Translate.of(context).nothingToTransfert)));
-                            return;
-                          }
-                          bool didAuth = true;
-                          try {
-                            final LocalAuthentication auth =
-                                LocalAuthentication();
-                            if (!await auth.isDeviceSupported()) {
-                              throw 'no-check-possible';
-                            }
-                            if (!await auth.canCheckBiometrics) {
-                              throw 'no-check-possible';
-                            }
-                            if (mounted) {
-                              didAuth = await auth.authenticate(
-                                localizedReason:
-                                    Translate.of(context).authReasonTransfert,
-                                authMessages: [
-                                  const AndroidAuthMessages(
-                                    signInTitle: "Transfert payUTC",
-                                  ),
-                                  const IOSAuthMessages(
-                                    cancelButton: "Annuler",
-                                    goToSettingsButton: "Paramètres",
-                                    goToSettingsDescription:
-                                        "Veuillez vous authentifier pour continuer",
-                                    lockOut: "Veuillez vous authentifier",
-                                  ),
-                                ],
-                              );
-                            }
-                          } catch (e, st) {
-                            logger.e('error Auth transfert', e, st);
-                          }
-                          if (!didAuth) {
-                            return;
-                          }
-                          try {
-                            setState(() {
-                              loading = true;
-                            });
-                            SearchUserManagerService.historyManager
-                                .add(widget.target);
-                            final t = Transfert.makeTransfert(
-                                widget.target, amountDb / 100, message.text);
-                            bool res =
-                                await AppService.instance.makeTransfert(t);
-                            if (!res) {
-                              if (mounted) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                        Translate.of(context).transfert_error),
-                                  ),
-                                );
-                                setState(() {
-                                  loading = false;
-                                });
-                              }
-                              return;
-                            }
-                          } catch (e, st) {
-                            logger.e("Transfert error", e, st);
-                            Sentry.captureException(e, stackTrace: st);
-                          }
-                          if (mounted) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("Envoyé !"),
-                              ),
-                            );
-                            Navigator.pop(context, true);
-                          }
-                        },
+                        onPressed:
+                            double.parse(amount.toStringAsFixed(2)) * 100 > 0
+                                ? () => _sendMoney(context)
+                                : null,
                         child: Text(_randomPay),
                       ),
                       const Text(
@@ -316,8 +259,79 @@ class _SelectTransfertAmountScreenState
     );
   }
 
-  _compilValue(double value) =>
-      ((value / 100) * (AppService.instance.userAmount));
+  Future<void> _sendMoney(BuildContext context) async {
+    double amountDb = double.parse(amount.toStringAsFixed(2)) * 100;
+    if (amountDb == 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(Translate.of(context).nothingToTransfert)));
+      return;
+    }
+    bool didAuth = true;
+    try {
+      final LocalAuthentication auth = LocalAuthentication();
+      if (!await auth.isDeviceSupported()) {
+        throw 'no-check-possible';
+      }
+      if (!await auth.canCheckBiometrics) {
+        throw 'no-check-possible';
+      }
+      if (mounted) {
+        didAuth = await auth.authenticate(
+          localizedReason: Translate.of(context).authReasonTransfert,
+          authMessages: [
+            const AndroidAuthMessages(
+              signInTitle: "Transfert payUTC",
+            ),
+            const IOSAuthMessages(
+              cancelButton: "Annuler",
+              goToSettingsButton: "Paramètres",
+              goToSettingsDescription:
+                  "Veuillez vous authentifier pour continuer",
+              lockOut: "Veuillez vous authentifier",
+            ),
+          ],
+        );
+      }
+    } catch (e, st) {
+      logger.e('error Auth transfert', e, st);
+    }
+    if (!didAuth) {
+      return;
+    }
+    try {
+      setState(() {
+        loading = true;
+      });
+      SearchUserManagerService.historyManager.add(widget.target);
+      final t =
+          Transfert.makeTransfert(widget.target, amountDb / 100, message.text);
+      bool res = await AppService.instance.makeTransfert(t);
+      if (!res) {
+        if (mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(Translate.of(context).transfert_error),
+            ),
+          );
+          setState(() {
+            loading = false;
+          });
+        }
+        return;
+      }
+    } catch (e, st) {
+      logger.e("Transfert error", e, st);
+      Sentry.captureException(e, stackTrace: st);
+    }
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Envoyé !"),
+        ),
+      );
+      Navigator.pop(context, true);
+    }
+  }
 
   Future<String?> _showSelector() async {
     return showModalBottomSheet<String>(

@@ -95,7 +95,7 @@ class AppService extends ChangeNotifier {
   }
 
   String translateMoney(num num) {
-    return "${num.toDouble().toStringAsFixed(2)}${appProperties.config?.currencySymbol}";
+    return "${num.toDouble().toStringAsFixed(2).replaceAll('.', ',')} ${appProperties.config?.currencySymbol}";
   }
 
   Future<void> refreshContent() async {

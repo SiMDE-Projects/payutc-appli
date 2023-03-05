@@ -16,8 +16,7 @@ import 'package:payutc/src/ui/style/theme.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
-import '../component/rounded_icon.dart';
-import 'account_screen.dart';
+import 'settings.dart';
 import 'receive.dart';
 import 'search_user.dart';
 
@@ -87,171 +86,155 @@ class _HomePageState extends State<HomePage>
                               onPressed: () => Navigator.push(
                                 context,
                                 CupertinoPageRoute(
-                                  builder: (builder) => const AccountPage(),
+                                  builder: (builder) => const SettingsPage(),
                                 ),
                               ).then((value) => setState(() {})),
                               icon: const Icon(
-                                Icons.account_circle,
+                                Icons.settings,
                                 color: AppColors.black,
                               ),
                             ),
                           ],
                           leading: IconButton(
-                            icon: const Icon(Icons.refresh),
-                            onPressed: () async {
-                              historyController.loadHistory(forced: true);
-                              try {
-                                await AppService.instance.refreshContent();
-                                if (mounted) {
-                                  ScaffoldMessenger.of(context)
-                                      .hideCurrentMaterialBanner();
-                                }
-                              } catch (_) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(Translate.of(context)
-                                        .refreshContentError),
-                                  ),
-                                );
-                              }
-                            },
-                          ),
+                              icon: const Icon(
+                                Icons.refresh,
+                                color: AppColors.black,
+                              ),
+                              onPressed: _pullRefresh),
                         ),
                       );
                     }),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                SizedBox(
+                  height: 82,
+                  child: Stack(
+                    alignment: Alignment.topCenter,
                     children: [
                       Text(
-                        Translate.of(context).myPayutc,
+                        Translate.of(context).myBalance +
+                            (AppService.instance.userWallet!.blocked
+                                ? " ${Translate.of(context).card_blocked}"
+                                : ""),
                         style: const TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
                       ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                      AnimatedBuilder(
-                        animation: historyController,
-                        builder: (context, snapshot) {
-                          return Skeleton(
-                            isLoading: historyController.loading,
-                            skeleton: SkeletonLine(
-                              style: SkeletonLineStyle(
-                                width: 100,
-                                height: 35,
-                                borderRadius: BorderRadius.circular(15),
-                              ),
-                            ),
-                            child: Row(
-                              children: [
-                                Text(
-                                  AppService.instance.translateMoney(
-                                      (historyController.history?.credit ??
-                                              00) /
-                                          100),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 35,
-                                    color: AppColors.orange,
-                                  ),
-                                  textAlign: TextAlign.start,
+                      Positioned(
+                        top: 12,
+                        child: AnimatedBuilder(
+                          animation: historyController,
+                          builder: (context, snapshot) {
+                            return Skeleton(
+                              isLoading: historyController.loading,
+                              skeleton: SkeletonLine(
+                                style: SkeletonLineStyle(
+                                  padding: const EdgeInsets.symmetric(
+                                      vertical: 15.0),
+                                  alignment: Alignment.center,
+                                  width: 160,
+                                  height: 45,
+                                  borderRadius: BorderRadius.circular(15),
                                 ),
-                                if (AppService.instance.userWallet!.blocked)
-                                  Text(" ${Translate.of(context).card_blocked}")
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                      const SizedBox(
-                        height: 35,
+                              ),
+                              child: Text(
+                                AppService.instance.translateMoney(
+                                    (historyController.history?.credit ?? 0) /
+                                        100),
+                                style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 50,
+                                  color: AppService.instance.userWallet!.blocked
+                                      ? AppColors.red
+                                      : AppColors.orange,
+                                ),
+                              ),
+                            );
+                          },
+                        ),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
-                  height: 125,
-                  child: ListView(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    clipBehavior: Clip.none,
-                    physics: const BouncingScrollPhysics(),
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _buildCard(
-                        Translate.of(context).reload,
-                        const Icon(
-                          Icons.add,
-                          size: 30,
-                        ),
-                        () async {
-                          bool res = await PaymentFlowPage.paymentFlow(context);
-                          if (res) {
-                            historyController.loadHistory(forced: true);
-                            await AppService.instance
-                                .refreshContent()
-                                .then((value) {
-                              ScaffoldMessenger.of(context).showMaterialBanner(
-                                MaterialBanner(
-                                  leading: const Icon(
-                                    Icons.campaign,
-                                    color: AppColors.orange,
-                                  ),
-                                  content: const Text(
-                                      "L'apparition de la recharge peut prendre 1-2 minutes"),
-                                  actions: [
-                                    IconButton(
-                                      onPressed: () {
-                                        ScaffoldMessenger.of(context)
-                                            .hideCurrentMaterialBanner();
-                                      },
-                                      icon: const Icon(Icons.close),
+                const SizedBox(height: 8),
+                Column(
+                  children: <Widget>[
+                    Wrap(
+                      spacing: 30,
+                      children: <Widget>[
+                        transfertAction(
+                          Translate.of(context).reload,
+                          const Icon(
+                            Icons.add,
+                            size: 32,
+                          ),
+                          () async {
+                            bool res =
+                                await PaymentFlowPage.paymentFlow(context);
+                            if (res) {
+                              historyController.loadHistory(forced: true);
+                              await AppService.instance
+                                  .refreshContent()
+                                  .then((value) {
+                                ScaffoldMessenger.of(context)
+                                    .showMaterialBanner(
+                                  MaterialBanner(
+                                    leading: const Icon(
+                                      Icons.campaign,
                                       color: AppColors.orange,
-                                    )
-                                  ],
-                                ),
-                              );
-                              if (mounted) setState(() {});
-                            });
-                          }
-                        },
-                      ),
-                      _buildCard(
+                                    ),
+                                    content: const Text(
+                                        "L'apparition de la recharge peut prendre 1-2 minutes"),
+                                    actions: [
+                                      IconButton(
+                                        onPressed: () {
+                                          ScaffoldMessenger.of(context)
+                                              .hideCurrentMaterialBanner();
+                                        },
+                                        icon: const Icon(Icons.close),
+                                        color: AppColors.orange,
+                                      )
+                                    ],
+                                  ),
+                                );
+                                if (mounted) setState(() {});
+                              });
+                            }
+                          },
+                        ),
+                        transfertAction(
                           Translate.of(context).send,
                           const Icon(
-                            CupertinoIcons.arrow_up_right_circle_fill,
-                            size: 30,
+                            CupertinoIcons.arrow_up_right,
+                            size: 32,
                           ),
-                          _sendMoneyPage),
-                      _buildCard(
-                        Translate.of(context).receive,
-                        const Icon(CupertinoIcons.arrow_down_left_circle_fill,
-                            size: 30),
-                        _receivePage,
-                      ),
-                      _buildCard(
-                        Translate.of(context).statistics,
-                        const Icon(Icons.stacked_line_chart, size: 30),
-                        _statPage,
-                      ),
-                      _buildCard(
-                        Translate.of(context).history,
-                        const Icon(Icons.history, size: 30),
-                        () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (builder) => const HistoryPage(),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 65,
+                          _sendMoneyPage,
+                        ),
+                        transfertAction(
+                          Translate.of(context).receive,
+                          const Icon(CupertinoIcons.arrow_down_left, size: 32),
+                          _receivePage,
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 15,
+                    ),
+                    Wrap(
+                      spacing: 6,
+                      children: [
+                        openPageButton(
+                          Translate.of(context).statistics,
+                          const Icon(Icons.stacked_line_chart, size: 32),
+                          const StatPage(),
+                        ),
+                        openPageButton(
+                          Translate.of(context).history,
+                          const Icon(Icons.history, size: 32),
+                          const HistoryPage(),
+                        ),
+                      ],
+                    )
+                  ],
                 ),
               ],
             ),
@@ -269,57 +252,61 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget _buildCard(String text, Icon icon, GestureTapCallback onTap) =>
-      Container(
-        margin: const EdgeInsets.symmetric(horizontal: 10),
-        width: 85,
-        clipBehavior: Clip.hardEdge,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: const [
-            BoxShadow(
-              color: Color(0x3f000000),
-              blurRadius: 55,
-              spreadRadius: -20,
-              offset: Offset(0, 13),
-            ),
-          ],
-          color: Colors.white,
-        ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(
-                children: [
-                  Flexible(
-                    flex: 2,
-                    child: RoundedIcon(
-                      icon: icon,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 5,
-                  ),
-                  Flexible(
-                    flex: 1,
-                    fit: FlexFit.tight,
-                    child: Center(
-                      child: FittedBox(
-                        fit: BoxFit.fitWidth,
-                        child: Text(
-                          text,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 13),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+  Widget transfertAction(String text, Icon icon, GestureTapCallback onTap) =>
+      Column(
+        children: [
+          Ink(
+            decoration: BoxDecoration(
+                border: Border.all(color: AppColors.black, width: 1),
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(50.0)),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(50.0),
+              onTap: onTap,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: icon,
               ),
             ),
+          ),
+          Text(
+            text,
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 13,
+            ),
+          ),
+        ],
+      );
+
+  Widget openPageButton(String text, Icon icon, Widget page) => InkWell(
+        borderRadius: BorderRadius.circular(10.0),
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (builder) => page,
+            ),
+          );
+        },
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.black, style: BorderStyle.solid),
+            borderRadius: BorderRadius.circular(10.0),
+          ),
+          width: 116.0,
+          padding: const EdgeInsets.all(6.0),
+          child: Column(
+            children: [
+              icon,
+              const SizedBox(height: 6.0),
+              Text(
+                text,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
           ),
         ),
       );
@@ -351,10 +338,10 @@ class _HomePageState extends State<HomePage>
           child: Column(
             children: [
               SizedBox(
-                height: 20 * (1 - controller.value),
+                height: 30 * (1 - controller.value),
               ),
               SizedBox(
-                height: 45,
+                height: 30,
                 child: Row(
                   children: [
                     Text(
@@ -395,8 +382,23 @@ class _HomePageState extends State<HomePage>
                     builder: (context, snapshot) {
                       return Skeleton(
                         isLoading: historyController.loading,
-                        skeleton: SkeletonListView(
-                          item: skeletonItem(),
+                        // isLoading: true,
+                        skeleton: Padding(
+                          padding: const EdgeInsets.only(top: 40),
+                          child: Column(
+                            children: [
+                              dateSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              const SizedBox(height: 23),
+                              dateSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                              itemSkeleton(),
+                            ],
+                          ),
                         ),
                         child: ListView(
                           controller: _scrollController,
@@ -409,12 +411,11 @@ class _HomePageState extends State<HomePage>
                                 .entries) ...[
                               Text(
                                 item.key.toUpperCase(),
-                                textAlign: TextAlign.start,
                                 style: const TextStyle(
                                     color: Colors.white70, letterSpacing: 1),
                               ),
                               const SizedBox(
-                                height: 15,
+                                height: 5,
                               ),
                               for (final payItem in item.value)
                                 PayUtcItemWidget(item: payItem),
@@ -459,7 +460,33 @@ class _HomePageState extends State<HomePage>
     );
   }
 
-  Widget skeletonItem() => Padding(
+  Future<void> _pullRefresh() async {
+    historyController.loadHistory(forced: true);
+    try {
+      await AppService.instance.refreshContent();
+      if (mounted) {
+        ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
+      }
+    } catch (_) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(Translate.of(context).refreshContentError),
+        ),
+      );
+    }
+  }
+
+  Widget dateSkeleton() => Column(
+        children: [
+          SkeletonLine(
+            style: SkeletonLineStyle(
+                borderRadius: BorderRadius.circular(15), width: 100),
+          ),
+          const SizedBox(height: 5)
+        ],
+      );
+
+  Widget itemSkeleton() => Padding(
         padding: const EdgeInsets.symmetric(vertical: 7.0),
         child: SizedBox(
           height: 60,
@@ -496,9 +523,6 @@ class _HomePageState extends State<HomePage>
                     )
                   ],
                 ),
-              ),
-              const SizedBox(
-                width: 10,
               ),
             ],
           ),
@@ -548,15 +572,6 @@ class _HomePageState extends State<HomePage>
         );
       }
     }
-  }
-
-  void _statPage() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (builder) => const StatPage(),
-      ),
-    );
   }
 
   void _receivePage() {

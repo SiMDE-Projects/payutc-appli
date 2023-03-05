@@ -6,8 +6,10 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:payutc/generated/l10n.dart';
 import 'package:payutc/src/models/user.dart';
+import 'package:payutc/src/ui/component/user_badge.dart';
 import 'package:payutc/src/ui/screen/transfert_select_amount.dart';
 import 'package:payutc/src/ui/style/color.dart';
+import 'package:payutc/src/services/name_utils.dart';
 
 void showWebView(BuildContext context, String fileUrl, String name) {
   Navigator.push(
@@ -41,10 +43,10 @@ void showUserCard(BuildContext context, User user) {
         child: Container(
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15), color: Colors.white),
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.fromLTRB(10, 8, 10, 2),
           margin: const EdgeInsets.all(20),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
@@ -55,10 +57,10 @@ void showUserCard(BuildContext context, User user) {
                 height: 10,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  CircleAvatar(
-                    radius: 35,
-                    child: Text(user.maj),
+                  UserBadge(
+                    user: user,
                   ),
                   const SizedBox(
                     width: 10,
@@ -67,11 +69,11 @@ void showUserCard(BuildContext context, User user) {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        user.name,
+                        '${formatFirstName(user.firstName)} ${user.lastName.toUpperCase()}',
                         style: const TextStyle(fontSize: 16),
                       ),
                       Text(
-                        "@${user.subName}",
+                        formatUserName(user.userName),
                         style: const TextStyle(
                             fontSize: 13, color: Colors.black54),
                       ),
@@ -80,7 +82,7 @@ void showUserCard(BuildContext context, User user) {
                 ],
               ),
               const SizedBox(
-                height: 10,
+                height: 20,
               ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -120,7 +122,6 @@ Widget btnAccount(String text, GestureTapCallback onTap) => Container(
       decoration: BoxDecoration(
           color: AppColors.scaffoldDark,
           borderRadius: BorderRadius.circular(15)),
-      margin: const EdgeInsets.symmetric(vertical: 10),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
