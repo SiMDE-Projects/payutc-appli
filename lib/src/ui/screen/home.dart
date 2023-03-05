@@ -7,7 +7,6 @@ import 'package:payutc/src/services/app.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/unilinks.dart';
 import 'package:payutc/src/ui/component/payutc_item.dart';
-import 'package:payutc/src/ui/component/bottom_drawer.dart';
 import 'package:payutc/src/ui/screen/history.dart';
 import 'package:payutc/src/ui/screen/reload.dart';
 import 'package:payutc/src/ui/screen/stats.dart';
