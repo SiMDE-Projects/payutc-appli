@@ -71,7 +71,9 @@ class AppService extends ChangeNotifier {
     await historyService.forceLoadHistory();
     semesters = await AssosUTC.getSemesters();
     //get ginger user infos
-    await gingerUserInfos;
+    try {
+      await gingerUserInfos;
+    } catch (_) {}
     return true;
   }
 
