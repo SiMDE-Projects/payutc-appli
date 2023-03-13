@@ -68,7 +68,7 @@ class PayUtcItemWidget extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      item.service(context),
+                       item.service(context),
                       style:
                           const TextStyle(color: Colors.white70, fontSize: 12),
                       overflow: TextOverflow.ellipsis,

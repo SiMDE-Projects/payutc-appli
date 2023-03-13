@@ -17,7 +17,7 @@ class AccountSettingsPage extends StatelessWidget {
           title: Text(Translate.of(context).myAccount),
         ),
         body: FutureBuilder<GingerUserInfos>(
-          future: AppService.instance.getGingerInfos(),
+          future: AppService.instance.getUserInfos(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               GingerUserInfos infos = snapshot.data!;

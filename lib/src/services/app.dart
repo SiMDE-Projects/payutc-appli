@@ -1,13 +1,12 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
-
 import 'package:dio/dio.dart';
-
+import 'package:flutter/material.dart';
 import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/ginger.dart';
 import 'package:payutc/src/api/nemopay.dart';
+import 'package:payutc/src/env.dart';
 import 'package:payutc/src/models/ginger_user_infos.dart';
 import 'package:payutc/src/models/nemopay_app_properties.dart';
 import 'package:payutc/src/models/transfert.dart';
@@ -16,7 +15,6 @@ import 'package:payutc/src/models/wallet.dart';
 import 'package:payutc/src/services/history.dart';
 import 'package:payutc/src/services/storage.dart';
 import 'package:payutc/src/services/wallet.dart';
-import '../env.dart';
 
 class AppService extends ChangeNotifier {
   static AppService? _instance;
@@ -73,7 +71,9 @@ class AppService extends ChangeNotifier {
     await historyService.forceLoadHistory();
     semesters = await AssosUTC.getSemesters();
     //get ginger user infos
-    await gingerUserInfos;
+    try {
+      await gingerUserInfos;
+    } catch (_) {}
     return true;
   }
 
@@ -124,15 +124,13 @@ class AppService extends ChangeNotifier {
   GingerUserInfos? _gingerUserInfos;
 
   Future<GingerUserInfos> get gingerUserInfos async {
-    _gingerUserInfos ??= await getGingerInfos();
+    _gingerUserInfos ??= await getUserInfos();
     return _gingerUserInfos!;
   }
 
-  Future<GingerUserInfos> getGingerInfos() {
-    return Ginger.getUserInfos(userName!, gingerKey).then((value) {
-      _gingerUserInfos = value;
-      return value;
-    });
+  Future<GingerUserInfos> getUserInfos() {
+    // ignore: deprecated_member_use_from_same_package
+    return Ginger.getUserInfos(userName!, gingerKey);
   }
 
   Future<bool> changeBadgeState(bool value) => nemoPayApi.setBadgeState(value);
