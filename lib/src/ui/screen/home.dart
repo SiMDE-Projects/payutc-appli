@@ -522,6 +522,7 @@ class _HomePageState extends State<HomePage>
               );
               if (res == true) {
                 historyController.loadHistory(forced: true);
+                AppService.instance.refreshContent();
               }
               if ((res ?? false) && mounted) Navigator.pop(context);
             },

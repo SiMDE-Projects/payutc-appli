@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:home_widget/home_widget.dart';
 import 'package:payutc/src/api/assos_utc.dart';
 import 'package:payutc/src/api/cas.dart';
 import 'package:payutc/src/api/ginger.dart';
@@ -74,6 +75,8 @@ class AppService extends ChangeNotifier {
     try {
       await gingerUserInfos;
     } catch (_) {}
+    //tryUpdateWidget
+    _updateWidget();
     return true;
   }
 
@@ -101,6 +104,7 @@ class AppService extends ChangeNotifier {
   Future<void> refreshContent() async {
     await historyService.forceLoadHistory();
     await walletService.forceLoad();
+    _updateWidget();
   }
 
   String generateShareLink() {
@@ -114,6 +118,7 @@ class AppService extends ChangeNotifier {
 
   Future<bool> makeTransfert(Transfert transfert) async {
     bool res = await walletService.makeTransfert(transfert);
+
     return res;
   }
 
@@ -161,5 +166,16 @@ class AppService extends ChangeNotifier {
     } catch (e) {
       throw 'cas/bad-credentials';
     }
+  }
+
+  void _updateWidget() async{
+    try {
+      await HomeWidget.saveWidgetData<int>(
+          'payutc_amount_value', walletService.data?.credit.toInt() ?? 0);
+      await HomeWidget.saveWidgetData<String>(
+          'payutc_reload_time', "A jour le ${DateTime.now().day.toString().padLeft(2,"0")}/${DateTime.now().month.toString().padLeft(2,"0")} à ${DateTime.now().hour.toString().padLeft(2,"0")}:${DateTime.now().minute.toString().padLeft(2,"0")}");
+      await HomeWidget.updateWidget(
+          name: 'AmountWidget', iOSName: 'AppWidgetProvider');
+    } catch (_) {}
   }
 }

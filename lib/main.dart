@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:payutc/src/services/background.dart';
 import 'package:sentry_flutter/sentry_flutter.dart';
 
 import 'package:payutc/compil.dart';
@@ -21,6 +22,7 @@ void main() async {
   );
   FlutterError.onError =
       (details) => logger.e(details.context, details.exception, details.stack);
+  initWorkManager();
   if (!kDebugMode) {
     await SentryFlutter.init(
       (options) {

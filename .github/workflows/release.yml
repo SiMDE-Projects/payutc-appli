@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+      - widgets
 
 jobs:
   on-failure:

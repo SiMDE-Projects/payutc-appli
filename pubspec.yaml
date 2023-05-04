@@ -72,6 +72,8 @@ dependencies:
   logger_flutter_viewer: ^0.8.0
   sentry_flutter: ^6.15.0
   sentry_dio: ^6.15.1
+  home_widget: ^0.2.0+1
+  workmanager: ^0.5.1
 
 dev_dependencies:
   flutter_test:
