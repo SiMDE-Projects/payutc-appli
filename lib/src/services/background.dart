@@ -18,11 +18,11 @@ void callbackDispatcher() {
 
 void initWorkManager() {
   if (Platform.isAndroid) {
-    Workmanager().initialize(callbackDispatcher, isInDebugMode: true);
+    Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
     Workmanager().registerPeriodicTask(
       "amount-refresh-widget",
       "simplePeriodicTask",
-      frequency: const Duration(minutes: 30),
+      frequency: const Duration(hours: 1),
       constraints: Constraints(
         networkType: NetworkType.connected,
       ),
